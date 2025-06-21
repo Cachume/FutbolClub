@@ -22,6 +22,7 @@
     color: white;
     display: flex;
     flex-direction: column;
+    transition: left 0.3s ease-in-out;
 }
 
 .logo{
@@ -103,4 +104,31 @@
     margin-left: 2.5rem;
     list-style: none;
     transform: all 0.3s ease-in-out;
+}
+
+.header-main{
+    background:#8b51d0;
+    height: 65px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.header-main img{
+    width: 30px;
+    cursor: pointer;
+    
+}
+
+.index-main{
+    margin-left: 280px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+.barralateral.oculto{
+    left: -280px;
+}
+
+.index-main.oculto {
+    margin-left: 0px;
 }
