@@ -1,0 +1,48 @@
+body{
+    background: #212832;
+}
+table{
+    border-collapse: collapse;
+    font-size: 12pt;
+    width: 50%;
+    margin-top: 3rem;
+}
+
+.solicitudes-admin h2{
+    color: white;
+}
+
+table th{
+    text-align: left;
+    padding: 10px;
+    background: #212832;
+    color: #00adb4;
+}
+
+table tr:nth-child(odd){
+    background-color: #2a313a;
+}
+
+table td{
+        padding: 20px 10px;
+        color: white;
+}
+
+.solicitudes-admin{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+.gestio-form__boton{
+    background-color: #00adb4;
+    text-decoration: none;
+    color: white;
+    padding: 8px 10px;
+    font-weight: bold;
+    cursor: pointer;
+   
+}

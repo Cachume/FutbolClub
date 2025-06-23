@@ -1,0 +1,34 @@
+.solicitudinfo{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #2a313a;
+    width: 700px;
+    border-radius: 15px;
+    padding: 30px;
+    margin-top: 5rem;
+}
+
+.solicitudinfo img{
+    width: 200px;
+    height: 200px;
+}
+
+.solicitudinfo h2{
+    color: #00adb4;
+}
+
+.solicitudinfo p{
+    color: white;
+    font-weight: bolder;
+    text-align: center;
+}
+
+.solicitudinfo a{
+    background-color: #00adb4;
+    text-decoration: none;
+    color: white;
+    padding: 10px 25px;
+    cursor: pointer;
+}
