@@ -17,7 +17,7 @@
             </div>
             <img src="/FutbolClub/assets/img/club-brand.png" alt="">
         </div>
-        <form  id="login-form" method="POST" action="">
+        <form  id="login-form" method="POST" action="/FutbolClub/login/autenticar">
             <div class="form-group">
                 <label for="username">USUARIO O EMAIL</label>
                 <input class="invalid" id="email" name="email" required>
@@ -33,7 +33,7 @@
                 </div> 
                 <a href="#">¿Has olvidado tu contraseña?</a>
             </div>
-            <button type="submit">Iniciar Sesión</button>
+            <button type="submit" name="iniciarsesion">Iniciar Sesión</button>
         </form>
     </div>
     </main>

@@ -1,12 +1,85 @@
-
-    <main class="main-admin">
-        <div class="main-admin__welcome">
-            <p>Bienvenido al panel <br> administrativo</p>
-            <span><?php echo $_SESSION['nombres']." ".$_SESSION['apellidos'];?></span>
-            <img src="assets/profile_img/<?php echo $_SESSION['imagen'];?>" alt="">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/FutbolClub/assets/css/index.css">
+    <title>Futbol Club | Panel Administrador</title>
+</head>
+<body>
+    <div class="barralateral" id="barralateral">
+        <div class="logo">
+            <img src="/FutbolClub/assets/img/club-brand.png" alt="Logo del Futbol Club">
+            <span>FUTBOL CLUB AGUA DULCE</span>
         </div>
-        <form class="main-admin__system" style="display:none;">
-            <h4>El sistema se encuentra</h4>
-            <button>Activado</button>
-        </form>
+        <div class="menu">
+            <ul class="menu-items">
+                <li class="menu-static">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/home-icon.png" alt="Inicio">
+                        <span>Inicio</span>
+                    </a>
+                </li>
+                <li class="menu-dropdown" id="menu-dropdown">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/player.png" alt="Inicio">
+                        <span>Jugadores</span>
+                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item"><a href="/admin/players" class="menu-link">Jugadores</a></li>
+                        <li class="submenu-item"><a href="/admin/players/create" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/admin/players/stats" class="menu-link">Busqueda</a></li>
+                        <li class="submenu-item"><a href="/admin/players/stats" class="menu-link">Carnet</a></li>
+                        
+                    </ul>
+                </li>
+                <li class="menu-dropdown" id="menu-dropdown">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/trainer.png" alt="Inicio">
+                        <span>Entrenadores</span>
+                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item"><a href="/admin/players" class="menu-link">Jugadores</a></li>
+                        <li class="submenu-item"><a href="/admin/coaches" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/admin/teams" class="menu-link">Busqueda</a></li>
+                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Carnet</a></li>
+                    </ul>
+                </li>
+                <li class="menu-dropdown" id="menu-dropdown">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/padres.png" alt="Inicio">
+                        <span>Padres</span>
+                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item"><a href="/admin/" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/admin/teams" class="menu-link">Busqueda</a></li>
+                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Pagos</a></li>
+                    </ul>
+                </li>
+                <li class="menu-static">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/config.png" alt="Inicio">
+                        <span>Configuración</span>
+                    </a>
+                </li>
+                <li class="menu-static">
+                    <a href="/FutbolClub/administrador/salir" class="menu-link">
+                        <img src="/FutbolClub/assets/img/logout.png" alt="Inicio">
+                        <span>Salir</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <main class="index-main" id="index-main">
+        <header class="header-main">
+        <img src="/FutbolClub/assets/img/menu.png" alt="" srcset="" id="btn-menu">
+    </header>
     </main>
+    
+    <script src="/FutbolClub/assets/js/index.js"></script>
+</body>
+</html>

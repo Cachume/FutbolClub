@@ -1,11 +1,11 @@
 <?php
+session_start();
 //Se guarda en la variable $url el valor proveniente la url de GET['u']
 $url = $_GET['url'] ?? 'login';
 $metodo = $_GET['m'] ?? 'index';
-
-echo "Controlador: $url<br>";
 $partes= explode('/', trim($url));
-var_dump($partes);
+// echo "Controlador: $url<br>";
+// var_dump($partes);
 $controlador = $partes[0] ?? 'login';
 $controlador = strtolower($controlador); //Convertimos el controlador a minusculas
 
@@ -16,6 +16,7 @@ $controlador = strtolower($controlador); //Convertimos el controlador a minuscul
 if(file_exists($controlller)){
 
     //Incluimos el controlador previamente solicitado
+    require_once "modelo/database.php";
     require_once "controlador/vistas.php";
     require_once $controlller;
 
