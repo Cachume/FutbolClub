@@ -21,7 +21,7 @@
             }
         }
         public static function ingresoUsuario($datos, $tabla){
-            $stmt = Database::getDatabase()->prepare("SELECT nombre_usuario, email ,contraseña FROM $tabla WHERE email = :email");
+            $stmt = Database::getDatabase()->prepare("SELECT nombre_usuario, email ,contraseña,rol FROM $tabla WHERE email = :email");
             $stmt->bindParam(":email", $datos['email'], PDO::PARAM_STR);
             $stmt->execute();
             //Obtiene una fila de resultados
