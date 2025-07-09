@@ -1,0 +1,189 @@
+/* Propiedades de los nuevos jugadores */
+.newplayers-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.newplayers-container h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    text-align: left;
+}
+
+
+.newplayers-form{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+}
+
+.np-form-image{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.np-form-image input[type="file"] {
+    display: none;
+}
+
+.np-form-image img {
+    width: 240px;
+    height: 240px;
+}
+
+.np-form-image label {
+    cursor: pointer;
+    background:#8b51d0;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.np-form-image-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.np-form-image-note {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: center;
+}
+
+.np-form-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.np-form-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    
+}
+.np-form-group label {
+    width: 200px;
+    font-size: 18px;
+}
+.np-form-group input,
+.np-form-group select { 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    box-sizing: border-box;
+
+}
+
+.np-form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.np-form-button-save{
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.np-form-button-save:hover {
+    background: #45a049;
+}
+
+.np-form-button-reset {
+    background: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.np-form-button-reset:hover {
+    background: #e53935;
+}
+
+/* Lista Jugadores */
+
+.playerlist-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.player-table {
+    width: 90%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.player-table th,
+.player-table td {
+    padding: 12px 15px;
+    border: 1px solid #ccc;
+    text-align: left;
+}
+
+.player-table th {
+    background: #f4f4f4;
+    font-weight: bold;
+}
+
+.player-table tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+.player-table .edit-button,
+.player-table .delete-button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.player-table .edit-button {
+    background: #4CAF50;
+    color: white;
+}
+
+.player-table .edit-button:hover {
+    background: #45a049;
+}
+
+.player-table .delete-button {
+    background: #f44336;
+    color: white;
+}
+
+.player-table .delete-button:hover {
+    background: #e53935;
+}
+
+.playerlist-actions {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+    margin-bottom: 20px;
+}
+.playerlist-actions input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+}

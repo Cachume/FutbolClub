@@ -15,7 +15,8 @@ require_once "modelo/loginmodel.php";
                     "password" => $_POST["password"]
                 );
                 $auth = loginModel::ingresoUsuario($datos,"usuarios");
-                if($auth != "error"){
+                var_dump ($auth);
+                if($auth){
                     if(password_verify($datos["password"], $auth["contraseña"])){
                         $_SESSION["username"] = $auth["nombre_usuario"];
                         $_SESSION["email"] = $auth["email"];
@@ -32,6 +33,7 @@ require_once "modelo/loginmodel.php";
                         echo "<script>alert('Sesion no iniciada')</script>";
                     }
                 }else{
+                    header("Location:/FutbolClub/login");
                     echo "<script>alert('Sesion no existe')</script>";
                     }
             }else{

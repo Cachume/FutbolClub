@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 25-06-2025 a las 05:05:16
+-- Tiempo de generación: 09-07-2025 a las 03:30:45
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -44,14 +44,15 @@ CREATE TABLE `entrenadores` (
 --
 
 CREATE TABLE `jugadores` (
-  `id` int(11) NOT NULL,
-  `nombre_completo` varchar(100) NOT NULL,
-  `cedula` varchar(20) DEFAULT NULL,
-  `fecha_nacimiento` date DEFAULT NULL,
-  `posicion` varchar(50) DEFAULT NULL,
-  `equipo` varchar(50) DEFAULT NULL,
-  `id_entrenador` int(11) DEFAULT NULL,
-  `id_representante` int(11) DEFAULT NULL
+  `cedula` bigint(20) NOT NULL,
+  `nombres` varchar(100) NOT NULL,
+  `apellidos` varchar(100) NOT NULL,
+  `fecha_nacimiento` date NOT NULL,
+  `genero` char(1) NOT NULL CHECK (`genero` in ('M','F')),
+  `categoria` varchar(10) NOT NULL CHECK (`categoria` in ('Sub-6','Sub-8')),
+  `nombre_camiseta` varchar(20) NOT NULL,
+  `cedula_representante` bigint(20) NOT NULL,
+  `foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -108,10 +109,7 @@ ALTER TABLE `entrenadores`
 -- Indices de la tabla `jugadores`
 --
 ALTER TABLE `jugadores`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cedula` (`cedula`),
-  ADD KEY `id_entrenador` (`id_entrenador`),
-  ADD KEY `id_representante` (`id_representante`);
+  ADD PRIMARY KEY (`cedula`);
 
 --
 -- Indices de la tabla `representantes`
@@ -139,12 +137,6 @@ ALTER TABLE `entrenadores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de la tabla `jugadores`
---
-ALTER TABLE `jugadores`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
-
---
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
@@ -165,13 +157,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `entrenadores`
   ADD CONSTRAINT `entrenadores_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL;
-
---
--- Filtros para la tabla `jugadores`
---
-ALTER TABLE `jugadores`
-  ADD CONSTRAINT `jugadores_ibfk_1` FOREIGN KEY (`id_entrenador`) REFERENCES `entrenadores` (`id`) ON DELETE SET NULL,
-  ADD CONSTRAINT `jugadores_ibfk_2` FOREIGN KEY (`id_representante`) REFERENCES `representantes` (`id`) ON DELETE SET NULL;
 
 --
 -- Filtros para la tabla `representantes`
