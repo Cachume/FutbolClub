@@ -1,7 +1,7 @@
 <?php
-    if (isset($this->erroresf)) {
-        var_dump($this->erroresf);
-    }
+    // if (isset($this->erroresf)) {
+    //     var_dump($this->erroresf);
+    // }
 ?>
 
 <!DOCTYPE html>
@@ -14,75 +14,9 @@
     <title>Futbol Club | Panel Administrador</title>
 </head>
 <body>
-    <div class="barralateral" id="barralateral">
-        <div class="logo">
-            <img src="/FutbolClub/assets/img/club-brand.png" alt="Logo del Futbol Club">
-            <span>FUTBOL CLUB AGUA DULCE</span>
-        </div>
-        <div class="menu">
-            <ul class="menu-items">
-                <li class="menu-static">
-                    <a href="/FutbolClub/administrador" class="menu-link">
-                        <img src="/FutbolClub/assets/img/home-icon.png" alt="Inicio">
-                        <span>Inicio</span>
-                    </a>
-                </li>
-                <li class="menu-dropdown" id="menu-dropdown">
-                    <a href="#" class="menu-link">
-                        <img src="/FutbolClub/assets/img/player.png" alt="Inicio">
-                        <span>Jugadores</span>
-                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item"><a href="nuevojugador" class="menu-link">Jugadores</a></li>
-                        <li class="submenu-item"><a href="listajugadores" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="/admin/players/stats" class="menu-link">Carnet</a></li>
-                        
-                    </ul>
-                </li>
-                <li class="menu-dropdown" id="menu-dropdown">
-                    <a href="#" class="menu-link">
-                        <img src="/FutbolClub/assets/img/trainer.png" alt="Inicio">
-                        <span>Entrenadores</span>
-                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item"><a href="/administrador/nuevojugador" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="/administrador/listajugadores" class="menu-link">Jugadores</a></li>
-                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Carnet</a></li>
-                    </ul>
-                </li>
-                <li class="menu-dropdown" id="menu-dropdown">
-                    <a href="#" class="menu-link">
-                        <img src="/FutbolClub/assets/img/padres.png" alt="Inicio">
-                        <span>Representantes</span>
-                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
-                    </a>
-                    <ul class="submenu">
-                        <li class="submenu-item"><a href="/admin/" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="/admin/teams" class="menu-link">Busqueda</a></li>
-                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Pagos</a></li>
-                    </ul>
-                </li>
-                <li class="menu-static">
-                    <a href="#" class="menu-link">
-                        <img src="/FutbolClub/assets/img/config.png" alt="Inicio">
-                        <span>Configuración</span>
-                    </a>
-                </li>
-                <li class="menu-static">
-                    <a href="/FutbolClub/administrador/salir" class="menu-link">
-                        <img src="/FutbolClub/assets/img/logout.png" alt="Inicio">
-                        <span>Salir</span>
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
+    <?php include("vistas/layout/header.php") ?>
     <main class="index-main" id="index-main">
-        <header class="header-main">
-        <img src="/FutbolClub/assets/img/menu.png" alt="" srcset="" id="btn-menu">
-    </header>
+    <?php include('vistas/layout/session.php'); ?>
         <div class="newplayers-container">
             <h1>Registro de Jugadores</h1>
             <?php if (!empty($this->erroresf)): ?>
@@ -108,6 +42,10 @@
                         <input type="number" id="player-dni" name="player-dni" placeholder="Cedula de Identidad" required>
                     </div>
                     <div class="np-form-group">
+                        <label for="player-name">Cedula del Representante:</label>
+                        <input type="number" id="player-representative-dni" name="player-representative-dni" value="<?php echo $_SESSION['cedular'];?>" placeholder="Cedula de Identidad del Representante" required readonly>
+                    </div>
+                    <div class="np-form-group">
                         <label for="player-name">Nombres:</label>
                         <input type="text" id="player-name" name="player-name" placeholder="Nombre Completo" required>
                     </div>
@@ -128,20 +66,12 @@
                         </select>
                     </div>
                     <div class="np-form-group">
-                        <label for="player-name">Categoria:</label>
-                        <select id="player-category" name="player-category" required>
-                            <option value="" disabled selected>Seleccione una opción</option>
-                            <option value="Sub-6">Sub-6</option>
-                            <option value="Sub-8">Sub-8</option>
-                        </select>
+                        <label for="player-category">Categoría:</label>
+                        <input type="text" id="player-category" name="player-category" readonly >
                     </div>
                     <div class="np-form-group">
                         <label for="player-name">Nombre de la Camiseta:</label>
                         <input type="text" id="player-shirt" name="player-shirt" placeholder="Nombre de la Camiseta" required>
-                    </div>
-                    <div class="np-form-group">
-                        <label for="player-name">Cedula del Representante:</label>
-                        <input type="number" id="player-representative-dni" name="player-representative-dni" placeholder="Cedula de Identidad del Representante" required>
                     </div>
                     <div class="np-form-buttons">
                         <button type="submit" class="np-form-button-save">Guardar</button>
@@ -151,6 +81,25 @@
             </form>
         </div>
     </main>
+    <script>
+        document.getElementById('player-birthdate').addEventListener('change', function () {
+            const birthYear = new Date(this.value).getFullYear();
+            const categoriaField = document.getElementById('player-category');
+            let categoria = "";
+
+            if (birthYear >= 2020 && birthYear <= 2021) categoria = "Sub-5";
+            else if (birthYear >= 2018 && birthYear <= 2019) categoria = "Sub-7";
+            else if (birthYear >= 2016 && birthYear <= 2017) categoria = "Sub-9";
+            else if (birthYear >= 2014 && birthYear <= 2015) categoria = "Sub-11";
+            else if (birthYear >= 2012 && birthYear <= 2013) categoria = "Sub-13";
+            else if (birthYear >= 2010 && birthYear <= 2011) categoria = "Sub-15";
+            else if (birthYear >= 2008 && birthYear <= 2009) categoria = "Sub-17";
+            else categoria = "Fuera de rango";
+
+            categoriaField.value = categoria;
+        });
+    </script>
+
     <script src="/FutbolClub/assets/js/index.js"></script>
     <script src="/FutbolClub/assets/js/players.js"></script>
 </body>

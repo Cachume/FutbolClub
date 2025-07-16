@@ -8,14 +8,14 @@
     <title>Futbol Club | Panel Administrador</title>
 </head>
 <body>
-    <?php include("vistas/layout/header.php") ?>
+     <?php include("vistas/layout/header.php") ?>
     <main class="index-main" id="index-main">
     <?php include('vistas/layout/session.php'); ?>
         <div class="playerlist-container">
-            <h2>Jugadores Registrados</h2>
+            <h2>Representantes Registrados</h2>
             <div class="playerlist-actions">
                 <!-- <button id="add-player-button" class="action-button">Añadir Jugador</button> -->
-                <input type="text" id="search-player" placeholder="Buscar Jugador por Cedula..." onkeyup="filtrarTabla()">
+                <input type="text" id="search-player" placeholder="Buscar Representante por Cedula..." onkeyup="filtrarTabla()">
             </div>
             <table class="player-table" id="player-table">
                 <thead>
@@ -42,11 +42,10 @@
                 echo '<td>' . htmlspecialchars($jugador['categoria']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['cedula']) . '</td>';
                 echo '<td>
-                        <a class="edit-button" href="informacionjugador&player=' . htmlspecialchars($jugador['cedula']) . '">Ver Ficha</a>
+                        <button class="edit-button" data-cedula="' . htmlspecialchars($jugador['cedula']) . '">Editar</button>
                         <button class="delete-button" data-cedula="' . htmlspecialchars($jugador['cedula']) . '">Eliminar</button>
                       </td>';
                 echo '</tr>';
-
             }
         }
         ?>

@@ -112,6 +112,7 @@
     padding: 20px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .header-main img{
@@ -131,4 +132,102 @@
 
 .index-main.oculto {
     margin-left: 0px;
+}
+
+.profile-admin{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.profile-admin img{
+    width: 40px;
+}
+
+.profile-data{
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.profile-data span:last-child{
+    font-weight: bold;
+}
+
+.verificacion-descripcion {
+    font-size: 0.95em;
+    color: #555;
+    margin-bottom: 15px;
+}
+
+.verificacion-botonera {
+    margin-top: 20px;
+    display: flex;
+    gap: 15px;
+}
+
+.btn-alt {
+    background-color: #eee;
+    color: #333;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: 1px solid #aaa;
+    transition: background-color 0.2s ease;
+}
+
+.btn-alt:hover {
+    background-color: #ddd;
+}
+
+.verificacion-form {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 30px 20px;
+    font-family: 'Segoe UI', sans-serif;
+    text-align: center;
+}
+
+.verificacion-form fieldset {
+    border: none;
+    padding: 0;
+}
+
+.verificacion-form legend {
+    font-size: 1.4em;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.verificacion-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.verificacion-form input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bbb;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+.verificacion-form button {
+    background-color: #8b51d0;
+    color: #fff;
+    border: none;
+    padding: 10px 18px;
+    font-size: 1em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.verificacion-form button:hover {
+    background-color: #0056b3;
 }
