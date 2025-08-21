@@ -49,6 +49,12 @@
                     </ul>
                 </li>
                 <li class="menu-static">
+                    <a href="categorias" class="menu-link">
+                        <img src="/FutbolClub/assets/img/equipo.png" alt="Inicio">
+                        <span>Categorias</span>
+                    </a>
+                </li>
+                <li class="menu-static">
                     <a href="#" class="menu-link">
                         <img src="/FutbolClub/assets/img/config.png" alt="Inicio">
                         <span>Configuración</span>

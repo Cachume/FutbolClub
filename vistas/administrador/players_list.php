@@ -20,8 +20,8 @@
             <table class="player-table" id="player-table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
+                        <th>Foto</th>
+                        <th>Nombre y Apellido</th>
                         <th>Fecha de Nacimiento</th>
                         <th>Posición</th>
                         <th>Cedula</th>

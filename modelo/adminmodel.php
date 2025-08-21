@@ -121,6 +121,117 @@
         return null;
     }
 }
+    public static function getTrainers() {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT id, nombre_completo FROM entrenadores
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function existCategory($nombreCategoria) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT EXISTS ( SELECT 1 FROM categorias WHERE nombre_categoria = :category ) AS existe;
+            ");
+            $stmt->bindParam(':category', $nombreCategoria, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function existCategoryID($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT EXISTS ( SELECT 1 FROM categorias WHERE id = :id ) AS existe;
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function createCategory($datos) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                INSERT INTO categorias  
+                (nombre_categoria, periodo, entrenador_id, horario) 
+                VALUES 
+                (:nombrecategoria, :periodo, :entrenador, :horario)
+            ");
+
+            $stmt->bindParam(":nombrecategoria", $datos['ncategoria'], PDO::PARAM_STR);
+            $stmt->bindParam(":periodo", $datos['periodo'], PDO::PARAM_STR);
+            $stmt->bindParam(":entrenador", $datos['entrenador'], PDO::PARAM_STR);
+            $stmt->bindParam(":horario", $datos['horario'], PDO::PARAM_STR);
+
+            return $stmt->execute() ? "success" : "error";
+
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+    public static function getCategorys() {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT categorias.*, entrenadores.nombre_completo AS nombre_entrenador FROM categorias JOIN entrenadores ON entrenadores.id = categorias.entrenador_id
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function getCategoryById($id) {
+        $stmt = Database::getDatabase()->prepare("SELECT * FROM categorias WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function updateCategory($datos){
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                UPDATE categorias SET 
+                    nombre_categoria = :nombrecategoria, 
+                    periodo = :periodo, 
+                    entrenador_id = :entrenador, 
+                    horario = :horario 
+                WHERE id = :id
+            ");
+            $stmt->bindParam(":nombrecategoria", $datos['ncategoria'], PDO::PARAM_STR);
+            $stmt->bindParam(":periodo", $datos['periodo'], PDO::PARAM_STR);
+            $stmt->bindParam(":entrenador", $datos['entrenador'], PDO::PARAM_STR);
+            $stmt->bindParam(":horario", $datos['horario'], PDO::PARAM_STR);
+            $stmt->bindParam(":id", $datos['id'], PDO::PARAM_INT);
+
+            return $stmt->execute() ? "success" : "error";
+
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    public static function deleteCategory($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                DELETE FROM categorias WHERE id = :id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute() ? "success" : "error";
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
 
 }
 ?>

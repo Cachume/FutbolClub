@@ -3,6 +3,11 @@ require_once "modelo/adminmodel.php";
     class administrador extends vistas{
         public $erroresf;
         public $jugadores;
+        public $trainers;
+        
+        public $categorys;
+        public $categoria;
+
         public function __construct(){
             if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "admin"){
                 session_destroy();
@@ -36,6 +41,92 @@ require_once "modelo/adminmodel.php";
         public function verificacionjugador(){
             $this->vistan('administrador/player_verification');
         }
+        public function categorias(){
+            $this->trainers = adminModel::getTrainers();
+            $this->categorys = adminModel::getCategorys();
+            $this->vistan('administrador/categorys');
+        }
+
+        public function editcategorias(){
+            $id = $_GET['id'] ?? null;
+
+            if ($id) {
+                $this->trainers = adminModel::getTrainers();
+                $this->categoria = adminModel::getCategoryById($id);
+                // var_dump($this->categoria);
+                $this->vistan('administrador/editcategory');
+            } else {
+                $this->categorias();
+                exit;
+            }
+            
+        }
+
+        public function updateCategory(){
+            print_r($_POST);
+            $data = [
+                'id' => $_POST['id'],
+                'ncategoria' => $_POST['nombre_categoria'],
+                'periodo' => $_POST['periodo'],
+                'entrenador' => $_POST['entrenador_id'],
+                'horario' => $_POST['horario']
+            ];
+
+            $result = adminModel::updateCategory($data);
+            if ($result === "success") {
+                header("Location:/FutbolClub/administrador/categorias?success=Categoria actualizada correctamente");
+            } else {
+                header("Location:/FutbolClub/administrador/categorias?error=Error al actualizar la categoría");
+            }
+        }
+
+                public function addCategory(){
+            print_r($_POST);
+            $data = [
+                'ncategoria' => $_POST['nombre_categoria'],
+                'periodo' => $_POST['periodo'],
+                'entrenador' => $_POST['entrenador_id'],
+                'horario' => $_POST['horario']
+            ];
+            $accion = adminModel::createCategory($data);
+            if($accion == "success"){
+                header("Location:/FutbolClub/administrador/categorias?success=Categoria creada correctamente");
+            } elseif ($accion == "error"){
+                header("Location:/FutbolClub/administrador/categorias?error=Error al crear la categoría");
+            }
+        }
+
+        public function vefCategory(){
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $categoria = $_POST['categoria'];
+
+                $existe = adminModel::existCategory($categoria);
+                if($existe == 1) {
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
+                }
+            }
+        }
+
+        public function categoryDelete()
+        {
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $categoria = $_POST['id'];
+                $existe = adminModel::existCategoryID(intval($categoria));
+                //echo $categoria;
+                //var_dump($existe);
+                if($existe == 1) {
+                    adminModel::deleteCategory($categoria);
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
+                }
+            }
+        }
+
+
+        
 
     public function informacionjugador() {
         if (isset($_GET['player']) && !empty($_GET['player'])) {
@@ -295,7 +386,6 @@ require_once "modelo/adminmodel.php";
                 $this->vistan('administrador/representative_new');
             }
         }
-
 
     }
 ?>
