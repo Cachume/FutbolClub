@@ -4,7 +4,6 @@ require_once "modelo/adminmodel.php";
         public $erroresf;
         public $jugadores;
         public $trainers;
-        
         public $categorys;
         public $categoria;
 
@@ -30,7 +29,9 @@ require_once "modelo/adminmodel.php";
             $this->jugadores = adminModel::getAllPlayers();
             $this->vistan('administrador/players_list');
         }
-        public function representates(){
+        public function representantes_lista(){
+            $this->jugadores = adminModel::getAllRepresentatives();
+            // var_dump($this->jugadores); 
             $this->vistan('administrador/representative_list');
         }
 
@@ -41,6 +42,90 @@ require_once "modelo/adminmodel.php";
         public function verificacionjugador(){
             $this->vistan('administrador/player_verification');
         }
+
+        public function get_representative(){
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $id = $_POST['id'];
+                $representante = adminModel::getRepresentativeById($id);
+                header('Content-Type: application/json');
+                if($representante) {
+                    echo json_encode(["success" => true, "data" => $representante]);
+                } else {
+                    echo json_encode(["success" => false, "message" => "Representante no encontrado"]);
+                }
+            }
+        }
+
+        public function update_representative(){
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if(isset($_POST['id'], $_POST['nombre'], $_POST['fecha_nacimiento'], $_POST['cedula'], $_POST['telefono'], $_POST['correo'], $_POST['direccion'])) {
+                    $data = [
+                        'id' => $_POST['id'],
+                        'nombre_completo' => $_POST['nombre'],
+                        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
+                        'cedula' => $_POST['cedula'],
+                        'telefono' => $_POST['telefono'],
+                        'correo' => $_POST['correo'],
+                        'direccion' => $_POST['direccion']
+                    ];
+                    if($data['id'] == "" || $data['nombre_completo'] == "" || $data['fecha_nacimiento'] == "" || $data['cedula'] == "" || $data['telefono'] == "" || $data['correo'] == "" || $data['direccion'] == ""){
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Todos los campos son obligatorios"]);
+                        exit;
+                    }
+
+                    if (!filter_var($data['correo'], FILTER_VALIDATE_EMAIL)) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Correo electrónico inválido"]);
+                        exit;
+                    }
+
+                    if (!preg_match("/^[a-zA-ZÀ-ÿ\s]+$/", $data['nombre_completo'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "El nombre solo puede contener letras y espacios"]);
+                        exit;
+                    }
+
+                    if (!preg_match("/^[0-9]{1,8}$/", $data['cedula'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Cédula debe ser solo números y máximo 8 dígitos"]);
+                        exit;
+                    }
+
+                    if (!preg_match("/^[0-9]{1,11}$/", $data['telefono'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Teléfono debe ser solo números y máximo 11 dígitos"]);
+                        exit;
+                    }
+
+                    $existingRepresentative = adminModel::useDni($data['cedula']);
+                    if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "La cédula ya está en uso por otro representante"]);
+                        exit;
+                    }
+
+                    $existingRepresentative = adminModel::useEmail($data['correo']);
+                    if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "El correo electrónico ya está en uso por otro representante"]);
+                        exit;
+                    }
+
+                    $actualizado = adminModel::updateRepresentative($data);
+                    header('Content-Type: application/json');
+                    if($actualizado === "success") {
+                        echo json_encode(["success" => true, "message" => "Representante actualizado correctamente"]);
+                    } else {
+                        echo json_encode(["success" => false, "message" => "Error al actualizar el representante"]);
+                    }
+                } else {
+                    header('Content-Type: application/json');
+                    echo json_encode(["success" => false, "message" => "Datos incompletos"]);
+                }
+            }
+        }
+
         public function categorias(){
             $this->trainers = adminModel::getTrainers();
             $this->categorys = adminModel::getCategorys();
@@ -99,8 +184,8 @@ require_once "modelo/adminmodel.php";
         public function vefCategory(){
             if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 $categoria = $_POST['categoria'];
-
                 $existe = adminModel::existCategory($categoria);
+                header('Content-Type: application/json');
                 if($existe == 1) {
                     echo json_encode(["message" => true]);
                 } else {
@@ -116,6 +201,7 @@ require_once "modelo/adminmodel.php";
                 $existe = adminModel::existCategoryID(intval($categoria));
                 //echo $categoria;
                 //var_dump($existe);
+                header('Content-Type: application/json');
                 if($existe == 1) {
                     adminModel::deleteCategory($categoria);
                     echo json_encode(["message" => true]);
@@ -124,9 +210,6 @@ require_once "modelo/adminmodel.php";
                 }
             }
         }
-
-
-        
 
     public function informacionjugador() {
         if (isset($_GET['player']) && !empty($_GET['player'])) {

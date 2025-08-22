@@ -18,10 +18,8 @@
                         <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
                     </a>
                     <ul class="submenu">
-                        <li class="submenu-item"><a href="verificacionjugador" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="listajugadores" class="menu-link">Jugadores</a></li>
-                        <li class="submenu-item"><a href="/admin/players/stats" class="menu-link">Carnet</a></li>
-                        
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/verificacionjugador" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/listajugadores" class="menu-link">Jugadores</a></li>
                     </ul>
                 </li>
                 <li class="menu-dropdown" id="menu-dropdown">
@@ -31,9 +29,8 @@
                         <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
                     </a>
                     <ul class="submenu">
-                        <li class="submenu-item"><a href="/administrador/nuevojugador" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="/administrador/listajugadores" class="menu-link">Jugadores</a></li>
-                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Carnet</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/nuevoentrenador" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/entrenadores_lista" class="menu-link">Entrenadores</a></li>
                     </ul>
                 </li>
                 <li class="menu-dropdown" id="menu-dropdown">
@@ -43,13 +40,12 @@
                         <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
                     </a>
                     <ul class="submenu">
-                        <li class="submenu-item"><a href="new_representantes" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="representantes" class="menu-link">Representantes</a></li>
-                        <li class="submenu-item"><a href="/admin/sponsors" class="menu-link">Pagos</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/new_representantes" class="menu-link">Registro</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/representantes_lista" class="menu-link">Representantes</a></li>
                     </ul>
                 </li>
                 <li class="menu-static">
-                    <a href="categorias" class="menu-link">
+                    <a href="/FutbolClub/administrador/categorias" class="menu-link">
                         <img src="/FutbolClub/assets/img/equipo.png" alt="Inicio">
                         <span>Categorias</span>
                     </a>

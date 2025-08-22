@@ -343,7 +343,10 @@
 
     /* Selects e inputs */
     .modal-category-form select,
-    .modal-category-form input[type="text"] {
+    .modal-category-form input[type="text"],
+    .modal-category-form input[type="date"],
+    .modal-category-form input[type="email"],
+    .modal-category-form input[type="number"] {
     width: 100%;
     padding: 10px 12px;
     border: 1px solid #ccc;
@@ -491,4 +494,10 @@
     padding: 12px 20px;
     border-radius: 5px;
     margin: 10px 0;
+}
+.mensaje-error {
+  color: #e74c3c;
+  font-size: 13px;
+  margin-top: 5px;
+  display: block;
 }

@@ -72,6 +72,58 @@
         }
     }
 
+    public static function getAllRepresentatives() {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT * FROM representantes ORDER BY nombre_completo");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
+
+    public static function getRepresentativeById($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM representantes WHERE id = :id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $representante = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $representante ? $representante : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function useDni($cedula) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM representantes WHERE cedula = :cedula
+            ");
+            $stmt->bindParam(':cedula', $cedula, PDO::PARAM_INT);
+            $stmt->execute();
+            $representante = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $representante ? $representante : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function useEmail($email) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM representantes WHERE correo = :correo
+            ");
+            $stmt->bindParam(':correo', $email, PDO::PARAM_STR);
+            $stmt->execute();
+            $representante = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $representante ? $representante : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
     public static function representanteExiste($cedula) {
         try {
             $stmt = Database::getDatabase()->prepare("
@@ -85,6 +137,33 @@
         } catch (PDOException $e) {
             // Puedes loguearlo o devolver falso directamente
             return false;
+        }
+    }
+
+    public static function updateRepresentative($data){
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                UPDATE representantes 
+                SET nombre_completo = :nombre_completo, 
+                    fecha_nacimiento = :fecha_nacimiento, 
+                    cedula = :cedula, 
+                    telefono = :telefono, 
+                    correo = :correo, 
+                    direccion = :direccion
+                WHERE id = :id
+            ");
+
+            $stmt->bindParam(":id", $data['id'], PDO::PARAM_INT);
+            $stmt->bindParam(":nombre_completo", $data['nombre_completo'], PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_nacimiento", $data['fecha_nacimiento'], PDO::PARAM_STR);
+            $stmt->bindParam(":cedula", $data['cedula'], PDO::PARAM_INT);
+            $stmt->bindParam(":telefono", $data['telefono'], PDO::PARAM_STR);
+            $stmt->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
+            $stmt->bindParam(":direccion", $data['direccion'], PDO::PARAM_STR);
+            return $stmt->execute() ? "success" : "error";
+
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
         }
     }
 
