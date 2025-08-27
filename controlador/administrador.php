@@ -1,5 +1,6 @@
 <?php
 require_once "modelo/adminmodel.php";
+require_once __DIR__ . "/../validations/generalValidations.php";
     class administrador extends vistas{
         public $erroresf;
         public $jugadores;
@@ -25,6 +26,7 @@ require_once "modelo/adminmodel.php";
                header("Location:/FutbolClub/administrador/verificacionjugador");
             } 
         }
+        
         public function listajugadores(){
             $this->jugadores = adminModel::getAllPlayers();
             $this->vistan('administrador/players_list');
@@ -74,38 +76,38 @@ require_once "modelo/adminmodel.php";
                         exit;
                     }
 
-                    if (!filter_var($data['correo'], FILTER_VALIDATE_EMAIL)) {
+                    if (!GeneralValidations::validateEmail($data['correo'])) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "Correo electrónico inválido"]);
                         exit;
                     }
 
-                    if (!preg_match("/^[a-zA-ZÀ-ÿ\s]+$/", $data['nombre_completo'])) {
+                    if (!GeneralValidations::validateNames($data['nombre_completo'])) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "El nombre solo puede contener letras y espacios"]);
                         exit;
                     }
 
-                    if (!preg_match("/^[0-9]{1,8}$/", $data['cedula'])) {
+                    if (!GeneralValidations::validateCedula($data['cedula'])) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "Cédula debe ser solo números y máximo 8 dígitos"]);
                         exit;
                     }
 
-                    if (!preg_match("/^[0-9]{1,11}$/", $data['telefono'])) {
+                    if (!GeneralValidations::validatePhone($data['telefono'])) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "Teléfono debe ser solo números y máximo 11 dígitos"]);
                         exit;
                     }
 
-                    $existingRepresentative = adminModel::useDni($data['cedula']);
+                    $existingRepresentative = adminModel::useDni($data['cedula'],'representantes');
                     if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "La cédula ya está en uso por otro representante"]);
                         exit;
                     }
 
-                    $existingRepresentative = adminModel::useEmail($data['correo']);
+                    $existingRepresentative = adminModel::useEmail($data['correo'],'representantes');
                     if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
                         header('Content-Type: application/json');
                         echo json_encode(["success" => false, "message" => "El correo electrónico ya está en uso por otro representante"]);
@@ -146,7 +148,6 @@ require_once "modelo/adminmodel.php";
             }
             
         }
-
         public function updateCategory(){
             print_r($_POST);
             $data = [
@@ -211,19 +212,179 @@ require_once "modelo/adminmodel.php";
             }
         }
 
-    public function informacionjugador() {
-        if (isset($_GET['player']) && !empty($_GET['player'])) {
-            $cedula = $_GET['player'];
-            $this->jugadores = adminModel::getPlayerWithDetails($cedula);
-            if ($this->jugadores) {
-                $this->vistan('administrador/player_info');
+        public function nuevoentrenador() {
+            $this->vistan('administrador/trainer_new');
+        }
+
+        public function entrenadores_lista() {
+            $this->trainers = adminModel::getTrainers();
+            $this->vistan('administrador/trainer_list');
+        }
+
+        public function get_trainer(){
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $id = $_POST['id'];
+                $entrenador = adminModel::getTrainerById($id);
+                header('Content-Type: application/json');
+                if($entrenador) {
+                    echo json_encode(["success" => true, "data" => $entrenador]);
+                } else {
+                    echo json_encode(["success" => false, "message" => "Entrenador no encontrado"]);
+                }
+            }
+        }
+
+        public function update_trainer(){
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                if(isset($_POST['id'], $_POST['nombre'], $_POST['fecha_nacimiento'], $_POST['cedula'], $_POST['telefono'], $_POST['correo'], $_POST['direccion'])) {
+                    $data = [
+                        'id' => $_POST['id'],
+                        'nombre_completo' => $_POST['nombre'],
+                        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
+                        'cedula' => $_POST['cedula'],
+                        'telefono' => $_POST['telefono'],
+                        'correo' => $_POST['correo'],
+                        'direccion' => $_POST['direccion']
+                    ];
+
+                    if($data['id'] == "" || $data['nombre_completo'] == "" || $data['fecha_nacimiento'] == "" || $data['cedula'] == "" || $data['telefono'] == "" || $data['correo'] == "" || $data['direccion'] == ""){
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Todos los campos son obligatorios"]);
+                        exit;
+                    }
+
+                    if (!GeneralValidations::validateEmail($data['correo'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Correo electrónico inválido"]);
+                        exit;
+                    }
+
+                    if (!GeneralValidations::validateNames($data['nombre_completo'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "El nombre solo puede contener letras y espacios"]);
+                        exit;
+                    }
+
+                    if (!GeneralValidations::validateCedula($data['cedula'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Cédula debe ser solo números y máximo 8 dígitos"]);
+                        exit;
+                    }
+
+                    if (!GeneralValidations::validatePhone($data['telefono'])) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "Teléfono debe ser solo números y máximo 11 dígitos"]);
+                        exit;
+                    }
+
+                    $existingRepresentative = adminModel::useDni($data['cedula'],'entrenadores');
+                    if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "La cédula ya está en uso por otro representante"]);
+                        exit;
+                    }
+
+                    $existingRepresentative = adminModel::useEmail($data['correo'],'entrenadores');
+                    if ($existingRepresentative && $existingRepresentative['id'] != $data['id']) {
+                        header('Content-Type: application/json');
+                        echo json_encode(["success" => false, "message" => "El correo electrónico ya está en uso por otro representante"]);
+                        exit;
+                    }
+
+                    $actualizado = adminModel::updateTrainer($data);
+                    header('Content-Type: application/json');
+                    if($actualizado === "success") {
+                        echo json_encode(["success" => true, "message" => "Entrenador actualizado correctamente"]);
+                    } else {
+                        echo json_encode(["success" => false, "message" => "Error al actualizar el entrenador"]);
+                    }
+                } else {
+                    header('Content-Type: application/json');
+                    echo json_encode(["success" => false, "message" => "Datos incompletos"]);
+                }
+            }
+        }
+
+        public function usedDni() {
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                header('Content-Type: application/json');
+
+                $dni = $_POST['dni'] ?? null;
+                $id  = $_POST['id'] ?? null;
+
+                if (!$dni) {
+                    echo json_encode(["success" => false, "message" => "DNI no enviado"]);
+                    return;
+                }
+                $existing = adminModel::useDni($dni, 'entrenadores');
+
+                if ($id !== null) {
+                    if ($existing) {
+                        if ($existing['id'] == $id) {
+                            echo json_encode(["exists" => false, "message" => "DNI permitido (mismo usuario)"]);
+                        } else {
+                            echo json_encode(["exists" => true, "message" => "DNI ya registrado en otro usuario"]);
+                        }
+                    } else {
+                        echo json_encode(["exists" => false, "message" => "DNI libre"]);
+                    }
+
+                } else {
+                    if ($existing) {
+                        echo json_encode(["exists" => true, "message" => "DNI ya registrado"]);
+                    } else {
+                        echo json_encode(["exists" => false, "message" => "DNI libre"]);
+                    }
+                }
+            }
+        }
+
+        public function usedEmail() {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            header('Content-Type: application/json');
+
+            $email = $_POST['email'] ?? null;
+            $id    = $_POST['id'] ?? null;
+
+            if (!$email) {
+                echo json_encode(["success" => false, "message" => "Email no enviado"]);
+                return;
+            }
+            $existingEmail = adminModel::useEmail($email, 'entrenadores');
+            if ($id !== null) {
+                if ($existingEmail) {
+                    if ($existingEmail['id'] == $id) {
+                        echo json_encode(["exists" => false, "message" => "Email permitido (mismo usuario)"]);
+                    } else {
+                        echo json_encode(["exists" => true, "message" => "Email ya registrado en otro usuario"]);
+                    }
+                } else {
+                    echo json_encode(["exists" => false, "message" => "Email libre"]);
+                }
+            } else {
+                if ($existingEmail) {
+                    echo json_encode(["exists" => true, "message" => "Email ya registrado"]);
+                } else {
+                    echo json_encode(["exists" => false, "message" => "Email libre"]);
+                }
+            }
+        }
+    }
+
+
+        public function informacionjugador() {
+            if (isset($_GET['player']) && !empty($_GET['player'])) {
+                $cedula = $_GET['player'];
+                $this->jugadores = adminModel::getPlayerWithDetails($cedula);
+                if ($this->jugadores) {
+                    $this->vistan('administrador/player_info');
+                } else {
+                    header("Location:/FutbolClub/administrador/listajugadores");
+                }
             } else {
                 header("Location:/FutbolClub/administrador/listajugadores");
             }
-        } else {
-            header("Location:/FutbolClub/administrador/listajugadores");
         }
-    }
         
         public function salir(){
             session_unset();
@@ -341,7 +502,6 @@ require_once "modelo/adminmodel.php";
             $errores[] = "Debe subir una imagen válida.";
         }
 
-    // --- Registro si no hay errores ---
     if (empty($errores)) {
         $playerData = [
             'cedula' => intval($datos['player-dni']),
@@ -468,6 +628,102 @@ require_once "modelo/adminmodel.php";
                 $this->erroresf = $errores;
                 $this->vistan('administrador/representative_new');
             }
+        }
+
+        public function addTrainer(){
+            if(!isset($_POST) && !isset($_FILES)) {
+                // Manejar el caso en que no se envían datos
+            }
+            if(!empty($_POST) && !empty($_FILES)){
+                if(isset($_POST['trainer-names']) && isset($_POST['trainer-email']) 
+                    && isset($_POST['trainer-phone']) && isset($_POST['trainer-gender'])
+                    && isset($_POST['trainer-birthdate']) && isset($_POST['trainer-dni'])) {
+
+                    if(!GeneralValidations::validateNames($_POST['trainer-names'])){
+                        $this->erroresf[] = "El nombre solo puede contener letras y espacios.";
+                    }
+
+                    //Validaciones de cédula
+                    if(!GeneralValidations::validateCedula($_POST['trainer-dni'])){
+                        $this->erroresf[] = "La cédula no es válida.";
+                    }else{
+                        if(adminModel::existDni($_POST['trainer-dni'], 'entrenadores')){
+                            $this->erroresf[] = "La cédula ya está en uso.";
+                        }
+                    }
+
+                    //Validaciones de correo electrónico
+                    if(!GeneralValidations::validateEmail($_POST['trainer-email'])){
+                        $this->erroresf[] = "El correo electrónico no es válido.";
+                    }else{
+                        if(adminModel::existEmail($_POST['trainer-email'], 'entrenadores')){
+                            $this->erroresf[] = "El correo electrónico ya está en uso.";
+                        }
+                    }
+                    //Validaciones de teléfono
+                    if(!GeneralValidations::validatePhone($_POST['trainer-phone'])){
+                        $this->erroresf[] = "El teléfono debe tener 11 dígitos.";
+                    }
+
+                    //Validaciones de Genero
+                    if(!GeneralValidations::validateGender($_POST['trainer-gender'])){
+                        $this->erroresf[] = "El género no es válido.";
+                    }
+
+                    if(!GeneralValidations::validateBirthDate($_POST['trainer-birthdate'])){
+                        $this->erroresf[] = "La fecha de nacimiento no es válida.";
+                    }
+
+                    $photo_result= GeneralValidations::validatePlayerImage($_FILES, $_POST['trainer-dni'], 'trainer-image');
+                    var_dump($photo_result);
+                    echo "<br>";
+                    if (isset($photo_result['success']) && $photo_result['success'] === true) {
+                        // Crear directorio si no existe
+                        $dirDestino = dirname($photo_result['rutaDestino']);
+                        if (!is_dir($dirDestino)) {
+                            mkdir($dirDestino, 0755, true);
+                        }
+
+                        $rutaDestino = $photo_result['rutaDestino'];
+
+                        if (!move_uploaded_file($photo_result['tmp_name'], $rutaDestino)) {
+                            $this->erroresf[] = "No se pudo guardar la imagen en el servidor.";
+                        }
+
+                    } else {
+                        // Si no tiene 'success', son errores
+                        if (is_array($photo_result)) {
+                            $this->erroresf = array_merge($this->erroresf ?? [], $photo_result);
+                        } else {
+                            $this->erroresf[] = $photo_result;
+                        }
+                        var_dump($this->erroresf);
+                    }
+
+                    var_dump($this->erroresf);
+                    if(empty($this->erroresf)){
+                        // Si no hay errores, se puede proceder a guardar el entrenador
+                        $entrenadorData = [
+                            'nombres' => trim($_POST['trainer-names']),
+                            'email' => trim($_POST['trainer-email']),
+                            'telefono' => trim($_POST['trainer-phone']),
+                            'genero' => $_POST['trainer-gender'],
+                            'fecha_nacimiento' => date('Y-m-d', strtotime($_POST['trainer-birthdate'])),
+                            'cedula' => trim($_POST['trainer-dni']),
+                            'foto' => $photo_result['nombreArchivo']
+                        ];
+                        $resultado = adminModel::createTrainer($entrenadorData);
+                        if($resultado === "success"){
+                            header("Location:/FutbolClub/administrador/entrenadores_lista?success");
+                        }else{
+                            $this->vistan('administrador/trainer_new');
+                        }
+                    }
+                }
+            }else{
+                header("Location:/FutbolClub/administrador/nuevoentrenador");
+            }
+
         }
 
     }

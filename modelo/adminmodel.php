@@ -96,10 +96,10 @@
         }
     }
 
-    public static function useDni($cedula) {
+    public static function useDni($cedula, $table) {
         try {
             $stmt = Database::getDatabase()->prepare("
-                SELECT * FROM representantes WHERE cedula = :cedula
+                SELECT * FROM $table WHERE cedula = :cedula
             ");
             $stmt->bindParam(':cedula', $cedula, PDO::PARAM_INT);
             $stmt->execute();
@@ -110,10 +110,10 @@
         }
     }
 
-    public static function useEmail($email) {
+    public static function useEmail($email ,$table) {
         try {
             $stmt = Database::getDatabase()->prepare("
-                SELECT * FROM representantes WHERE correo = :correo
+                SELECT * FROM $table WHERE correo = :correo
             ");
             $stmt->bindParam(':correo', $email, PDO::PARAM_STR);
             $stmt->execute();
@@ -203,7 +203,7 @@
     public static function getTrainers() {
         try {
             $stmt = Database::getDatabase()->prepare("
-                SELECT id, nombre_completo FROM entrenadores
+                SELECT * FROM entrenadores
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -307,6 +307,100 @@
             ");
             $stmt->bindParam(':id', $id, PDO::PARAM_INT);
             return $stmt->execute() ? "success" : "error";
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    public static function existDni($dni, $table) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT EXISTS ( SELECT 1 FROM $table WHERE cedula = :dni ) AS existe;
+            ");
+            $stmt->bindParam(':dni', $dni, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function existEmail($email, $table) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT EXISTS ( SELECT 1 FROM $table WHERE correo = :email ) AS existe;
+            ");
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function createTrainer($datos) {
+        try {
+                $stmt = Database::getDatabase()->prepare("
+                    INSERT INTO entrenadores 
+                    (nombre_completo, fecha_nacimiento, cedula, telefono, correo, direccion, foto) 
+                    VALUES 
+                    (:nombre_completo, :fecha_nacimiento, :cedula, :telefono, :correo, :direccion, :foto)
+                ");
+
+                $stmt->bindParam(":nombre_completo", $datos['nombres'], PDO::PARAM_STR);
+                $stmt->bindParam(":fecha_nacimiento", $datos['fecha_nacimiento'], PDO::PARAM_STR);
+                $stmt->bindParam(":cedula", $datos['cedula'], PDO::PARAM_INT);
+                $stmt->bindParam(":telefono", $datos['telefono'], PDO::PARAM_STR);
+                $stmt->bindParam(":correo", $datos['email'], PDO::PARAM_STR);
+
+                // Estos campos pueden estar vacíos o completarse luego
+                $direccion = isset($datos['direccion']) ? $datos['direccion'] : '';
+
+                $stmt->bindParam(":direccion", $direccion, PDO::PARAM_STR);
+                $stmt->bindParam(":foto", $datos['foto'], PDO::PARAM_STR);
+
+                return $stmt->execute() ? "success" : "error";
+
+            } catch (PDOException $e) {
+                return "error: " . $e->getMessage();
+            }
+        }
+    public static function getTrainerById($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM entrenadores WHERE id = :id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $entrenador = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $entrenador ? $entrenador : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function updateTrainer($data){
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                UPDATE entrenadores 
+                SET nombre_completo = :nombre_completo, 
+                    fecha_nacimiento = :fecha_nacimiento, 
+                    cedula = :cedula, 
+                    telefono = :telefono, 
+                    correo = :correo, 
+                    direccion = :direccion
+                WHERE id = :id
+            ");
+
+            $stmt->bindParam(":id", $data['id'], PDO::PARAM_INT);
+            $stmt->bindParam(":nombre_completo", $data['nombre_completo'], PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_nacimiento", $data['fecha_nacimiento'], PDO::PARAM_STR);
+            $stmt->bindParam(":cedula", $data['cedula'], PDO::PARAM_INT);
+            $stmt->bindParam(":telefono", $data['telefono'], PDO::PARAM_STR);
+            $stmt->bindParam(":correo", $data['correo'], PDO::PARAM_STR);
+            $stmt->bindParam(":direccion", $data['direccion'], PDO::PARAM_STR);
+            return $stmt->execute() ? "success" : "error";
+
         } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }

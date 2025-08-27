@@ -129,24 +129,42 @@
 
 .player-table {
     width: 90%;
-    border-collapse: collapse;
+    border-collapse: separate; /* para poder usar border-radius */
+    border-spacing: 0;
     margin-top: 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    border-radius: 10px;
+    overflow: hidden;
 }
 
 .player-table th,
 .player-table td {
-    padding: 12px 15px;
-    border: 1px solid #ccc;
+    padding: 14px 20px;
     text-align: left;
 }
 
 .player-table th {
-    background: #f4f4f4;
-    font-weight: bold;
+    background: #8b51d0; /* color primario */
+    color: #fff;
+    font-weight: 600;
 }
 
 .player-table tr:nth-child(even) {
-    background: #f9f9f9;
+    background: #f5f0fa; /* tono suave del primario */
+}
+
+.player-table tr:nth-child(odd) {
+    background: #ffffff;
+}
+
+.player-table tr:hover {
+    background: #d8c2f0; /* hover suave del primario */
+    transition: 0.3s;
+}
+
+.player-table td {
+    border-bottom: 1px solid #eee;
 }
 
 .player-table .edit-button,
