@@ -128,6 +128,23 @@ require_once __DIR__ . "/../validations/generalValidations.php";
             }
         }
 
+        public function RepresentativeDelete()
+        {
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $representante = $_POST['id'];
+                $existe = adminModel::representanteExiste(intval($representante));
+                //echo $representante;
+                //var_dump($existe);
+                header('Content-Type: application/json');
+                if($existe) {
+                    adminModel::deleteRepresentative($representante);
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
+                }
+            }
+        }
+
         public function categorias(){
             $this->trainers = adminModel::getTrainers();
             $this->categorys = adminModel::getCategorys();
@@ -301,6 +318,23 @@ require_once __DIR__ . "/../validations/generalValidations.php";
                 } else {
                     header('Content-Type: application/json');
                     echo json_encode(["success" => false, "message" => "Datos incompletos"]);
+                }
+            }
+        }
+
+        public function TrainerDelete()
+        {
+            if($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $entrenador = $_POST['id'];
+                $existe = adminModel::getTrainerById(intval($entrenador));
+                //echo $representante;
+                //var_dump($existe);
+                header('Content-Type: application/json');
+                if($existe) {
+                    adminModel::deleteTrainer($entrenador);
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
                 }
             }
         }

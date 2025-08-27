@@ -137,4 +137,47 @@ function validarCampo($input) {
         }
     });
 
+    //eliminar
+    $(".delete-representative").on("click", function () {
+        let id = $(this).data("id");
+        let name = $(this).data("name");
+
+        $("#deleteId").val(id);
+        $("#representativeName").text(name);
+        $("#deleteModal").css("display", "flex");    
+    });
+
+    $("#cancelDelete").on("click", function () {
+        $("#deleteModal").fadeOut();
+    });
+    
+     $("#confirmDelete").on("click", function () {
+    let id = $("#deleteId").val();
+        $.ajax({
+        url: "/FutbolClub/administrador/RepresentativeDelete",
+        type: "POST",
+        data: { id: id },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response['message']){
+                toastr.success('Representante ' + $("#representativeName").text() + ' eliminado correctamente.');
+                $(".modal-category").fadeOut();
+                setTimeout(function() {
+                    location.reload();
+                }, 1000);
+            }else {
+                toastr.error('Error al eliminar el representante ' + $("#representativeName").text() + '.');
+                 $(".modal-category").fadeOut();
+                 setTimeout(function() {
+                     location.reload();
+                 }, 1000);
+            }
+        },
+        error: function () {
+            alert("Error al eliminar ❌");
+        }
+        });
+    });
+
 });

@@ -166,6 +166,18 @@
             return "error: " . $e->getMessage();
         }
     }
+    public static function deleteRepresentative($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                DELETE FROM representantes WHERE cedula = :cedula
+            ");
+            $stmt->bindParam(':cedula', $id, PDO::PARAM_INT);
+            return $stmt->execute() ? "success" : "error";
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
 
     public static function getPlayerWithDetails($cedula) {
     try {
@@ -401,6 +413,17 @@
             $stmt->bindParam(":direccion", $data['direccion'], PDO::PARAM_STR);
             return $stmt->execute() ? "success" : "error";
 
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+    public static function deleteTrainer($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                DELETE FROM entrenadores WHERE id = :id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            return $stmt->execute() ? "success" : "error";
         } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }

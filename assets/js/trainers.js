@@ -189,4 +189,5 @@ $(".modal-category-form").on("submit", function (e) {
   $(".close-modal").on("click", function(){
       $(".modal-category").fadeOut();
   });
+
 });

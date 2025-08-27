@@ -44,7 +44,7 @@
                 echo '<td>' . htmlspecialchars($jugador['direccion']) . '</td>';
                 echo '<td>
                         <a class="edit-representative" data-id="' . htmlspecialchars($jugador['id']) . '"><img src="/FutbolClub/assets/img/editar.png" alt=""></a>
-                        <a class="delete-representative" data-id="' . htmlspecialchars($jugador['id']) . '"><img src="/FutbolClub/assets/img/papelera.png" alt=""></a>
+                        <a class="delete-representative" data-id="' . htmlspecialchars($jugador['cedula']) . '" data-name="' . htmlspecialchars($jugador['nombre_completo']) . '"><img src="/FutbolClub/assets/img/papelera.png" alt=""></a>
                       </td>';
                 echo '</tr>';
             }
@@ -97,6 +97,17 @@
                 <button type="button" class="close-modal">Cerrar</button>
             </div>
         </form>
+    </div>
+    <div id="deleteModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <h3>¿Estás seguro de eliminar a este Representante?</h3>
+            <p id="representativeName"></p>
+            <input type="hidden" id="deleteId">
+            <div class="modal-buttons">
+            <button id="confirmDelete">Eliminar</button>
+            <button id="cancelDelete">Cancelar</button>
+            </div>
+        </div>
     </div>
     <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/index.js"></script>
