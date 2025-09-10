@@ -115,6 +115,10 @@
     justify-content: space-between;
 }
 
+.header-main.representative{
+    background:#2758ae;
+}
+
 .header-main img{
     width: 30px;
     cursor: pointer;

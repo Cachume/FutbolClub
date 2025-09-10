@@ -33,19 +33,19 @@
     try {
         $stmt = Database::getDatabase()->prepare("
             INSERT INTO representantes 
-            (nombre_completo, fecha_nacimiento, cedula, telefono, correo, direccion, id_usuario, foto) 
+            (nombre_completo, fecha_nacimiento, cedula, telefono, correo, direccion, id_usuario, foto, passwordp) 
             VALUES 
-            (:nombre_completo, :fecha_nacimiento, :cedula, :telefono, :correo, :direccion, :id_usuario, :foto)
+            (:nombre_completo, :fecha_nacimiento, :cedula, :telefono, :correo, :direccion, :id_usuario, :foto, :passwordp)
         ");
 
         $nombreCompleto = trim($datos['nombres']) . ' ' . trim($datos['apellidos']);
-
+        $password = password_hash($datos['password'], PASSWORD_DEFAULT);
         $stmt->bindParam(":nombre_completo", $nombreCompleto, PDO::PARAM_STR);
         $stmt->bindParam(":fecha_nacimiento", $datos['fecha_nacimiento'], PDO::PARAM_STR);
         $stmt->bindParam(":cedula", $datos['cedula'], PDO::PARAM_INT);
         $stmt->bindParam(":telefono", $datos['telefono'], PDO::PARAM_STR);
         $stmt->bindParam(":correo", $datos['email'], PDO::PARAM_STR);
-
+        $stmt->bindParam(":passwordp", $password, PDO::PARAM_STR);
         // Estos campos pueden estar vacíos o completarse luego
         $direccion = isset($datos['direccion']) ? $datos['direccion'] : '';
         $idUsuario = isset($datos['id_usuario']) ? $datos['id_usuario'] : null;

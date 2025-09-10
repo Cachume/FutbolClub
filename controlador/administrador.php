@@ -1,7 +1,11 @@
 <?php
 require_once "modelo/adminmodel.php";
 require_once __DIR__ . "/../validations/generalValidations.php";
-    class administrador extends vistas{
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+require 'vendor/autoload.php';    
+
+class administrador extends vistas{
         public $erroresf;
         public $jugadores;
         public $trainers;
@@ -647,12 +651,35 @@ require_once __DIR__ . "/../validations/generalValidations.php";
                     'telefono' => trim($datos['representative-phone']),
                     'genero' => $datos['representative-gender'],
                     'fecha_nacimiento' => date('Y-m-d', strtotime($datos['representative-birthdate'])),
-                    'foto' => $rutaDestino
+                    'foto' => $rutaDestino,
+                    'password' => $this->generarPassword(8)
                 ];
+                
+
+                $mail_body= '
+                    <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; background-color: #f4f4f4; padding: 20px; border: 1px solid #ddd; border-radius: 5px; max-width: 600px; margin: auto;">
+                    <div style="text-align: center;">
+                        <h2 style="margin: 0px; color:#8b51d0;">FUTBOL CLUB</h2>
+                        <strong style="color:#188d32;">AGUA DULCE</strong>
+                    </div>
+                    <div>
+                        <p style="text-align: center;">Estimado Representante, <strong>'.$representativeData['nombres'].'</strong></p>
+                        <p style="text-align: center;">Le informamos que se ha registrado en el Sistema de Gestión de Futbol Club.</p>
+                        <h4>Sus Credenciales de acceso son las siguientes:</h4>
+                        <p>Correo Electrónico: <strong>'.$representativeData['email'].'</strong></p>
+                        <p>Contraseña: <strong>'.$representativeData['password'].'</strong></p>
+                        <p>Le recomendamos cambiar su contraseña después de iniciar sesión por primera vez.</p>
+                        <div class="mail-body-links" style="display: flex; justify-content: center;">
+                            <a href="#" style="color: white; text-decoration: none; background-color: #8b51d0; padding: 10px 15px; border-radius: 5px;">Ir a Iniciar Sesión</a>
+                        </div>
+                    </div>
+                </div>';
 
                 $resultado = adminModel::createRepresentative($representativeData);
                 if ($resultado === "success") {
-                    header("Location:/FutbolClub/administrador/listarepresentantes");
+                    $this->sendMail($representativeData['email'], 'Registro en Futbol Club - Credenciales de Acceso', $mail_body);
+                    header("Location:/FutbolClub/administrador/representantes_lista");
+                    exit();
                 } else {
                     $errores[] = "Error al registrar el representante: " . $resultado;
                     $this->erroresf = $errores;
@@ -760,5 +787,47 @@ require_once __DIR__ . "/../validations/generalValidations.php";
 
         }
 
-    }
+        public function sendMail($destinatario, $asunto, $cuerpo){
+
+            $mail = new PHPMailer(true);
+
+            try {
+                // Configuración SMTP
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'aguadulceclub9@gmail.com';
+                $mail->Password   = 'fkjjjxmcsmfmbean'; // Usa una contraseña de aplicación
+                $mail->SMTPSecure = 'tls';
+                $mail->Port       = 587;
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
+
+
+                // Datos del correo
+                $mail->setFrom('aguadulceclub9@gmail.com', 'Futbol Club | Agua Dulce');
+                $mail->addAddress($destinatario);
+                $mail->Subject = $asunto;
+                $mail->Body    = $cuerpo;
+
+                $mail->send();
+                return true;
+            } catch (Exception $e) {
+                return "Error al enviar el correo: {$mail->ErrorInfo}";
+            }
+        }
+
+        private function generarPassword($longitud = 10) {
+            $caracteres = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            $password = '';
+            $max = strlen($caracteres) - 1;
+
+            for ($i = 0; $i < $longitud; $i++) {
+                $password .= $caracteres[random_int(0, $max)];
+            }
+
+            return $password;
+        }
+
+}
 ?>

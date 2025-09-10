@@ -16,6 +16,7 @@ require_once "modelo/loginmodel.php";
                 );
                 $auth = loginModel::ingresoUsuario($datos,"usuarios");
                 var_dump ($auth);
+                echo "<br>";
                 if($auth){
                     if(password_verify($datos["password"], $auth["contraseña"])){
                         $_SESSION["username"] = $auth["nombre_usuario"];
@@ -26,16 +27,27 @@ require_once "modelo/loginmodel.php";
                             header("Location:/FutbolClub/administrador");
                         }else{
                             session_destroy();
-                            echo "<script>alert('Aun no se permite el ingreso de usuarios comunes')</script>";
                             $this->vistan('user/login');
                         }
                     }else{
                         echo "<script>alert('Sesion no iniciada')</script>";
                     }
                 }else{
-                    header("Location:/FutbolClub/login");
-                    echo "<script>alert('Sesion no existe')</script>";
+                    $auth = loginModel::ingresoUsers($datos,"representantes");
+                    if($auth){
+                        if(password_verify($datos["password"], $auth["passwordp"])){
+                            $_SESSION["username"] = $auth["nombre_completo"];
+                            $_SESSION["email"] = $auth["correo"];
+                            $_SESSION["foto"] = $auth["foto"];
+                            $_SESSION["rol"] = "user";
+                            echo "<script>alert('Sesion iniciada')</script>";
+                            header("Location:/FutbolClub/usuario");
+                        }else{
+                            session_destroy();
+                            $this->vistan('user/login');
+                        }
                     }
+                }
             }else{
             header("Location:/FutbolClub/login");
         }

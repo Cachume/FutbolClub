@@ -1,0 +1,6 @@
+{
+    "name": "cachume/futbol-club",
+    "require": {
+        "phpmailer/phpmailer": "^6.10"
+    }
+}
