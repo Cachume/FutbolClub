@@ -428,6 +428,16 @@
             return "error: " . $e->getMessage();
         }
     }
+    
+    public static function getMetodosPago() {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT * FROM metodos_pago");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
 
 }
 ?>

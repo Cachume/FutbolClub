@@ -36,8 +36,8 @@
             foreach ($this->jugadores as $jugador) {
                 $posicion = isset($jugador['posicion']) ? htmlspecialchars($jugador['posicion']) : 'N/A';
                 echo '<tr>';
-                echo '<td>' . htmlspecialchars($jugador['nombres']) . '</td>';
-                echo '<td>' . htmlspecialchars($jugador['apellidos']) . '</td>';
+                echo '<td> <img src="/FutbolClub/' . htmlspecialchars($jugador['foto']) . '" alt="Foto de ' . htmlspecialchars($jugador['nombres']) . '" class="player-list-img"></td>';
+                echo '<td>' .htmlspecialchars($jugador['nombres']). ' ' . htmlspecialchars($jugador['apellidos']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['fecha_nacimiento']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['categoria']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['cedula']) . '</td>';

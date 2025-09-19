@@ -525,3 +525,15 @@
   margin-top: 5px;
   display: block;
 }
+
+.action-button{
+    background-color: #8b51d0;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 0.9em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}

@@ -11,6 +11,7 @@ class administrador extends vistas{
         public $trainers;
         public $categorys;
         public $categoria;
+        public $data;
 
         public function __construct(){
             if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "admin"){
@@ -47,6 +48,11 @@ class administrador extends vistas{
 
         public function verificacionjugador(){
             $this->vistan('administrador/player_verification');
+        }
+
+        public function metodos_pago(){
+            $this->data = adminModel::getMetodosPago();
+            $this->vistan('administrador/metodo_pagos');
         }
 
         public function get_representative(){

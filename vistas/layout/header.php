@@ -44,6 +44,18 @@
                         <li class="submenu-item"><a href="/FutbolClub/administrador/representantes_lista" class="menu-link">Representantes</a></li>
                     </ul>
                 </li>
+                <li class="menu-dropdown" id="menu-dropdown">
+                    <a href="#" class="menu-link">
+                        <img src="/FutbolClub/assets/img/pagos.png" alt="Inicio">
+                        <span>Pagos</span>
+                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
+                    </a>
+                    <ul class="submenu">
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/new_pagos" class="menu-link">Generar Pagos</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/pagos_lista" class="menu-link">Lista de Pagos</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/metodos_pago" class="menu-link">Metodos de Pago</a></li>
+                    </ul>
+                </li>
                 <li class="menu-static">
                     <a href="/FutbolClub/administrador/categorias" class="menu-link">
                         <img src="/FutbolClub/assets/img/equipo.png" alt="Inicio">

@@ -40,6 +40,8 @@ require_once "modelo/loginmodel.php";
                             $_SESSION["email"] = $auth["correo"];
                             $_SESSION["foto"] = $auth["foto"];
                             $_SESSION["rol"] = "user";
+                            $_SESSION["cedula"] = $auth["cedula"];
+                            $_SESSION["id"] = $auth["id"];
                             echo "<script>alert('Sesion iniciada')</script>";
                             header("Location:/FutbolClub/usuario");
                         }else{

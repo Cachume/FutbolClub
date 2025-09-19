@@ -29,7 +29,7 @@
         }
 
         public static function ingresoUsers($datos, $tabla){
-            $stmt = Database::getDatabase()->prepare("SELECT nombre_completo, correo ,passwordp, foto FROM $tabla WHERE correo = :email");
+            $stmt = Database::getDatabase()->prepare("SELECT nombre_completo, correo ,passwordp, foto, cedula ,id FROM $tabla WHERE correo = :email");
             $stmt->bindParam(":email", $datos['email'], PDO::PARAM_STR);
             $stmt->execute();
             //Obtiene una fila de resultados
