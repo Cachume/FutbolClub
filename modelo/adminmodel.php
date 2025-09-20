@@ -439,5 +439,52 @@
         }
     }
 
+    public static function createPago(array $data) {
+        try {
+            $db = Database::getDatabase();
+            $db->beginTransaction();
+            $stmt = $db->prepare("
+                INSERT INTO lista_pagos (nombre, descripcion, monto)
+                VALUES (:nombre, :descripcion, :monto)
+            ");
+            $stmt->bindParam(":nombre", $data["nombre"], PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion", $data["descripcion"], PDO::PARAM_STR);
+            $stmt->bindParam(":monto", $data["monto"], PDO::PARAM_STR);
+            $stmt->execute();
+
+
+            $idPago = $db->lastInsertId();
+
+            if (!empty($data["categorias"]) && is_array($data["categorias"])) {
+                $stmtCat = $db->prepare("
+                    INSERT INTO pago_categoria (id_pago, id_categoria)
+                    VALUES (:id_pago, :id_categoria)
+                ");
+
+                foreach ($data["categorias"] as $idCategoria) {
+                    $stmtCat->bindParam(":id_pago", $idPago, PDO::PARAM_INT);
+                    $stmtCat->bindParam(":id_categoria", $idCategoria, PDO::PARAM_INT);
+                    $stmtCat->execute();
+                }
+            }
+
+            $db->commit();
+            return true;
+        } catch (PDOException $e) {
+            $db->rollBack();
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    public static function getPagos() {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT * FROM lista_pagos");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
+
 }
 ?>

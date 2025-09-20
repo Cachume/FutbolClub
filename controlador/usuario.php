@@ -22,6 +22,8 @@
         }
 
         public function pagar(){
+            $rep_id = $_SESSION["cedula"];
+            $this->data = userModel::getMyPayments($rep_id);
             $this->vistan('user/misjugadores_pagos');
         }
     }

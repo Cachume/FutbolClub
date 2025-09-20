@@ -51,7 +51,7 @@
                         <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
                     </a>
                     <ul class="submenu">
-                        <li class="submenu-item"><a href="/FutbolClub/administrador/new_pagos" class="menu-link">Generar Pagos</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/administrador/generarpago" class="menu-link">Generar Pagos</a></li>
                         <li class="submenu-item"><a href="/FutbolClub/administrador/pagos_lista" class="menu-link">Lista de Pagos</a></li>
                         <li class="submenu-item"><a href="/FutbolClub/administrador/metodos_pago" class="menu-link">Metodos de Pago</a></li>
                     </ul>

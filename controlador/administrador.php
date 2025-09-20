@@ -50,9 +50,41 @@ class administrador extends vistas{
             $this->vistan('administrador/player_verification');
         }
 
+        public function generarpago(){
+            $this->data = adminModel::getCategorys();
+            $this->vistan('administrador/payment_new');
+        }
         public function metodos_pago(){
             $this->data = adminModel::getMetodosPago();
             $this->vistan('administrador/metodo_pagos');
+        }
+
+        public function pagos_lista(){
+            $this->data = adminModel::getPagos();
+            $this->vistan('administrador/lista_pagos');
+        }
+
+        public function nuevopago(){
+            print_r($_POST);
+            echo "<br>";
+            if( isset($_POST['nombrepago']) || 
+                isset($_POST['descripcion']) || 
+                isset($_POST['montopago']) ||
+                isset($_POST['categorias'])){
+                    echo "Todo correcto";
+                    echo "<br>";
+                    echo implode(',', $_POST['categorias']);
+                    $data = [
+                        'nombre'=> $_POST['nombrepago'],
+                        'descripcion'=> $_POST['descripcion'],
+                        'monto' => floatval($_POST['montopago']),
+                        'categorias'=> $_POST['categorias']
+                    ];
+                    $pagodb = adminModel::createPago($data);
+                    echo "<br>";
+                    echo "<br>";
+                    var_dump($pagodb);
+                }
         }
 
         public function get_representative(){

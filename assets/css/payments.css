@@ -1,0 +1,37 @@
+.new_payment_group{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.new_payment_group label {
+    width: 300px;
+    font-size: 16px;
+}
+.new_payment_group input[type="text"],
+.new_payment_group input[type="number"],
+.new_payment_group select { 
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 300px;
+    box-sizing: border-box;
+
+}
+
+.new_payment_group_checkbox{
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}
+
+.new_payment_groups_checkbox{
+    display: flex;
+    width: 300px;
+    gap: 30px;
+}
+
+.new_payment_buttons{
+    border-top: 1px solid grey;
+    padding-top: 10px;
+}
