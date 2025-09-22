@@ -35,3 +35,178 @@
     border-top: 1px solid grey;
     padding-top: 10px;
 }
+
+/*Pagar*/
+
+.pay-data{
+    margin-bottom: 20px;
+}
+
+.payplayers-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 3vh;
+    margin-bottom: 3vh;
+}
+
+.player-tablepay {
+    width: 600px;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 1px solid #c9c9c9;
+}
+
+.player-tablepay th,
+.player-tablepay td {
+    padding: 12px 15px;
+    text-align: left;
+}
+
+.player-tablepay th {
+    background: #007bff;
+    font-weight: 600;
+    color: white;
+}
+
+.player-tablepay tr:nth-child(even) {
+    background: #f9f9f9;
+}
+
+
+.method-payments{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.method-payments-group{
+    width: 600px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.method-payments-group label{
+    margin-right: 10px;
+}
+
+.method-payments-group select{
+    padding: 8px 10px;
+    border-radius: 10px;
+}
+
+.methods-payments{
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.metodo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  max-width: 300px;
+  font-family: 'Segoe UI', sans-serif;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.metodo h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  color: #2c3e50;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.metodo p {
+  margin: 4px 0;
+  font-size: 16px;
+  color: #333;
+}
+
+.metodo strong {
+  color: #555;
+}
+
+.metodo span {
+  color: #1a73e8;
+  font-weight: bold;
+}
+
+.payment-data{
+  display: none;
+  gap: 60px;
+}
+
+#titlepay{
+    margin: 30px 0px 30px 0px;
+}
+
+.form-group {
+  margin-bottom: 15px;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+  color: #333;
+}
+
+.form-group input,
+.form-group select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.2s;
+  width: 250px;
+}
+
+.form-pay{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.form-buttons {
+  display: none;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.btn-submit, .btn-reset {
+  flex: 1;
+  padding: 12px;
+  font-size: 15px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-submit {
+  background-color: #28a745;
+  color: white;
+}
+
+.btn-submit:hover {
+  background-color: #218838;
+}
+
+.btn-reset {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-reset:hover {
+  background-color: #c82333;
+}

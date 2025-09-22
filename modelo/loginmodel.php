@@ -35,5 +35,8 @@
             //Obtiene una fila de resultados
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }
+
+
+
     }
     ?>

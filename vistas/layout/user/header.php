@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/FutbolClub/assets/css/index.css">
     <link rel="stylesheet" href="/FutbolClub/assets/css/myplayers.css">
+    <link rel="stylesheet" href="/FutbolClub/assets/css/payments.css">
     <title>Futbol Club | Panel Representante</title>
 </head>
 <body>

@@ -4,9 +4,6 @@
 ?>
 
     <section class="content-pays">
-        <?php
-            var_dump($this->data);
-        ?>
             <header class="pays-header">
                 <h2>Pagos Pendientes</h2>
             </header>
@@ -32,7 +29,7 @@
                                     <td><?php echo $metodo['descripcion'] ?></td>
                                     <td><?php echo $metodo['fecha_creacion'] ?></td>
                                     <td><?php echo $value = ($metodo['fecha_creacion']) ? "Sin Pagar" : $metodo['fecha_creacion'] ; ?></td>
-                                    <td><a href="">Pagar</a></td>
+                                    <td><a href="/FutbolClub/usuario/pago/<?php echo $metodo['pago_id'];?>">Pagar</a></td>
                                 </tr>
 
 
