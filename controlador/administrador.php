@@ -591,13 +591,33 @@ class administrador extends vistas{
             'foto' => $rutaDestino
         ];
 
+        $mail_body= '
+                    <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; background-color: #f4f4f4; padding: 20px; border: 1px solid #ddd; border-radius: 5px; max-width: 600px; margin: auto;">
+                    <div style="text-align: center;">
+                        <h2 style="margin: 0px; color:#8b51d0;">FUTBOL CLUB</h2>
+                        <strong style="color:#188d32;">AGUA DULCE</strong>
+                    </div>
+                    <div>
+                        <p style="text-align: center;">Estimado Representante, se ha registrado a un Jugador en su Perfil</p>
+                        <p style="text-align: center;">Le informamos que se ha registrado a <strong>'.$playerData['nombres'].'</strong> en el Sistema de Gestión de Futbol Club.</p>
+                        <h4>Sus Credenciales son las siguientes:</h4>
+                        <p>Nombre Completo: <strong>'.$playerData['nombres'].' '.$playerData['apellidos'].'</strong></p>
+                        <p>Cedula: <strong>'.$playerData['cedula'].'</strong></p>
+                        <p>Cedula: <strong>'.$playerData['categoria'].'</strong></p>
+                        <p>Le recomendamos iniciar sesion en su perfil para ver mas informacion.</p>
+                        <div class="mail-body-links" style="display: flex; justify-content: center;">
+                            <a href="#" style="color: white; text-decoration: none; background-color: #8b51d0; padding: 10px 15px; border-radius: 5px;">Ir a Iniciar Sesión</a>
+                        </div>
+                    </div>
+                </div>';
+
         $resultao = adminModel::createPlayer($playerData);
-        var_dump($playerData);
-        var_dump($resultao);
+        $resultado_representante = adminModel::getRepresentativeByCedula($playerData['cedula_representante']);
         if ($resultao === "success") {
             if (isset($_SESSION['cedular'])) {
                 unset($_SESSION['cedular']);
             }
+            $this->sendMail($resultado_representante['correo'], 'Registro en Futbol Club - Nuevo Jugador', $mail_body);
             header("Location:/FutbolClub/administrador/listajugadores");
         } else {
             $errores[] = "Error al registrar el jugador: " . $resultao;

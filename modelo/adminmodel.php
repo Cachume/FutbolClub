@@ -96,6 +96,20 @@
         }
     }
 
+    public static function getRepresentativeByCedula($cedula) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM representantes WHERE cedula = :cedula
+            ");
+            $stmt->bindParam(':cedula', $cedula, PDO::PARAM_INT);
+            $stmt->execute();
+            $representante = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $representante ? $representante : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
     public static function useDni($cedula, $table) {
         try {
             $stmt = Database::getDatabase()->prepare("
@@ -283,6 +297,13 @@
     }
 
     public static function getCategoryById($id) {
+        $stmt = Database::getDatabase()->prepare("SELECT * FROM categorias WHERE id = :id");
+        $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+
+    public static function getCategoryByName($id) {
         $stmt = Database::getDatabase()->prepare("SELECT * FROM categorias WHERE id = :id");
         $stmt->bindParam(':id', $id, PDO::PARAM_INT);
         $stmt->execute();
