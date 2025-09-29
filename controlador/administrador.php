@@ -603,7 +603,7 @@ class administrador extends vistas{
                         <h4>Sus Credenciales son las siguientes:</h4>
                         <p>Nombre Completo: <strong>'.$playerData['nombres'].' '.$playerData['apellidos'].'</strong></p>
                         <p>Cedula: <strong>'.$playerData['cedula'].'</strong></p>
-                        <p>Cedula: <strong>'.$playerData['categoria'].'</strong></p>
+                        <p>Categoria: <strong>'.$playerData['categoria'].'</strong></p>
                         <p>Le recomendamos iniciar sesion en su perfil para ver mas informacion.</p>
                         <div class="mail-body-links" style="display: flex; justify-content: center;">
                             <a href="#" style="color: white; text-decoration: none; background-color: #8b51d0; padding: 10px 15px; border-radius: 5px;">Ir a Iniciar Sesión</a>
