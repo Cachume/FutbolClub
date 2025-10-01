@@ -101,7 +101,8 @@
                         </div>
                     </div>
                     <h3 id="titlepay" style="display:none;">Completa los datos del pago</h3>
-                    <div class="payment-data" id="payment-data">
+                    <form action="" method="post">
+                        <div class="payment-data" id="payment-data">
                         <div class="form-group">
                             <label for="fecha_pago">Fecha del Pago:</label>
                             <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" required>
@@ -119,10 +120,12 @@
                         <button type="submit" class="btn-submit">Enviar</button>
                         <button type="reset" class="btn-reset">Limpiar</button>
                     </div>
+                    </form>
                 </div>
             </form>
         </div>
     </main>    
     <script src="/FutbolClub/assets/js/index.js"></script>
+    <script src="/FutbolClub/assets/js/payments.js"></script>
 </body>
 </html>

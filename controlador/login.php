@@ -48,6 +48,9 @@ require_once "modelo/loginmodel.php";
                             session_destroy();
                             $this->vistan('user/login');
                         }
+                    }else{
+                        header("Location:/FutbolClub/login");
+                        session_destroy();
                     }
                 }
             }else{

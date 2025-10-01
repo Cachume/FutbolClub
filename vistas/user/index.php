@@ -2,7 +2,7 @@
     require_once 'vistas/layout/user/header.php';
 ?>
 
-    <h2>Bienvenido carajito xDDDDDDDDDDDDDDDDDDD
+    <h2>Bienvenido 
         
     </h2>
 
