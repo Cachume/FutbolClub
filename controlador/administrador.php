@@ -579,18 +579,18 @@ class administrador extends vistas{
         }
 
     if (empty($errores)) {
+        $playerYear = explode("-",$datos['player-birthdate']);
         $playerData = [
             'cedula' => intval($datos['player-dni']),
             'nombres' => trim($datos['player-name']),
             'apellidos' => trim($datos['player-lastname']),
             'fecha_nacimiento' => date('Y-m-d', strtotime($datos['player-birthdate'])),
             'genero' => $datos['player-gender'],
-            'categoria' => $datos['player-category'],
+            'categoria' => adminModel::getCategorysDetails(intval($playerYear[0])),
             'nombre_camiseta' => trim($datos['player-shirt']),
             'cedula_representante' => $cedulaRepresentante,
             'foto' => $rutaDestino
         ];
-
         $mail_body= '
                     <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; background-color: #f4f4f4; padding: 20px; border: 1px solid #ddd; border-radius: 5px; max-width: 600px; margin: auto;">
                     <div style="text-align: center;">
@@ -628,7 +628,7 @@ class administrador extends vistas{
         $this->vistan('administrador/players_new');
         echo "Errores al registrar el jugador:";
     }
-}
+    }
     
         public function addRepresentative() {
             $errores = [];

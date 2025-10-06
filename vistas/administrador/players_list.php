@@ -39,7 +39,7 @@
                 echo '<td> <img src="/FutbolClub/' . htmlspecialchars($jugador['foto']) . '" alt="Foto de ' . htmlspecialchars($jugador['nombres']) . '" class="player-list-img"></td>';
                 echo '<td>' .htmlspecialchars($jugador['nombres']). ' ' . htmlspecialchars($jugador['apellidos']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['fecha_nacimiento']) . '</td>';
-                echo '<td>' . htmlspecialchars($jugador['categoria']) . '</td>';
+                echo '<td>' . htmlspecialchars($jugador['nombre_categoria']) . '</td>';
                 echo '<td>' . htmlspecialchars($jugador['cedula']) . '</td>';
                 echo '<td>
                         <a class="edit-button" href="informacionjugador&player=' . htmlspecialchars($jugador['cedula']) . '">Ver Ficha</a>

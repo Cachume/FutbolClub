@@ -64,7 +64,7 @@
 
     public static function getAllPlayers() {
         try {
-            $stmt = Database::getDatabase()->prepare("SELECT * FROM jugadores ORDER BY apellidos, nombres");
+            $stmt = Database::getDatabase()->prepare("SELECT j.*, c.nombre_categoria FROM jugadores j JOIN categorias c ON j.categoria = c.id ORDER BY j.apellidos, j.nombres");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -291,6 +291,22 @@
             ");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+        public static function getCategorysDetails($year) {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT * FROM categorias 
+                WHERE CAST(LEFT(periodo, 4) AS UNSIGNED) <= :year 
+                AND CAST(RIGHT(periodo, 4) AS UNSIGNED) >= :year
+            ");
+            $stmt->bindParam(":year", $year, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $result["id"];
         } catch (PDOException $e) {
             return null;
         }
