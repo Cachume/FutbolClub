@@ -44,11 +44,14 @@
                 echo '<td>' . htmlspecialchars($metodo['monto']) . '</td>';
                 echo '<td>' . htmlspecialchars($metodo['metodo_pago']) . '</td>';
                 echo '<td><a data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
-                echo '<td>
-                        <a class="edit-representative" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/vef.png" alt=""></a>
-                        <a class="delete-representative" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/error.png" alt=""></a>
+                if ($metodo['estado'] != 'pendiente') {
+                    echo '<td>'. htmlspecialchars(ucfirst($metodo['estado'])) . '</td>';
+                }else{
+                    echo '<td>
+                        <a class="vef_pago" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/vef.png" alt=""></a>
+                        <a class="reject_pago" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/error.png" alt=""></a>
                       </td>';
-                echo '</tr>';
+                }
             }
         }
         ?>
@@ -108,6 +111,7 @@
     <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/index.js"></script>
     <script src="/FutbolClub/assets/js/edit_representative.js"></script>
+        <script src="/FutbolClub/assets/js/paymentadmin.js"></script>
     <script src="/FutbolClub/assets/js/toastr.min.js"></script>
 </body>
 </html>

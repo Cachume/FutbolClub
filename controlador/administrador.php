@@ -895,5 +895,40 @@ class administrador extends vistas{
             return $password;
         }
 
+        public function verificarpago(){
+            header('Content-Type: application/json');
+            if(isset($_GET['id']) && !empty($_GET['id'])){
+                $id = $_GET['id'];
+                $existe = adminModel::getpaymentDetails(intval($id));
+                if($existe) {
+                    adminModel::editpayment($id, 'verificado');
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
+                }
+            } else {
+                echo json_encode(["message" => false, "error" => "ID no proporcionado"]);
+            }
+        }
+
+        public function rechazarpago(){
+            header('Content-Type: application/json');
+            if(isset($_GET['id']) && !empty($_GET['id'])){
+                $id = $_GET['id'];
+                $existe = adminModel::getpaymentDetails(intval($id));
+                if($existe) {
+                    if(!adminModel::editpayment($id, 'rechazado')){
+                        echo json_encode(["message" => false, "error" => "Error al actualizar el estado del pago"]);
+                        return;
+                    }
+                    echo json_encode(["message" => true]);
+                } else {
+                    echo json_encode(["message" => false]);
+                }
+            } else {
+                echo json_encode(["message" => false, "error" => "ID no proporcionado"]);
+            }
+        }
+
 }
 ?>

@@ -534,5 +534,27 @@
         }
     }
 
+    public static function getpaymentDetails($id){
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT * FROM `pagos` WHERE id=:id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function editpayment($id, $estado){
+        try {
+            $stmt = Database::getDatabase()->prepare("UPDATE `pagos` SET `estado` = :estado WHERE `pagos`.`id` = :id");
+            $stmt->bindParam(":estado", $estado, PDO::PARAM_STR);
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            return $stmt->execute() ? "success" : "error";
+        } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
 }
 ?>
