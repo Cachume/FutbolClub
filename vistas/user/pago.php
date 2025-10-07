@@ -33,7 +33,10 @@
                     </tbody>
                 </table>
             </div>
-            <form class="form-pay" action="" method="post">
+            <form class="form-pay" action="/FutbolClub/usuario/pagarPost" method="post" enctype="multipart/form-data">
+                <input type="hidden" name="monto_pago" value="<?php echo htmlspecialchars($total); ?>">
+                <input type="hidden" name="descripcion_pago" value="Mensualidad Septiembre">
+                <input type="hidden" name="id_pago" value="<?php echo htmlspecialchars($this->pago); ?>">
                 <div class="method-payments">
                     <h2>¿Como desea Pagar?</h2>
                     <div class="method-payments-group">
@@ -101,8 +104,8 @@
                         </div>
                     </div>
                     <h3 id="titlepay" style="display:none;">Completa los datos del pago</h3>
-                    <form action="" method="post">
                         <div class="payment-data" id="payment-data">
+                            <input type="hidden" name="metodo_pago_hidden" id="metodo_pago_hidden">
                         <div class="form-group">
                             <label for="fecha_pago">Fecha del Pago:</label>
                             <input type="date" name="fecha_pago" id="fecha_pago" class="form-control" required>
@@ -120,7 +123,6 @@
                         <button type="submit" class="btn-submit">Enviar</button>
                         <button type="reset" class="btn-reset">Limpiar</button>
                     </div>
-                    </form>
                 </div>
             </form>
         </div>

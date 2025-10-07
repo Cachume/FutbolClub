@@ -67,6 +67,22 @@
             $stmt->execute();
             $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return !empty($result) ? $result : false;
-        } 
+        }
+
+        public static function guardarPago($metodo_pago, $fecha_pago, $monto_pago, $descripcion_pago, $representante_id, $comprobante_path, $referencia, $idPago = null) {
+            $stmt = Database::getDatabase()->prepare("
+                INSERT INTO pagos (metodo_pago, fecha_pago, monto, concepto, representante_id, foto, referencia, id_pago)
+                VALUES (:metodo_pago, :fecha_pago, :monto_pago, :descripcion_pago, :representante_id, :comprobante_path, :referencia, :id_pago)
+            ");
+            $stmt->bindParam(":metodo_pago", $metodo_pago, PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_pago", $fecha_pago, PDO::PARAM_STR);
+            $stmt->bindParam(":monto_pago", $monto_pago, PDO::PARAM_STR);
+            $stmt->bindParam(":descripcion_pago", $descripcion_pago, PDO::PARAM_STR);
+            $stmt->bindParam(":representante_id", $representante_id, PDO::PARAM_STR);
+            $stmt->bindParam(":comprobante_path", $comprobante_path, PDO::PARAM_STR);
+            $stmt->bindParam(":referencia", $referencia, PDO::PARAM_STR);
+            $stmt->bindParam(":id_pago", $idPago, PDO::PARAM_INT);
+            return $stmt->execute();
+        }
 
     }

@@ -1,6 +1,6 @@
 <?php
     require_once 'vistas/layout/user/header.php';
-    // var_dump($this->data);
+    //var_dump($this->data);
 ?>
 
     <section class="content-pays">
@@ -28,8 +28,13 @@
                                     <td><?php echo $metodo['nombre'] ?></td>
                                     <td><?php echo $metodo['descripcion'] ?></td>
                                     <td><?php echo $metodo['fecha_creacion'] ?></td>
-                                    <td><?php echo $value = ($metodo['fecha_creacion']) ? "Sin Pagar" : $metodo['fecha_creacion'] ; ?></td>
-                                    <td><a href="/FutbolClub/usuario/pago/<?php echo $metodo['pago_id'];?>">Pagar</a></td>
+                                    <td><?php echo $value = ($metodo['estado']) ? $metodo['estado'] : "Sin Pagar" ; ?></td>
+                                    <?php
+                                        if(!$metodo['estado']) {
+                                            echo '<td><a href="/FutbolClub/usuario/pago/'.$metodo['pago_id'].'">Pagar</a></td>';
+                                        }
+                                    ?>
+                                    
                                 </tr>
 
 

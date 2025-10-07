@@ -1,4 +1,6 @@
-
+<?php
+    // var_dump($this->data);
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -22,10 +24,11 @@
             <table class="player-table" id="player-table">
                 <thead>
                     <tr>
-                        <th>Nombre</th>
-                        <th>Descripcion</th>
+                        <th>Representante</th>
+                        <th>Fecha</th>
                         <th>Monto</th>
-                        <th>Cant Pagos</th>
+                        <th>Metodo</th>
+                        <th>Comprobante</th>
                         <th>Acciones</th>
                     </tr>
                 </thead>
@@ -36,13 +39,14 @@
         } else {
             foreach ($this->data as $metodo) {
                 echo '<tr>';
-                echo '<td><a href="/FutbolClub/administrador/pagos_lista/' . htmlspecialchars($metodo['id']) . '">' . htmlspecialchars($metodo['nombre']) . '</a></td>';
-                echo '<td>' . htmlspecialchars($metodo['descripcion']) . '</td>';
-                echo '<td>$' . htmlspecialchars($metodo['monto']) . '</td>';
-                echo '<td>' . "23" . '</td>';
+                echo '<td>' . htmlspecialchars($metodo['nombre_completo']) . '</td>';
+                echo '<td>' . htmlspecialchars($metodo['fecha_pago']) . '</td>';
+                echo '<td>' . htmlspecialchars($metodo['monto']) . '</td>';
+                echo '<td>' . htmlspecialchars($metodo['metodo_pago']) . '</td>';
+                echo '<td><a data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
                 echo '<td>
-                        <a class="edit-representative" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/editar.png" alt=""></a>
-                        <a class="delete-representative" data-id="' . htmlspecialchars($metodo['id']) . '" data-name="' . htmlspecialchars($metodo['nombre']) . '"><img src="/FutbolClub/assets/img/papelera.png" alt=""></a>
+                        <a class="edit-representative" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/vef.png" alt=""></a>
+                        <a class="delete-representative" data-id="' . htmlspecialchars($metodo['id']) . '"><img src="/FutbolClub/assets/img/error.png" alt=""></a>
                       </td>';
                 echo '</tr>';
             }

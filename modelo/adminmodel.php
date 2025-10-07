@@ -523,5 +523,16 @@
         }
     }
 
+    public static function getpaymentbyId($id){
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT p.*, r.nombre_completo  FROM pagos p JOIN representantes r ON r.cedula = p.representante_id JOIN lista_pagos lp on p.id_pago= lp.id WHERE p.id_pago=:id");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
 }
 ?>

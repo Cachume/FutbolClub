@@ -5,6 +5,7 @@ const formButtons = document.getElementById("form-buttons");
   select.addEventListener("change", function () {
     metodos.forEach(m => m.style.display = "none");
     if (this.value) {
+      document.getElementById("metodo_pago_hidden").value = this.value;
       const seleccionados = document.querySelectorAll("." + this.value);
       seleccionados.forEach(m => m.style.display = "flex");
     }

@@ -60,6 +60,14 @@ class administrador extends vistas{
         }
 
         public function pagos_lista(){
+            $url = $_GET['url'] ?? 'login';
+            $partes= explode('/', trim($url));
+            $id = (isset($partes[2]) && is_numeric($partes[2])) ? intval($partes[2]) : null;
+            if(is_int($id)){
+                $this->data = adminModel::getpaymentbyId($id);
+                $this->vistan('administrador/pago_detalles');
+                return;
+            }
             $this->data = adminModel::getPagos();
             $this->vistan('administrador/lista_pagos');
         }
