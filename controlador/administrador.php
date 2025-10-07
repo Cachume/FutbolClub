@@ -73,8 +73,6 @@ class administrador extends vistas{
         }
 
         public function nuevopago(){
-            print_r($_POST);
-            echo "<br>";
             if( isset($_POST['nombrepago']) || 
                 isset($_POST['descripcion']) || 
                 isset($_POST['montopago']) ||
@@ -89,9 +87,7 @@ class administrador extends vistas{
                         'categorias'=> $_POST['categorias']
                     ];
                     $pagodb = adminModel::createPago($data);
-                    echo "<br>";
-                    echo "<br>";
-                    var_dump($pagodb);
+                    header("Location:/FutbolClub/administrador/pagos_lista");
                 }
         }
 

@@ -28,6 +28,12 @@
             $this->vistan('user/misjugadores_pagos');
         }
 
+        public function historial(){
+            $rep_id = $_SESSION["cedula"];
+            $this->data = userModel::getMyPaymentsHistory($rep_id);
+            $this->vistan('user/misjugadores_pagoshistorial');
+        }
+
         public function pagarPost(){
             print_r($_POST);
             print_r($_FILES);

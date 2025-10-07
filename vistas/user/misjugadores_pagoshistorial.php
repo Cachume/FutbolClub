@@ -5,7 +5,7 @@
 
     <section class="content-pays">
             <header class="pays-header">
-                <h2>Pagos Pendientes</h2>
+                <h2>Historial de Pagos</h2>
             </header>
             <table class="player-table" id="player-table">
                 <thead>

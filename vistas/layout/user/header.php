@@ -36,7 +36,7 @@
                     </a>
                     <ul class="submenu">
                         <li class="submenu-item"><a href="/FutbolClub/usuario/pagar" class="menu-link">Pendientes</a></li>
-                        <li class="submenu-item"><a href="/FutbolClub/administrador/listajugadores" class="menu-link">Historial</a></li>
+                        <li class="submenu-item"><a href="/FutbolClub/usuario/historial" class="menu-link">Historial</a></li>
                     </ul>
                 </li>
                 <li class="menu-static">

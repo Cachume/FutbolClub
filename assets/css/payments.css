@@ -29,6 +29,7 @@
     display: flex;
     width: 300px;
     gap: 30px;
+        flex-wrap: wrap;
 }
 
 .new_payment_buttons{

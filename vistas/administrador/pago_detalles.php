@@ -43,7 +43,7 @@
                 echo '<td>' . htmlspecialchars($metodo['fecha_pago']) . '</td>';
                 echo '<td>' . htmlspecialchars($metodo['monto']) . '</td>';
                 echo '<td>' . htmlspecialchars($metodo['metodo_pago']) . '</td>';
-                echo '<td><a data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
+                echo '<td><a href="/FutbolClub/'.htmlspecialchars($metodo['foto']).'" data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
                 if ($metodo['estado'] != 'pendiente') {
                     echo '<td>'. htmlspecialchars(ucfirst($metodo['estado'])) . '</td>';
                 }else{
