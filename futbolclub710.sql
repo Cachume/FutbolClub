@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-09-2025 a las 00:17:26
+-- Tiempo de generación: 08-10-2025 a las 05:33:31
 -- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
+-- Versión de PHP: 8.0.30
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,11 +40,13 @@ CREATE TABLE `categorias` (
 --
 
 INSERT INTO `categorias` (`id`, `nombre_categoria`, `periodo`, `entrenador_id`, `horario`) VALUES
-(17, 'Sub-15', '2018-2019', 3, '1233123123123'),
-(18, 'Sub-15', '2014-2015', 3, '1233123123123'),
-(21, 'asdasd', '2020-2021', 2, 'asdasdasd'),
-(25, 'fgdfgfd', '2016-2017', 6, 'sdfsdfsdf'),
-(26, 'Cositas', '2014-2015', 6, 'asdasdasd');
+(2, 'Sub-5', '2020-2021', 2, '4:00PM-5:00PM'),
+(3, 'Sub-7', '2018-2019', 3, '4:00PM-5:00PM'),
+(4, 'Sub-9', '2016-2017', 4, '4:00PM-5:00PM'),
+(5, 'Sub-11', '2014-2015', 4, '2:00PM-5:00PM'),
+(6, 'Sub-13', '2012-2013', 5, '2:00PM-3:30PM'),
+(7, 'Sub-17', '2008-2009', 7, '5:00PM-6:30PM'),
+(8, 'Sub-15', '2011-2010', 6, '3:30PM-5:00PM');
 
 -- --------------------------------------------------------
 
@@ -68,9 +70,12 @@ CREATE TABLE `entrenadores` (
 --
 
 INSERT INTO `entrenadores` (`id`, `nombre_completo`, `cedula`, `telefono`, `correo`, `fecha_nacimiento`, `direccion`, `foto`) VALUES
-(1, 'Carlos Mendoza', '30506910', '04145556677', 'albertq703@gmail.com', '2003-08-13', 'asdasd', ''),
-(4, 'Ana Torres', '45678901', '04149887766', 'ana.torres@example.com', '2000-08-16', 'asd', ''),
-(6, 'Albert', '3506911', '04145099039', 'albertq790@gmail.com', '2003-08-12', 'Barinitas', 'entrenador_3506911.jpg');
+(2, 'Keninzon Rivas', '10000000', '04140000000', 'Kennizon@gmail.com', '2000-02-25', '', 'entrenador_10000000.jpg'),
+(3, 'Alexain Sanchez', '10000001', '04140000000', 'Alexainasd@gmail.com', '2000-02-22', '', 'entrenador_10000001.jpg'),
+(4, 'Luis Rivas', '10000002', '04140000000', 'luisrivas@gmail.com', '2002-02-22', '', 'entrenador_10000002.jpg'),
+(5, 'Julio Querales', '10000003', '04140000000', 'Julioq@gmail.com', '2002-02-22', '', 'entrenador_10000003.jpg'),
+(6, 'Rafael Osorio', '10000004', '04140000000', 'RafaelO@gmail.com', '2002-02-22', '', 'entrenador_10000004.jpg'),
+(7, 'Herman Hidalgo', '10000005', '04140000000', 'Herman@gmail.com', '2002-02-22', '', 'entrenador_10000005.jpg');
 
 -- --------------------------------------------------------
 
@@ -90,16 +95,64 @@ CREATE TABLE `jugadores` (
   `foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+-- --------------------------------------------------------
+
 --
--- Volcado de datos para la tabla `jugadores`
+-- Estructura de tabla para la tabla `lista_pagos`
 --
 
-INSERT INTO `jugadores` (`cedula`, `nombres`, `apellidos`, `fecha_nacimiento`, `genero`, `categoria`, `nombre_camiseta`, `cedula_representante`, `foto`) VALUES
-(4568971, 'asdasd', 'asdasda', '2008-08-13', 'M', 'Sub-17', 'asdasdasd', 17988392, 'uploads/jugadores/jugador_4568971.jpg'),
-(15203689, 'asdasdas', 'asdasdasd', '2015-02-11', 'M', 'Sub-11', 'asdasdasdasd', 30506910, 'uploads/jugadores/jugador_15203689.jpg'),
-(17988392, 'Albert', 'Mleoasd', '2015-08-13', 'M', 'Sub-11', 'asdasdasd', 30506910, 'uploads/jugadores/jugador_17988392.jpg'),
-(30506910, 'Albert Josue', 'Quintero Colina', '2008-08-13', 'M', 'Sub-17', 'Cachume', 17988392, 'uploads/jugadores/jugador_30506910.jpg'),
-(30666564, 'Jose', 'Moreno', '2016-05-12', 'M', 'Sub-9', 'Jose', 19620259, 'uploads/jugadores/jugador_30666564.jpg');
+CREATE TABLE `lista_pagos` (
+  `id` int(11) NOT NULL,
+  `nombre` text NOT NULL,
+  `descripcion` text NOT NULL,
+  `monto` decimal(10,0) NOT NULL,
+  `fecha_creacion` date NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `metodos_pago`
+--
+
+CREATE TABLE `metodos_pago` (
+  `id` int(11) NOT NULL,
+  `metodo_pago` varchar(30) NOT NULL,
+  `titular` varchar(100) NOT NULL,
+  `numero_cuenta` varchar(50) NOT NULL,
+  `banco` varchar(100) DEFAULT NULL,
+  `detalles` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pagos`
+--
+
+CREATE TABLE `pagos` (
+  `id` int(11) NOT NULL,
+  `id_pago` int(11) NOT NULL,
+  `representante_id` int(11) NOT NULL,
+  `monto` decimal(10,2) NOT NULL,
+  `fecha_pago` date NOT NULL,
+  `estado` enum('pendiente','verificado','rechazado') DEFAULT 'pendiente',
+  `metodo_pago` varchar(50) DEFAULT NULL,
+  `referencia` varchar(100) DEFAULT NULL,
+  `concepto` varchar(100) NOT NULL,
+  `foto` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `pago_categoria`
+--
+
+CREATE TABLE `pago_categoria` (
+  `id_pago` int(11) NOT NULL,
+  `id_categoria` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -119,14 +172,6 @@ CREATE TABLE `representantes` (
   `id_usuario` int(11) DEFAULT NULL,
   `passwordp` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `representantes`
---
-
-INSERT INTO `representantes` (`id`, `nombre_completo`, `fecha_nacimiento`, `cedula`, `telefono`, `correo`, `direccion`, `foto`, `id_usuario`, `passwordp`) VALUES
-(2, 'Ana Carolina Colina Montoya', '2003-08-13', '17988392', '04245333833', 'ana23@gmail.com', 'Hola2222', 'uploads/representantes/representante_17988392.jpg', NULL, ''),
-(16, 'Albert Josue Quintero Colina', '2003-08-13', '30506910', '04145099039', 'albertq703@gmail.com', '', 'uploads/representantes/representante_30506910.jpg', NULL, '$2y$10$QCTUXlMHo7QXZq5zW5bQ7ugpFkYKIqS0FAcxKlLpjBvH8h1NalT4.');
 
 -- --------------------------------------------------------
 
@@ -174,6 +219,24 @@ ALTER TABLE `jugadores`
   ADD PRIMARY KEY (`cedula`);
 
 --
+-- Indices de la tabla `lista_pagos`
+--
+ALTER TABLE `lista_pagos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indices de la tabla `representantes`
 --
 ALTER TABLE `representantes`
@@ -196,7 +259,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `categorias`
 --
 ALTER TABLE `categorias`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de la tabla `entrenadores`
@@ -205,26 +268,34 @@ ALTER TABLE `entrenadores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `lista_pagos`
+--
+ALTER TABLE `lista_pagos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `metodos_pago`
+--
+ALTER TABLE `metodos_pago`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `pagos`
+--
+ALTER TABLE `pagos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `representantes`
---
-ALTER TABLE `representantes`
-  ADD CONSTRAINT `representantes_ibfk_1` FOREIGN KEY (`id_usuario`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

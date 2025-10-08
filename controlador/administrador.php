@@ -859,7 +859,7 @@ class administrador extends vistas{
                 $mail->Host       = 'smtp.gmail.com';
                 $mail->SMTPAuth   = true;
                 $mail->Username   = 'aguadulceclub9@gmail.com';
-                $mail->Password   = 'fkjjjxmcsmfmbean';
+                $mail->Password   = 'mzqmszcucnvwkkkn';
                 $mail->SMTPSecure = 'tls';
                 $mail->Port       = 587;
                 $mail->isHTML(true);
