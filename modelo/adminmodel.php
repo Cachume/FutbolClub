@@ -61,7 +61,37 @@
     }
 }
 
-
+    
+    public static function jugadoresestadistica(){
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos, j.cedula, j.genero, c.nombre_categoria FROM jugadores j JOIN categorias c ON c.id=j.categoria");
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
+    public static function estadisticaGeneros() {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT genero, COUNT(*) as cantidad FROM jugadores GROUP BY genero;");
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
+    public static function estadisticaCategorias() {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT c.nombre_categoria, COUNT(*) as cantidad FROM jugadores j JOIN categorias c ON c.id = j.categoria GROUP BY j.categoria");
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
     public static function getAllPlayers() {
         try {
             $stmt = Database::getDatabase()->prepare("SELECT j.*, c.nombre_categoria FROM jugadores j JOIN categorias c ON j.categoria = c.id ORDER BY j.apellidos, j.nombres");

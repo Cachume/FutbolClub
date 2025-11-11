@@ -537,3 +537,23 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
+.estadisticas{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0px 00px 0px;
+}
+
+.estadisticas-items{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+
+.estadistica-item{
+    max-width: 300px;
+    margin-left: 40px;
+}

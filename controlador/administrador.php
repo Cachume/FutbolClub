@@ -3,6 +3,7 @@ require_once "modelo/adminmodel.php";
 require_once __DIR__ . "/../validations/generalValidations.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
+use Dompdf\Dompdf;
 require 'vendor/autoload.php';    
 
 class administrador extends vistas{
@@ -20,10 +21,36 @@ class administrador extends vistas{
                 exit();
             }
         }
+
         public function load(){
+            $this->data=adminModel::estadisticaGeneros();
+            $generos = adminModel::estadisticaGeneros();
+            $chartGeneros = [
+                'labels' => [],
+                'data' => []
+            ];
+            foreach ($generos as $fila) {
+                $chartGeneros['labels'][] = $fila['genero'] === 'F' ? 'Femenino' : 'Masculino';
+                $chartGeneros['data'][] = (int)$fila['cantidad'];
+            }
+
+            $categorias = adminModel::estadisticaCategorias();
+            $chartCategorias = [
+                'labels' => [],
+                'data' => []
+            ];
+            foreach ($categorias as $fila) {
+                $chartCategorias['labels'][] = $fila['nombre_categoria'];
+                $chartCategorias['data'][] = (int)$fila['cantidad'];
+            }
+
+            $this->data = [
+                'chartGeneros' => $chartGeneros,
+                'chartCategorias' => $chartCategorias
+            ];
             $this->vistan('administrador/index');
-            // echo loginModel::createAdmin();
         }
+        
         public function nuevojugador(){
             if(isset($_SESSION["cedular"])){
                 $this->vistan('administrador/players_new');
@@ -44,6 +71,20 @@ class administrador extends vistas{
 
         public function new_representantes(){
             $this->vistan('administrador/representative_new');
+        }
+
+        public function reporte(){
+            $this->jugadores = adminModel::jugadoresestadistica();
+            ob_start();
+            include './vistas/administrador/informe.php';
+            $html = ob_get_clean();
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+            $dompdf->stream("reporte_jugadores.pdf", ["Attachment" => false]);
+
+            // $this->vistan('administrador/informe');
         }
 
         public function verificacionjugador(){

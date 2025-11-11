@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 08-10-2025 a las 05:33:31
+-- Tiempo de generación: 11-11-2025 a las 14:14:39
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -95,6 +95,15 @@ CREATE TABLE `jugadores` (
   `foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `jugadores`
+--
+
+INSERT INTO `jugadores` (`cedula`, `nombres`, `apellidos`, `fecha_nacimiento`, `genero`, `categoria`, `nombre_camiseta`, `cedula_representante`, `foto`) VALUES
+(20159753, 'Albert', 'Quinterito', '2020-08-13', 'M', '2', 'asdasdasd', 30506910, 'uploads/jugadores/jugador_20159753.jpg'),
+(25123741, 'ASASAS', 'QQQQQQ', '2020-08-13', 'F', '2', 'ASDAD', 30506910, 'uploads/jugadores/jugador_25123741.jpg'),
+(30506910, 'Albert', 'Quintero', '2010-08-13', 'M', '3', 'asdasdasdasd', 30194545, 'uploads/jugadores/jugador_30506910.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -108,6 +117,16 @@ CREATE TABLE `lista_pagos` (
   `monto` decimal(10,0) NOT NULL,
   `fecha_creacion` date NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `lista_pagos`
+--
+
+INSERT INTO `lista_pagos` (`id`, `nombre`, `descripcion`, `monto`, `fecha_creacion`) VALUES
+(1, 'asd', '123', 123, '2025-09-29'),
+(2, 'Mensualidad Octubre 2025', 'Mensaulidad', 20, '2025-10-05'),
+(3, 'sfdsfdsdf', 'asdasdasd', 200, '2025-10-06'),
+(4, 'Mensualidad Diciembre', 'Uniformes y Otros', 20, '2025-10-07');
 
 -- --------------------------------------------------------
 
@@ -143,6 +162,14 @@ CREATE TABLE `pagos` (
   `foto` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Volcado de datos para la tabla `pagos`
+--
+
+INSERT INTO `pagos` (`id`, `id_pago`, `representante_id`, `monto`, `fecha_pago`, `estado`, `metodo_pago`, `referencia`, `concepto`, `foto`) VALUES
+(3, 2, 30506910, 20.00, '2025-10-06', 'verificado', 'pago_movil', '1238123321684312', 'Mensualidad Septiembre', 'uploads/pagos/pagomovil.jpg'),
+(4, 3, 30506910, 200.00, '2003-08-13', 'verificado', 'pago_movil', '1452111212348126', 'Mensualidad Septiembre', 'uploads/pagos/pagomovil.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -153,6 +180,34 @@ CREATE TABLE `pago_categoria` (
   `id_pago` int(11) NOT NULL,
   `id_categoria` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `pago_categoria`
+--
+
+INSERT INTO `pago_categoria` (`id_pago`, `id_categoria`) VALUES
+(1, 1),
+(2, 2),
+(2, 3),
+(2, 4),
+(2, 5),
+(2, 6),
+(2, 7),
+(2, 8),
+(3, 2),
+(3, 3),
+(3, 4),
+(3, 5),
+(3, 6),
+(3, 7),
+(3, 8),
+(4, 2),
+(4, 3),
+(4, 4),
+(4, 5),
+(4, 6),
+(4, 7),
+(4, 8);
 
 -- --------------------------------------------------------
 
@@ -172,6 +227,18 @@ CREATE TABLE `representantes` (
   `id_usuario` int(11) DEFAULT NULL,
   `passwordp` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `representantes`
+--
+
+INSERT INTO `representantes` (`id`, `nombre_completo`, `fecha_nacimiento`, `cedula`, `telefono`, `correo`, `direccion`, `foto`, `id_usuario`, `passwordp`) VALUES
+(1, 'Diemar Santiago', '2003-08-13', '30194545', '04245333833', 'diemarsantiago2003@gmail.com', '', 'uploads/representantes/representante_30194545.jpg', NULL, '$2y$10$AOUG/VDuFKY20GFpMjFuOOzNNHL04AIIDVGWCx15JY9mgW5r2CXaW'),
+(4, 'asdasdasd asdad', '2000-08-13', '30506916', '04145099039', 'pyduos@gmail.com', '2', 'uploads/representantes/representante_30506910.jpg', NULL, '$2y$10$jB0i3w2lMUIxcdVb84VeWOGXM9bzyIUnqTuy0IPYij.GylppmnB1m'),
+(5, 'Albert Quintero', '2003-08-13', '30506912', '04145099039', 'pyduos@gmail.com', '', 'uploads/representantes/representante_30506912.jpg', NULL, '$2y$10$S70cRWey0oOxC3an0qjHc.BJKXPOSsQBqNwdLAmC1H2/O3hxiAtd.'),
+(7, 'Albert Quintero', '2003-08-13', '17988392', '04145099039', 'albertq7033@gmail.com', 'd', 'uploads/representantes/representante_17988392.jpg', NULL, '$2y$10$8B7raEa2pgFjOUdax53fn.l04r0Y5KJNW9gHx02jvyMcani9Yg06e'),
+(8, 'Albert Quintero', '2003-08-13', '11374377', '04145099033', 'albertq70322@gmail.com', 'asd', 'uploads/representantes/representante_11374377.jpg', NULL, '$2y$10$7ZUzYBTcIi5.8JfnNxOIyeEwHbMARAacVW7TcT0hjjj/brwUaYyXy'),
+(9, 'Albert Quintero', '1997-12-31', '30506910', '04145099039', 'albertq703@gmail.com', '1', 'uploads/representantes/representante_17988392.jpg', NULL, '$2y$10$1gFvreqwRZ6.I5dEOqdZgOEUHEMulxauif7kP9aIRVAQSsLrXYiMG');
 
 -- --------------------------------------------------------
 
@@ -271,7 +338,7 @@ ALTER TABLE `entrenadores`
 -- AUTO_INCREMENT de la tabla `lista_pagos`
 --
 ALTER TABLE `lista_pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `metodos_pago`
@@ -283,13 +350,13 @@ ALTER TABLE `metodos_pago`
 -- AUTO_INCREMENT de la tabla `pagos`
 --
 ALTER TABLE `pagos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de la tabla `usuarios`
