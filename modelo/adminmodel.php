@@ -7,12 +7,13 @@
         try {
             $stmt = Database::getDatabase()->prepare("
                 INSERT INTO jugadores 
-                (cedula, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
+                (cedula,partida_nacimiento, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
                 VALUES 
-                (:cedula, :nombres, :apellidos, :fecha_nacimiento, :genero, :categoria, :nombre_camiseta, :cedula_representante, :foto)
+                (:cedula,:partida_nacimiento ,:nombres, :apellidos, :fecha_nacimiento, :genero, :categoria, :nombre_camiseta, :cedula_representante, :foto)
             ");
 
             $stmt->bindParam(":cedula", $datos['cedula'], PDO::PARAM_INT);
+            $stmt->bindParam(":partida_nacimiento", $datos['partida_nacimiento'], PDO::PARAM_INT);
             $stmt->bindParam(":nombres", $datos['nombres'], PDO::PARAM_STR);
             $stmt->bindParam(":apellidos", $datos['apellidos'], PDO::PARAM_STR);
             $stmt->bindParam(":fecha_nacimiento", $datos['fecha_nacimiento'], PDO::PARAM_STR);

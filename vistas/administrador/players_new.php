@@ -38,8 +38,16 @@
                 </div>
                 <div class="np-form-data">
                     <div class="np-form-group">
+                        <label for="player-name">Fecha de Nacimiento:</label>
+                        <input type="date" id="player-birthdate" name="player-birthdate" required>
+                    </div>
+                    <div class="np-form-group player-dni" style="display: none;">
                         <label for="player-name">Cedula:</label>
                         <input type="number" id="player-dni" name="player-dni" placeholder="Cedula de Identidad" required>
+                    </div>
+                    <div class="np-form-group player-pn"style="display: none;">
+                        <label for="player-name">Numero de Partida de Nacimiento:</label>
+                        <input type="number" id="player-pn" name="player-pn" placeholder="23424" required>
                     </div>
                     <div class="np-form-group">
                         <label for="player-name">Cedula del Representante:</label>
@@ -52,10 +60,6 @@
                     <div class="np-form-group">
                         <label for="player-name">Apellidos:</label>
                         <input type="text" id="player-name" name="player-lastname" placeholder="Apellido Completo" required>
-                    </div>
-                    <div class="np-form-group">
-                        <label for="player-name">Fecha de Nacimiento:</label>
-                        <input type="date" id="player-birthdate" name="player-birthdate" required>
                     </div>
                     <div class="np-form-group">
                         <label for="player-name">Genero:</label>
@@ -99,7 +103,7 @@
             categoriaField.value = categoria;
         });
     </script>
-
+    <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/index.js"></script>
     <script src="/FutbolClub/assets/js/players.js"></script>
 </body>

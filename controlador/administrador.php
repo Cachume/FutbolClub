@@ -86,7 +86,6 @@ class administrador extends vistas{
 
             // $this->vistan('administrador/informe');
         }
-
         public function verificacionjugador(){
             $this->vistan('administrador/player_verification');
         }
@@ -534,6 +533,7 @@ class administrador extends vistas{
         $errores = [];
         $datos = $_POST;
         $archivo = $_FILES;
+        echo json_encode($datos);
 
         // Función para calcular la categoría automáticamente
         function determinarCategoria($birthYear) {
@@ -546,10 +546,27 @@ class administrador extends vistas{
             if ($birthYear >= 2008 && $birthYear <= 2009) return "Sub-17";
             return "Sin categoría";
         }
+        if (empty($datos['player-dni']) && empty($datos['player-pn'])) {
+            $errores[] = "Debe ingresar la Cédula de Identidad o el número de Partida de Nacimiento.";
+        }
 
-        // --- Validaciones básicas ---
-        if (empty($datos['player-dni']) || !is_numeric($datos['player-dni'])) {
-            $errores[] = "La cédula del jugador es inválida.";
+        if (!empty($datos['player-dni']) && !empty($datos['player-pn'])) {
+            $errores[] = "Error interno: Solo debe enviar un tipo de identificación (Cédula o Partida), no ambos.";
+        }
+
+        if (!empty($datos['player-dni'])) {
+            $datos['player-dni'] = trim($datos['player-dni']);
+            if (!ctype_digit($datos['player-dni']) || strlen($datos['player-dni']) < 7 || strlen($datos['player-dni']) > 8) {
+                $errores[] = "La Cédula de Identidad debe contener solo números y tener entre 7 y 8 dígitos.";
+            } 
+        }elseif (!empty($datos['player-pn'])) {      
+            $datos['player-pn'] = trim($datos['player-pn']);
+            if (strlen($datos['player-pn']) < 3 || strlen($datos['player-pn']) > 4) {
+                $errores[] = "El número de Partida de Nacimiento debe tener entre 3 y 4 caracteres.";
+            }
+            
+            // Sanitización (Mantener)
+            $datos['player-pn'] = htmlspecialchars($datos['player-pn']);
         }
 
         if (empty($datos['player-name']) || !preg_match('/^[a-zA-ZÁÉÍÓÚáéíóúÑñ\s]+$/', $datos['player-name'])) {
@@ -605,7 +622,7 @@ class administrador extends vistas{
 
             if (empty($errores)) {
                 $ext = pathinfo($archivo['player-image']['name'], PATHINFO_EXTENSION);
-                $nombreArchivo = 'jugador_' . $datos['player-dni'] . '.' . $ext;
+                $nombreArchivo = 'jugador_' . $datos['player-lastname'] . '.' . $ext;
                 $directorio = 'uploads/jugadores/';
 
                 if (!is_dir($directorio)) {
@@ -625,8 +642,16 @@ class administrador extends vistas{
 
     if (empty($errores)) {
         $playerYear = explode("-",$datos['player-birthdate']);
+        $cedula = null;
+        $partidaNacimiento = null;
+        if (!empty($datos['player-dni'])) {
+            $cedula = intval($datos['player-dni']);
+        } elseif (!empty($datos['player-pn'])) {
+            $partidaNacimiento = $datos['player-pn'];
+        }
         $playerData = [
-            'cedula' => intval($datos['player-dni']),
+            'cedula' => $cedula,
+            'partida_nacimiento' => $partidaNacimiento,
             'nombres' => trim($datos['player-name']),
             'apellidos' => trim($datos['player-lastname']),
             'fecha_nacimiento' => date('Y-m-d', strtotime($datos['player-birthdate'])),
@@ -656,16 +681,18 @@ class administrador extends vistas{
                     </div>
                 </div>';
 
-        $resultao = adminModel::createPlayer($playerData);
+        $resultado = adminModel::createPlayer($playerData);
         $resultado_representante = adminModel::getRepresentativeByCedula($playerData['cedula_representante']);
-        if ($resultao === "success") {
+        if ($resultado === "success") {
             if (isset($_SESSION['cedular'])) {
                 unset($_SESSION['cedular']);
             }
             $this->sendMail($resultado_representante['correo'], 'Registro en Futbol Club - Nuevo Jugador', $mail_body);
-            header("Location:/FutbolClub/administrador/listajugadores");
+            $_SESSION['toast_type'] = 'success';
+            $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
+            header("Location:/FutbolClub/administrador/listajugadores?reg=true");
         } else {
-            $errores[] = "Error al registrar el jugador: " . $resultao;
+            $errores[] = "Error al registrar el jugador: " . $resultado;
             $this->erroresf = $errores;
         }
     } else {
