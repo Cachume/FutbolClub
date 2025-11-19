@@ -57,10 +57,10 @@ $(document).ready(function() {
         success: function (response) {
             console.log(response);
             if(response['message']){
-                alert("Categoria eliminada correctamente ✅");
+                alert("Categoria eliminada correctamente ");
                 window.location.href = "/FutbolClub/administrador/categorias?success=" + encodeURIComponent(response.message);
             }else {
-                alert("Error al eliminar la categoria ❌");
+                alert("Error al eliminar la categoria ");
                 window.location.href = "/FutbolClub/administrador/categorias?error=" + encodeURIComponent(response.message);
             }
         },

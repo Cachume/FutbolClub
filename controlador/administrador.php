@@ -63,6 +63,11 @@ class administrador extends vistas{
             $this->jugadores = adminModel::getAllPlayers();
             $this->vistan('administrador/players_list');
         }
+
+        public function carnet(){
+            $this->jugadores = adminModel::getplayercarnet(1);
+            $this->vistan('administrador/reports/carnet');
+        }
         public function representantes_lista(){
             $this->jugadores = adminModel::getAllRepresentatives();
             // var_dump($this->jugadores); 
@@ -73,8 +78,25 @@ class administrador extends vistas{
             $this->vistan('administrador/representative_new');
         }
 
+        //Funciones de los partidos
         public function partidos(){
+            $this->categoria= adminModel::getCategorys();
+            $this->data = adminModel::partidos();
             $this->vistan('administrador/partidos');
+        }
+
+        public function crearpartido(){
+            header('Content-Type: application/json');
+            $nombre = $_POST['nombre_partido'];
+            $descripcion = $_POST['descripcion_partido'];
+            $fecha = $_POST['fecha_partido'];
+            $categorias= $_POST['categorias'];
+            $partido= adminModel::nuevopartido($nombre,$descripcion,$fecha,$categorias);
+            if($partido){
+                echo json_encode(["success" => true]);
+            }else{
+                echo json_encode(["success" => false]);
+            }
         }
 
         public function reporte(){
@@ -687,14 +709,29 @@ class administrador extends vistas{
 
         $resultado = adminModel::createPlayer($playerData);
         $resultado_representante = adminModel::getRepresentativeByCedula($playerData['cedula_representante']);
-        if ($resultado === "success") {
+        if ($resultado['status'] === "success") {
             if (isset($_SESSION['cedular'])) {
                 unset($_SESSION['cedular']);
             }
-            $this->sendMail($resultado_representante['correo'], 'Registro en Futbol Club - Nuevo Jugador', $mail_body);
-            $_SESSION['toast_type'] = 'success';
-            $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
-            header("Location:/FutbolClub/administrador/listajugadores?reg=true");
+            //Generacion del carnet para enviar
+            $this->jugadores = adminModel::getplayercarnet($resultado['id']);
+            ob_start();
+            include './vistas/administrador/reports/carnet.php';
+            $html = ob_get_clean();
+            $dompdf = new Dompdf();
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $pdf_file_path = 'uploads/carnet_'. $playerData['nombres'].'.pdf';
+            $dompdf->render();
+            $pdfoutput= $dompdf->output();
+            file_put_contents($pdf_file_path,$pdfoutput);
+
+            // $this->sendMailarchive($resultado_representante['correo'], 
+            // 'Registro en Futbol Club - Nuevo Jugador', 
+            // $mail_body, "");
+            // $_SESSION['toast_type'] = 'success';
+            // $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
+            // header("Location:/FutbolClub/administrador/listajugadores?reg=true");
         } else {
             $errores[] = "Error al registrar el jugador: " . $resultado;
             $this->erroresf = $errores;
@@ -704,7 +741,7 @@ class administrador extends vistas{
         $this->vistan('administrador/players_new');
         echo "Errores al registrar el jugador:";
     }
-    }
+}
     
         public function addRepresentative() {
             $errores = [];
@@ -943,6 +980,37 @@ class administrador extends vistas{
                 $mail->addAddress($destinatario);
                 $mail->Subject = $asunto;
                 $mail->Body    = $cuerpo;
+
+                $mail->send();
+                return true;
+            } catch (Exception $e) {
+                return "Error al enviar el correo: {$mail->ErrorInfo}";
+            }
+        }
+
+        public function sendMailarchive($destinatario, $asunto, $cuerpo,$arc){
+
+            $mail = new PHPMailer(true);
+
+            try {
+                // Configuración SMTP
+                $mail->isSMTP();
+                $mail->Host       = 'smtp.gmail.com';
+                $mail->SMTPAuth   = true;
+                $mail->Username   = 'aguadulceclub9@gmail.com';
+                $mail->Password   = 'mzqmszcucnvwkkkn';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port       = 587;
+                $mail->isHTML(true);
+                $mail->CharSet = 'UTF-8';
+
+
+                // Datos del correo
+                $mail->setFrom('aguadulceclub9@gmail.com', 'Futbol Club | Agua Dulce');
+                $mail->addAddress($destinatario);
+                $mail->Subject = $asunto;
+                $mail->Body    = $cuerpo;
+                $mail->addAttachment($arc, 'archivoadjunto.pdf');
 
                 $mail->send();
                 return true;

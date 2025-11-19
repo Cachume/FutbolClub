@@ -11,16 +11,75 @@
     <?php include("vistas/layout/header.php") ?>
     <main class="index-main" id="index-main">
    <?php include('vistas/layout/session.php'); ?>
-    <div class="estadisticas">
-        <h2>Estadistica Jugadores</h2>
-    <div class="estadisticas-items">
-        <div class="estadistica-item">
-            <canvas id="playerChart"></canvas>
+   <div class="main-welcome">
+            <h3>Bienvenido Nuevamente, Adminstrador</h3>
+            <p>Aqui tienes las estadisticas actuales</p>
         </div>
-        <div class="estadistica-item">
-            <canvas id="categoriaChart"></canvas>
+        <div class="main-statistics">
+            <div class="statistics-card">
+                <div class="statistics-card-titles">
+                    <span class="statistics-card-number">23</span>
+                    <h5 class="statistics-card-title">Jugadores</h5>
+                </div>
+                <img src="/FutbolClub/assets/img/futbolista.png" alt="">
+            </div>
+            <div class="statistics-card">
+                <div class="statistics-card-titles">
+                    <span class="statistics-card-number">50</span>
+                    <h5 class="statistics-card-title">Representantes</h5>
+                </div>
+                <img src="/FutbolClub/assets/img/familia.png" alt="">
+            </div>
+            <div class="statistics-card">
+                <div class="statistics-card-titles">
+                    <span class="statistics-card-number">15</span>
+                    <h5 class="statistics-card-title">Entrenadores</h5>
+                </div>
+                <img src="/FutbolClub/assets/img/entrenadores.png" alt="">
+            </div>
         </div>
-    </div>
+    </div>    
+    <div class="main-data">
+        <div class="barras">
+            <div class="estadisticas">
+                <h2>Estadistica Jugadores</h2>
+                <div class="estadisticas-items">
+                    <div class="estadistica-item">
+                        <h4>Generos</h4><br>
+                        <canvas id="playerChart"></canvas>
+                    </div>
+                    <div class="estadistica-item">
+                        <h4>Categorias</h4><br>
+                        <canvas id="categoriaChart"></canvas>
+                    </div>
+                </div>
+            </div>    
+        </div>
+        <div class="top">
+            <h2>Top Jugadores</h2>
+            <table class="category-table">
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Categoria</th>
+                            <th>Posicion</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Diemar Santiago</td>
+                            <td>Sub-10</td>
+                            <td>1°</td>
+                        </tr>
+                        <tr>
+                            <td>Jose Moreno</td>
+                            <td>Sub-10</td>
+                            <td>2°</td>
+                        </tr>
+                    </tbody>
+                </table>
+        </div>
     </div>
     </main>
     <script>

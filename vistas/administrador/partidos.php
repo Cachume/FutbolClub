@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/FutbolClub/assets/css/index.css">
     <link rel="stylesheet" href="/FutbolClub/assets/css/players.css">
+    <link rel="stylesheet" href="/FutbolClub/assets/css/toastr.min.css">
     <title>Futbol Club | Panel Administrador</title>
 </head>
 <body>
@@ -34,15 +35,17 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($this->data as $dato ):?>
                         <tr>
-                            <td>Sub-23</td>
-                            <td>4:00pm - 5:00pm</td>
-                            <td>2014-2015</td>
+                            <td><?=$dato['NombrePartido'];?></td>
+                            <td><?=$dato['FechaPartido'];?></td>
+                            <td><?=$dato['CategoriasAplicables'];?></td>
                             <td>
-                                <a class="edit-button"><img src="../../assets/img/editar.png" alt=""></a>
-                                <a class="delete-button"><img src="../../assets/img/papelera.png" alt=""></a>
+                                <a class="edit-button">Completar</a>
+                                <!-- <a class="delete-button"><img src="../../assets/img/papelera.png" alt=""></a> -->
                             </td>
                         </tr>
+                        <?php endforeach;?>
                     </tbody>
                 </table>        
             </div>
@@ -50,7 +53,7 @@
     </main>
     <div class="modal-category">
         <div class="modal-bg"></div>
-        <form action="" method="post" class="modal-category-form">
+        <form  method="post" class="modal-category-form">
             <div class="modal-category-title">
                 <h2>Nuevo Partido</h2>
             </div>
@@ -76,42 +79,20 @@
                 <div class="modal-container-two">
                     <fieldset class="category-group">
                         <legend>Seleccionar Categorías Aplicables:</legend>    
-                        <div class="category-grid">                    
-                            <div class="category-item">
-                                <input type="checkbox" id="sub5" name="categorias[]" value="sub-5">
-                                <label for="sub5">Sub-5</label>
-                            </div>                    
-                            <div class="category-item">
-                                <input type="checkbox" id="sub7" name="categorias[]" value="sub-7">
-                                <label for="sub7">Sub-7</label>
-                            </div>                    
-                            <div class="category-item">
-                                <input type="checkbox" id="sub9" name="categorias[]" value="sub-9">
-                                <label for="sub9">Sub-9</label>
-                            </div>                  
-                            <div class="category-item">
-                                <input type="checkbox" id="sub11" name="categorias[]" value="sub-11">
-                                <label for="sub11">Sub-11</label>
-                            </div>                 
-                            <div class="category-item">
-                                <input type="checkbox" id="sub13" name="categorias[]" value="sub-13">
-                                <label for="sub13">Sub-13</label>
-                            </div>         
-                            <div class="category-item">
-                                <input type="checkbox" id="sub17" name="categorias[]" value="sub-17">
-                                <label for="sub17">Sub-17</label>
-                            </div>                  
-                            <div class="category-item">
-                                <input type="checkbox" id="sub15" name="categorias[]" value="sub-15">
-                                <label for="sub15">Sub-15</label>
-                            </div>
+                        <div class="category-grid">
+                            <?php foreach ($this->categoria as $dato ):?>
+                        <div class="category-item">
+                            <input type="checkbox" name="categorias[]" value="<?php echo $dato['id']?>" id="">
+                            <span><?php echo $dato['nombre_categoria']?></span>
+                        </div>
+                        <?php endforeach;?>               
                         </div>
                     </fieldset>
                 </div>
             </div>
             
             <div class="modal-category-buttons">
-                <button type="submit">Crear Partido</button>
+                <button type="submit" id="crearpartido">Crear Partido</button>
                 <button type="button" class="close-modal">Cerrar</button>
             </div>
         </form>
@@ -119,5 +100,7 @@
     <script src="/FutbolClub/assets/js/index.js"></script>
     <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/categoria.js"></script>
+    <script src="/FutbolClub/assets/js/partido.js"></script>
+    <script src="/FutbolClub/assets/js/toastr.min.js"></script>
 </body>
 </html>

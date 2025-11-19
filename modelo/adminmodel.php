@@ -4,8 +4,9 @@
     class adminModel extends Database
     {   
         public static function createPlayer($datos) {
+            $db = Database::getDatabase();
         try {
-            $stmt = Database::getDatabase()->prepare("
+            $stmt = $db->prepare("
                 INSERT INTO jugadores 
                 (cedula,partida_nacimiento, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
                 VALUES 
@@ -23,13 +24,24 @@
             $stmt->bindParam(":cedula_representante", $datos['cedula_representante'], PDO::PARAM_INT);
             $stmt->bindParam(":foto", $datos['foto'], PDO::PARAM_STR);
 
-            return $stmt->execute() ? "success" : "error";
+            $success = $stmt->execute();
 
+            if ($success) {
+                $lastId = $db->lastInsertId();
+                return [
+                    "status" => "success",
+                    "id" => $lastId
+                ];
+            }else{
+                return [
+                    "status" => "error",
+                    "message" => "Error al ejecutar la sentencia de inserción."
+                ];
+            }
         } catch (PDOException $e) {
             return "error: " . $e->getMessage();
         }
     }
-
     public static function createRepresentative($datos) {
     try {
         $stmt = Database::getDatabase()->prepare("
@@ -122,6 +134,23 @@
             $stmt->execute();
             $representante = $stmt->fetch(PDO::FETCH_ASSOC);
             return $representante ? $representante : null;
+        } catch (PDOException $e) {
+            return null;
+        }
+    }
+
+    public static function getplayercarnet($id) {
+        try {
+            $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos,j.nombre_camiseta,j.fecha_nacimiento,j.foto ,c.nombre_categoria, e.nombre_completo
+            FROM jugadores j 
+            JOIN categorias c ON j.categoria = c.id
+            LEFT JOIN entrenadores e ON e.id = c.entrenador_id
+            WHERE j.id=:id
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $jugador = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $jugador;
         } catch (PDOException $e) {
             return null;
         }
@@ -583,6 +612,56 @@
             $stmt->bindParam(":id", $id, PDO::PARAM_INT);
             return $stmt->execute() ? "success" : "error";
         } catch (PDOException $e) {
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    public static function partidos(){
+        try{
+            $stmt = Database::getDatabase()->prepare("
+                SELECT
+                    p.id,
+                    p.nombre AS NombrePartido,
+                    p.fecha_partido AS FechaPartido,
+                    GROUP_CONCAT(c.nombre_categoria ORDER BY c.nombre_categoria ASC SEPARATOR ', ') AS CategoriasAplicables
+                FROM partidos p
+                LEFT JOIN partido_categorias pc ON p.id = pc.id_partido
+                LEFT JOIN categorias c ON pc.id_categoria = c.id
+                GROUP BY p.id, p.nombre, p.fecha_partido
+                ORDER BY p.fecha_partido DESC;
+            ");
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }catch(PDOException $e){
+            return "error: " . $e->getMessage();
+        }
+    }
+
+    public static function nuevopartido($nombre,$descripcion,$fecha, array $categorias_in){
+        $stmt = Database::getDatabase();
+        try {
+            $stmt->beginTransaction();
+            $partido = $stmt->prepare("INSERT INTO partidos (nombre, descripcion, fecha_partido)
+                VALUES (:nombre,:descripcion,:fecha)");
+            $partido->bindParam(":nombre", $nombre, PDO::PARAM_STR);    
+            $partido->bindParam(":descripcion", $descripcion, PDO::PARAM_STR);    
+            $partido->bindParam(":fecha", $fecha, PDO::PARAM_STR);   
+            $partido->execute();
+            $id_partido = $stmt->lastInsertId(); 
+
+            $categorias = $stmt->prepare("INSERT INTO partido_categorias (id_partido, id_categoria)
+                VALUES (:partido, :categoria)");
+            foreach($categorias_in as $categoria){
+                $id_val = intval($categoria);
+                $categorias->bindParam(":partido", $id_partido, PDO::PARAM_INT); 
+                $categorias->bindParam(":categoria", $id_val, PDO::PARAM_INT);
+                $categorias->execute();
+            }
+            $stmt->commit();
+            return true;
+            
+        } catch (PDOException $e) {
+            $stmt->rollBack();
             return "error: " . $e->getMessage();
         }
     }
