@@ -714,24 +714,23 @@ class administrador extends vistas{
                 unset($_SESSION['cedular']);
             }
             //Generacion del carnet para enviar
-            $this->jugadores = adminModel::getplayercarnet($resultado['id']);
-            ob_start();
-            include './vistas/administrador/reports/carnet.php';
-            $html = ob_get_clean();
-            $dompdf = new Dompdf();
-            $dompdf->loadHtml($html);
-            $dompdf->setPaper('A4', 'portrait');
-            $pdf_file_path = 'uploads/carnet_'. $playerData['nombres'].'.pdf';
-            $dompdf->render();
-            $pdfoutput= $dompdf->output();
-            file_put_contents($pdf_file_path,$pdfoutput);
-
-            // $this->sendMailarchive($resultado_representante['correo'], 
-            // 'Registro en Futbol Club - Nuevo Jugador', 
-            // $mail_body, "");
-            // $_SESSION['toast_type'] = 'success';
-            // $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
-            // header("Location:/FutbolClub/administrador/listajugadores?reg=true");
+            // $this->jugadores = adminModel::getplayercarnet($resultado['id']);
+            // ob_start();
+            // include './vistas/administrador/reports/carnet.php';
+            // $html = ob_get_clean();
+            // $dompdf = new Dompdf();
+            // $dompdf->loadHtml($html);
+            // $dompdf->setPaper('A4', 'portrait');
+            // $pdf_file_path = 'uploads/carnet_'. $playerData['nombres'].'.pdf';
+            // $dompdf->render();
+            // $pdfoutput= $dompdf->output();
+            // file_put_contents($pdf_file_path,$pdfoutput);
+            $this->sendMailarchive($resultado_representante['correo'], 
+            'Registro en Futbol Club - Nuevo Jugador', 
+            $mail_body, "");
+            $_SESSION['toast_type'] = 'success';
+            $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
+            header("Location:/FutbolClub/administrador/listajugadores?reg=true");
         } else {
             $errores[] = "Error al registrar el jugador: " . $resultado;
             $this->erroresf = $errores;

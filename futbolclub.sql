@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 11-11-2025 a las 14:14:39
+-- Tiempo de generación: 19-11-2025 a las 13:59:00
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.0.30
 
@@ -70,7 +70,7 @@ CREATE TABLE `entrenadores` (
 --
 
 INSERT INTO `entrenadores` (`id`, `nombre_completo`, `cedula`, `telefono`, `correo`, `fecha_nacimiento`, `direccion`, `foto`) VALUES
-(2, 'Keninzon Rivas', '10000000', '04140000000', 'Kennizon@gmail.com', '2000-02-25', '', 'entrenador_10000000.jpg'),
+(2, 'Keninzon Rivas', '10000000', '04140000000', 'Kennizon@gmail.com', '2000-02-25', 'a', 'entrenador_10000000.jpg'),
 (3, 'Alexain Sanchez', '10000001', '04140000000', 'Alexainasd@gmail.com', '2000-02-22', '', 'entrenador_10000001.jpg'),
 (4, 'Luis Rivas', '10000002', '04140000000', 'luisrivas@gmail.com', '2002-02-22', '', 'entrenador_10000002.jpg'),
 (5, 'Julio Querales', '10000003', '04140000000', 'Julioq@gmail.com', '2002-02-22', '', 'entrenador_10000003.jpg'),
@@ -84,7 +84,9 @@ INSERT INTO `entrenadores` (`id`, `nombre_completo`, `cedula`, `telefono`, `corr
 --
 
 CREATE TABLE `jugadores` (
-  `cedula` bigint(20) NOT NULL,
+  `id` int(11) NOT NULL,
+  `partida_nacimiento` int(11) DEFAULT NULL,
+  `cedula` int(8) DEFAULT NULL,
   `nombres` varchar(100) NOT NULL,
   `apellidos` varchar(100) NOT NULL,
   `fecha_nacimiento` date NOT NULL,
@@ -99,10 +101,40 @@ CREATE TABLE `jugadores` (
 -- Volcado de datos para la tabla `jugadores`
 --
 
-INSERT INTO `jugadores` (`cedula`, `nombres`, `apellidos`, `fecha_nacimiento`, `genero`, `categoria`, `nombre_camiseta`, `cedula_representante`, `foto`) VALUES
-(20159753, 'Albert', 'Quinterito', '2020-08-13', 'M', '2', 'asdasdasd', 30506910, 'uploads/jugadores/jugador_20159753.jpg'),
-(25123741, 'ASASAS', 'QQQQQQ', '2020-08-13', 'F', '2', 'ASDAD', 30506910, 'uploads/jugadores/jugador_25123741.jpg'),
-(30506910, 'Albert', 'Quintero', '2010-08-13', 'M', '3', 'asdasdasdasd', 30194545, 'uploads/jugadores/jugador_30506910.jpg');
+INSERT INTO `jugadores` (`id`, `partida_nacimiento`, `cedula`, `nombres`, `apellidos`, `fecha_nacimiento`, `genero`, `categoria`, `nombre_camiseta`, `cedula_representante`, `foto`) VALUES
+(1, NULL, 20159753, 'Albert', 'Quinterito', '2020-08-13', 'M', '2', 'asdasdasd', 30506910, 'uploads/jugadores/jugador_20159753.jpg'),
+(2, NULL, 25123741, 'ASASAS', 'QQQQQQ', '2020-08-13', 'F', '2', 'ASDAD', 30506910, 'uploads/jugadores/jugador_25123741.jpg'),
+(3, NULL, 30506910, 'Albert', 'Quintero', '2010-08-13', 'M', '3', 'asdasdasdasd', 30194545, 'uploads/jugadores/jugador_30506910.jpg'),
+(4, 124, NULL, 'Albert', 'Quintero', '2020-02-13', 'F', '2', '123', 30506910, 'uploads/jugadores/jugador_Quintero.jpg'),
+(5, NULL, 30147896, 'asdasd', 'asdasd', '2015-08-13', 'F', '5', '214', 30506910, 'uploads/jugadores/jugador_asdasd.jpg'),
+(6, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(7, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(8, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(9, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(10, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(11, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(12, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(13, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(14, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(15, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(16, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(17, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(18, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(19, NULL, 30506147, 'Yonix', 'Moreno', '2015-08-13', 'M', '5', '1231', 30506910, 'uploads/jugadores/jugador_Moreno.jpg'),
+(20, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(21, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(22, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(23, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(24, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(25, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(26, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(27, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(28, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(29, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(30, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(31, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(32, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg'),
+(33, NULL, 12312312, 'qdasdasd', 'asdasdasd', '2009-02-13', 'F', '7', '777', 30506910, 'uploads/jugadores/jugador_asdasdasd.jpg');
 
 -- --------------------------------------------------------
 
@@ -212,6 +244,62 @@ INSERT INTO `pago_categoria` (`id_pago`, `id_categoria`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `partidos`
+--
+
+CREATE TABLE `partidos` (
+  `id` int(11) NOT NULL,
+  `nombre` varchar(100) NOT NULL,
+  `descripcion` text DEFAULT NULL,
+  `fecha_partido` date NOT NULL,
+  `creado_en` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `partidos`
+--
+
+INSERT INTO `partidos` (`id`, `nombre`, `descripcion`, `fecha_partido`, `creado_en`) VALUES
+(46, 'asdasda', 'sdasdasdas\r\ndas\r\ndas\r\nda\r\nsda\r\ns\r\nasd', '0000-00-00', '2025-11-19 02:20:01'),
+(47, 'asdasd', 'asdasdsd\r\nasd\r\nasd\r\nasd\r\nas\r\ndas\r\nd', '2003-08-13', '2025-11-19 02:21:44'),
+(48, 'asdasd', 'asdasdsd\r\nasd\r\nasd\r\nasd\r\nas\r\ndas\r\nd', '2003-08-13', '2025-11-19 02:25:44'),
+(49, 'Agua Dulce vs Barinese', 'Llevar comida', '2026-02-13', '2025-11-19 02:26:23'),
+(50, 'Agua Dulce vs Barineses', 'Llevar comida', '2026-08-13', '2025-11-19 02:27:34');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `partido_categorias`
+--
+
+CREATE TABLE `partido_categorias` (
+  `id_partido` int(11) NOT NULL,
+  `id_categoria` varchar(10) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `partido_categorias`
+--
+
+INSERT INTO `partido_categorias` (`id_partido`, `id_categoria`) VALUES
+(46, '2'),
+(46, '3'),
+(46, '6'),
+(47, '2'),
+(47, '3'),
+(47, '6'),
+(47, '8'),
+(48, '2'),
+(48, '3'),
+(48, '6'),
+(48, '8'),
+(49, '2'),
+(50, '2'),
+(50, '5');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `representantes`
 --
 
@@ -283,7 +371,7 @@ ALTER TABLE `entrenadores`
 -- Indices de la tabla `jugadores`
 --
 ALTER TABLE `jugadores`
-  ADD PRIMARY KEY (`cedula`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `lista_pagos`
@@ -302,6 +390,18 @@ ALTER TABLE `metodos_pago`
 --
 ALTER TABLE `pagos`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `partidos`
+--
+ALTER TABLE `partidos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `partido_categorias`
+--
+ALTER TABLE `partido_categorias`
+  ADD PRIMARY KEY (`id_partido`,`id_categoria`);
 
 --
 -- Indices de la tabla `representantes`
@@ -335,6 +435,12 @@ ALTER TABLE `entrenadores`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
+-- AUTO_INCREMENT de la tabla `jugadores`
+--
+ALTER TABLE `jugadores`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+
+--
 -- AUTO_INCREMENT de la tabla `lista_pagos`
 --
 ALTER TABLE `lista_pagos`
@@ -353,6 +459,12 @@ ALTER TABLE `pagos`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `partidos`
+--
+ALTER TABLE `partidos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
 -- AUTO_INCREMENT de la tabla `representantes`
 --
 ALTER TABLE `representantes`
@@ -363,6 +475,16 @@ ALTER TABLE `representantes`
 --
 ALTER TABLE `usuarios`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `partido_categorias`
+--
+ALTER TABLE `partido_categorias`
+  ADD CONSTRAINT `partido_categorias_ibfk_1` FOREIGN KEY (`id_partido`) REFERENCES `partidos` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
