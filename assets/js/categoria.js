@@ -40,7 +40,9 @@ $(document).ready(function() {
         $("#deleteModal").css("display", "flex");    
     });
 
-    // Cerrar modal
+    $(".close-modal").on("click", function () {
+        $(".modal-category").fadeOut();
+    });
     $("#cancelDelete").on("click", function () {
         $("#deleteModal").fadeOut();
     });

@@ -73,6 +73,10 @@ class administrador extends vistas{
             $this->vistan('administrador/representative_new');
         }
 
+        public function partidos(){
+            $this->vistan('administrador/partidos');
+        }
+
         public function reporte(){
             $this->jugadores = adminModel::jugadoresestadistica();
             ob_start();

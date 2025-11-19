@@ -68,6 +68,12 @@
                     </ul>
                 </li>
                 <li class="menu-static">
+                    <a href="/FutbolClub/administrador/partidos" class="menu-link">
+                        <img src="/FutbolClub/assets/img/partido.png" alt="Inicio">
+                        <span>Partidos</span>
+                    </a>
+                </li>
+                <li class="menu-static">
                     <a href="/FutbolClub/administrador/categorias" class="menu-link">
                         <img src="/FutbolClub/assets/img/equipo.png" alt="Inicio">
                         <span>Categorias</span>
