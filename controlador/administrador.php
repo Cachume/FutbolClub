@@ -4,7 +4,7 @@ require_once __DIR__ . "/../validations/generalValidations.php";
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use Dompdf\Dompdf;
-require 'vendor/autoload.php';    
+require 'vendor/autoload.php';   
 
 class administrador extends vistas{
         public $erroresf;
@@ -63,10 +63,12 @@ class administrador extends vistas{
             $this->jugadores = adminModel::getAllPlayers();
             $this->vistan('administrador/players_list');
         }
+        public function carnet($idJugador = 1){
+            $this->jugadores = adminModel::getplayercarnet($idJugador);
 
-        public function carnet(){
-            $this->jugadores = adminModel::getplayercarnet(1);
-            $this->vistan('administrador/reports/carnet');
+            ob_start();
+            include './vistas/administrador/reports/carnet.php';
+            $html = ob_get_clean();
         }
         public function representantes_lista(){
             $this->jugadores = adminModel::getAllRepresentatives();
@@ -673,7 +675,7 @@ class administrador extends vistas{
         if (!empty($datos['player-dni'])) {
             $cedula = intval($datos['player-dni']);
         } elseif (!empty($datos['player-pn'])) {
-            $partidaNacimiento = $datos['player-pn'];
+            $partidaNacimiento = intval($datos['player-pn']);
         }
         $playerData = [
             'cedula' => $cedula,
@@ -687,7 +689,14 @@ class administrador extends vistas{
             'cedula_representante' => $cedulaRepresentante,
             'foto' => $rutaDestino
         ];
-        $mail_body= '
+        $resultado = adminModel::createPlayer($playerData);
+        $resultado_representante = adminModel::getRepresentativeByCedula($playerData['cedula_representante']);
+        if ($resultado['status'] === "success") {
+            if (isset($_SESSION['cedular'])) {
+                unset($_SESSION['cedular']);
+            }
+            $jugador_data = adminModel::getplayercarnet($resultado['id']);
+            $mail_body= '
                     <div style="font-family: Arial, sans-serif; font-size: 14px; line-height: 1.5; background-color: #f4f4f4; padding: 20px; border: 1px solid #ddd; border-radius: 5px; max-width: 600px; margin: auto;">
                     <div style="text-align: center;">
                         <h2 style="margin: 0px; color:#8b51d0;">FUTBOL CLUB</h2>
@@ -698,36 +707,19 @@ class administrador extends vistas{
                         <p style="text-align: center;">Le informamos que se ha registrado a <strong>'.$playerData['nombres'].'</strong> en el Sistema de Gestión de Futbol Club.</p>
                         <h4>Sus Credenciales son las siguientes:</h4>
                         <p>Nombre Completo: <strong>'.$playerData['nombres'].' '.$playerData['apellidos'].'</strong></p>
-                        <p>Cedula: <strong>'.$playerData['cedula'].'</strong></p>
-                        <p>Categoria: <strong>'.$playerData['categoria'].'</strong></p>
+                        <p>(Cédula o Partida de Nacimiento): <strong>'.$playerData['cedula'].$playerData['partida_nacimiento'].' </strong></p>
+                        <p>Categoria: <strong>'.$jugador_data['nombre_categoria'].'</strong></p>
+                        <p>Horario: <strong>'.$jugador_data['horario'].'</strong></p>
+                        <p>Entrenador: <strong>'.$jugador_data['nombre_completo'].'</strong></p>
                         <p>Le recomendamos iniciar sesion en su perfil para ver mas informacion.</p>
                         <div class="mail-body-links" style="display: flex; justify-content: center;">
                             <a href="#" style="color: white; text-decoration: none; background-color: #8b51d0; padding: 10px 15px; border-radius: 5px;">Ir a Iniciar Sesión</a>
                         </div>
                     </div>
                 </div>';
-
-        $resultado = adminModel::createPlayer($playerData);
-        $resultado_representante = adminModel::getRepresentativeByCedula($playerData['cedula_representante']);
-        if ($resultado['status'] === "success") {
-            if (isset($_SESSION['cedular'])) {
-                unset($_SESSION['cedular']);
-            }
-            //Generacion del carnet para enviar
-            // $this->jugadores = adminModel::getplayercarnet($resultado['id']);
-            // ob_start();
-            // include './vistas/administrador/reports/carnet.php';
-            // $html = ob_get_clean();
-            // $dompdf = new Dompdf();
-            // $dompdf->loadHtml($html);
-            // $dompdf->setPaper('A4', 'portrait');
-            // $pdf_file_path = 'uploads/carnet_'. $playerData['nombres'].'.pdf';
-            // $dompdf->render();
-            // $pdfoutput= $dompdf->output();
-            // file_put_contents($pdf_file_path,$pdfoutput);
-            $this->sendMailarchive($resultado_representante['correo'], 
+            $this->sendMail($resultado_representante['correo'], 
             'Registro en Futbol Club - Nuevo Jugador', 
-            $mail_body, "");
+            $mail_body);
             $_SESSION['toast_type'] = 'success';
             $_SESSION['toast_message'] = 'Jugador Añadido correctamente.';
             header("Location:/FutbolClub/administrador/listajugadores?reg=true");

@@ -8,7 +8,7 @@
         try {
             $stmt = $db->prepare("
                 INSERT INTO jugadores 
-                (cedula,partida_nacimiento, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
+                (cedula, partida_nacimiento, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
                 VALUES 
                 (:cedula,:partida_nacimiento ,:nombres, :apellidos, :fecha_nacimiento, :genero, :categoria, :nombre_camiseta, :cedula_representante, :foto)
             ");
@@ -141,7 +141,7 @@
 
     public static function getplayercarnet($id) {
         try {
-            $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos,j.nombre_camiseta,j.fecha_nacimiento,j.foto ,c.nombre_categoria, e.nombre_completo
+            $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos,j.nombre_camiseta,j.fecha_nacimiento,j.foto ,c.nombre_categoria, e.nombre_completo, c.horario
             FROM jugadores j 
             JOIN categorias c ON j.categoria = c.id
             LEFT JOIN entrenadores e ON e.id = c.entrenador_id

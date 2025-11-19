@@ -2,6 +2,7 @@
     "name": "cachume/futbol-club",
     "require": {
         "phpmailer/phpmailer": "^6.10",
-        "dompdf/dompdf": "^3.1"
+        "dompdf/dompdf": "^3.1",
+        "mpdf/mpdf": "^6.1"
     }
 }
