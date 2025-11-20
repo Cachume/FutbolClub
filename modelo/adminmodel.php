@@ -758,5 +758,38 @@
             return [];
         }
     }
+
+    public static function guardarEstadisticas($partido_id, $goles, $asistencias) 
+    {
+        try {
+            $db = Database::getDatabase();
+
+            foreach ($goles as $categoria_id => $jugadores) {
+                foreach ($jugadores as $jugador_id => $gol) {
+
+                    $asis = $asistencias[$categoria_id][$jugador_id];
+
+                    $stmt = $db->prepare("
+                        INSERT INTO estadisticas_partidos 
+                        (partido_id, categoria_id, jugador_id, goles, asistencias)
+                        VALUES (:p, :c, :j, :g, :a)
+                    ");
+
+                    $stmt->execute([
+                        ":p" => $partido_id,
+                        ":c" => $categoria_id,
+                        ":j" => $jugador_id,
+                        ":g" => $gol,
+                        ":a" => $asis
+                    ]);
+                }
+            }
+
+            return true;
+
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
 }
 ?>

@@ -109,6 +109,19 @@ class administrador extends vistas{
             
         }
 
+        public function guardarEstadisticas(){
+           $partido_id = $_POST["partido_id"];
+            $goles = $_POST["goles"];
+            $asistencias = $_POST["asistencias"];
+            $ok = adminModel::guardarEstadisticas($partido_id, $goles, $asistencias);
+
+            if ($ok) {
+                echo "Estadísticas guardadas correctamente";
+            } else {
+                echo "Error al guardar estadísticas";
+            }
+        }
+
         public function crearpartido(){
             header('Content-Type: application/json');
             $nombre = $_POST['nombre_partido'];

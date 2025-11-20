@@ -18,7 +18,7 @@
 
             </div>
             <div class="categorys">
-            <form action="/administrador/guardarEstadisticas" method="POST">
+            <form action="/FutbolClub/administrador/guardarEstadisticas" method="POST">
                     <input type="hidden" name="partido_id" value="<?= $this->data[0]['categoria']['id_partido'] ?? $this->categoria ?>">
                     <?php foreach ($this->data as $bloque): ?>
                         <h3 style="margin-top:20px;">
