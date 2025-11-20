@@ -290,6 +290,17 @@
         font-weight: 600;
     }
 
+    .category-table input{
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        color: #333;
+        background-color: #fff;
+        transition: all 0.2s ease-in-out;
+    }
+
     .category-table tr:nth-child(even) {
         background: #f5f0fa; /* tono claro del primario */
     }
@@ -618,4 +629,124 @@
 
 .statistics-card img{
     width: 60px;
+}
+
+.reportes-container {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 30px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #004d40;
+    /* Verde Oscuro (Color del Club) */
+    border-bottom: 3px solid #a5d6a7;
+    padding-bottom: 10px;
+    margin-bottom: 25px;
+    font-size: 24px;
+}
+
+hr {
+    border: 0;
+    border-top: 1px solid #eee;
+    margin: 20px 0;
+}
+
+/* Mensaje de Inicio */
+#mensajeInicio {
+    font-style: italic;
+    color: #666;
+    padding: 20px;
+    border: 1px dashed #ccc;
+    text-align: center;
+    border-radius: 5px;
+}
+
+/* --- Estilos del Selector Principal --- */
+.selector-reporte label {
+    font-weight: bold;
+    color: #333;
+    margin-right: 15px;
+    font-size: 16px;
+}
+
+.selector-reporte select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    min-width: 250px;
+    cursor: pointer;
+}
+
+/* --- Estilos de los Formularios Individuales (.reporte-form) --- */
+.reporte-form {
+    margin-top: 25px;
+    padding: 0;
+    /* Asegura que el contenedor no tenga padding extra */
+}
+
+.reporte-form h3 {
+    color: #004d40;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 20px;
+}
+
+/* Estilos del Contenedor de Indicadores (la caja verde clara con los filtros) */
+.contenedor-indicadores {
+    padding: 20px;
+    margin-bottom: 25px;
+    border: 2px solid #a5d6a7;
+    border-radius: 8px;
+    background-color: #f5fff5;
+    display: flex;
+    /* Para alinear los elementos internos */
+    flex-wrap: wrap;
+    /* Para que bajen si no caben */
+    gap: 15px;
+    /* Espacio entre los filtros */
+    align-items: center;
+}
+
+/* Estilos de los Inputs/Selects dentro de los Indicadores */
+.contenedor-indicadores label {
+    display: inline-block;
+    font-weight: 600;
+}
+
+.contenedor-indicadores select,
+.contenedor-indicadores input[type="date"],
+.contenedor-indicadores input[type="month"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+}
+
+/* --- Estilo del Botón Generar --- */
+.btn-generar {
+    background-color: #4CAF50;
+    /* Verde fuerte */
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, transform 0.1s;
+    /* El botón se mueve al final del contenedor flex */
+    margin-left: auto;
+}
+
+.btn-generar:hover {
+    background-color: #45a049;
+}
+
+.btn-generar:active {
+    transform: scale(0.99);
 }

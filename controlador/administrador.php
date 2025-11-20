@@ -80,11 +80,33 @@ class administrador extends vistas{
             $this->vistan('administrador/representative_new');
         }
 
+        public function reportes(){
+            $this->categorys = adminModel::categorys();
+            $this->data = adminModel::payments();
+            $this->vistan('administrador/reporte');
+        }
+
         //Funciones de los partidos
         public function partidos(){
+            $url = $_GET['url'] ?? 'login';
+            $partes= explode('/', trim($url));
+            $id = (isset($partes[2]) && is_numeric($partes[2])) ? intval($partes[2]) : "null";
+            if(is_int($id)){
+                $categorias = adminModel::getCategoriasDelPartido($id);
+                foreach ($categorias as $cat) {
+                $this->data[] = [
+                    "categoria" => $cat,
+                    "jugadores" => adminModel::getJugadoresPorCategoria($cat["id"])
+                ];
+                $this->categoria = $id;
+                }
+                $this->vistan('administrador/partidosestadistica');
+                return;
+            }
             $this->categoria= adminModel::getCategorys();
             $this->data = adminModel::partidos();
             $this->vistan('administrador/partidos');
+            
         }
 
         public function crearpartido(){

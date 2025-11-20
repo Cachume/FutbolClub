@@ -1,104 +1,12 @@
 <?php
     //clase login la cual hereda los metodo de la clase vistas
     require_once "database.php";
-    class adminModel extends Database
-    {
-        public static function categorys(){
-            try {
-                $stmt = Database::getDatabase()->prepare("SELECT * FROM categorias");
-                $stmt->execute();
-                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $resultado;
-            } catch (PDOException $e) {
-                return []; 
-            }
-        }
+    class reportesModel extends Database
+    {   
 
-        public static function payments(){
-            try {
-                $stmt = Database::getDatabase()->prepare("SELECT * FROM lista_pagos");
-                $stmt->execute();
-                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                return $resultado;
-            } catch (PDOException $e) {
-                return []; 
-            }
-        }
-        public static function createPlayer($datos) {
-            $db = Database::getDatabase();
+    public static function todoslospagos(){
         try {
-            $stmt = $db->prepare("
-                INSERT INTO jugadores 
-                (cedula, partida_nacimiento, nombres, apellidos, fecha_nacimiento, genero, categoria, nombre_camiseta, cedula_representante, foto) 
-                VALUES 
-                (:cedula,:partida_nacimiento ,:nombres, :apellidos, :fecha_nacimiento, :genero, :categoria, :nombre_camiseta, :cedula_representante, :foto)
-            ");
-
-            $stmt->bindParam(":cedula", $datos['cedula'], PDO::PARAM_INT);
-            $stmt->bindParam(":partida_nacimiento", $datos['partida_nacimiento'], PDO::PARAM_INT);
-            $stmt->bindParam(":nombres", $datos['nombres'], PDO::PARAM_STR);
-            $stmt->bindParam(":apellidos", $datos['apellidos'], PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_nacimiento", $datos['fecha_nacimiento'], PDO::PARAM_STR);
-            $stmt->bindParam(":genero", $datos['genero'], PDO::PARAM_STR);
-            $stmt->bindParam(":categoria", $datos['categoria'], PDO::PARAM_STR);
-            $stmt->bindParam(":nombre_camiseta", $datos['nombre_camiseta'], PDO::PARAM_STR);
-            $stmt->bindParam(":cedula_representante", $datos['cedula_representante'], PDO::PARAM_INT);
-            $stmt->bindParam(":foto", $datos['foto'], PDO::PARAM_STR);
-
-            $success = $stmt->execute();
-
-            if ($success) {
-                $lastId = $db->lastInsertId();
-                return [
-                    "status" => "success",
-                    "id" => $lastId
-                ];
-            }else{
-                return [
-                    "status" => "error",
-                    "message" => "Error al ejecutar la sentencia de inserción."
-                ];
-            }
-        } catch (PDOException $e) {
-            return "error: " . $e->getMessage();
-        }
-    }
-    public static function createRepresentative($datos) {
-    try {
-        $stmt = Database::getDatabase()->prepare("
-            INSERT INTO representantes 
-            (nombre_completo, fecha_nacimiento, cedula, telefono, correo, direccion, id_usuario, foto, passwordp) 
-            VALUES 
-            (:nombre_completo, :fecha_nacimiento, :cedula, :telefono, :correo, :direccion, :id_usuario, :foto, :passwordp)
-        ");
-
-        $nombreCompleto = trim($datos['nombres']) . ' ' . trim($datos['apellidos']);
-        $password = password_hash($datos['password'], PASSWORD_DEFAULT);
-        $stmt->bindParam(":nombre_completo", $nombreCompleto, PDO::PARAM_STR);
-        $stmt->bindParam(":fecha_nacimiento", $datos['fecha_nacimiento'], PDO::PARAM_STR);
-        $stmt->bindParam(":cedula", $datos['cedula'], PDO::PARAM_INT);
-        $stmt->bindParam(":telefono", $datos['telefono'], PDO::PARAM_STR);
-        $stmt->bindParam(":correo", $datos['email'], PDO::PARAM_STR);
-        $stmt->bindParam(":passwordp", $password, PDO::PARAM_STR);
-        // Estos campos pueden estar vacíos o completarse luego
-        $direccion = isset($datos['direccion']) ? $datos['direccion'] : '';
-        $idUsuario = isset($datos['id_usuario']) ? $datos['id_usuario'] : null;
-
-        $stmt->bindParam(":direccion", $direccion, PDO::PARAM_STR);
-        $stmt->bindParam(":id_usuario", $idUsuario, PDO::PARAM_INT);
-        $stmt->bindParam(":foto", $datos['foto'], PDO::PARAM_STR);
-
-        return $stmt->execute() ? "success" : "error";
-
-    } catch (PDOException $e) {
-        return "error: " . $e->getMessage();
-    }
-}
-
-    
-    public static function jugadoresestadistica(){
-        try {
-            $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos, j.cedula, j.genero, c.nombre_categoria FROM jugadores j JOIN categorias c ON c.id=j.categoria");
+            $stmt = Database::getDatabase()->prepare("SELECT * FROM lista_pagos");
             $stmt->execute();
             $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
             return $resultado;
@@ -106,6 +14,77 @@
             return []; 
         }
     }
+    public static function categorys($id=null){
+        try {
+            if(is_null($id)){
+                $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos, j.genero, c.nombre_categoria,j.cedula,j.partida_nacimiento
+                FROM jugadores j 
+                JOIN categorias c ON j.categoria = c.id
+                ORDER BY c.nombre_categoria;
+                ");
+            }else{
+                $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos, j.genero, c.nombre_categoria,j.cedula,j.partida_nacimiento
+                FROM jugadores j 
+                JOIN categorias c ON j.categoria = c.id
+                WHERE c.id=:id
+                ORDER BY c.nombre_categoria;
+                ");
+                $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+            }
+            $stmt->execute();
+            $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $resultado;
+        } catch (PDOException $e) {
+            return []; 
+        }
+    }
+
+    public static function listaPagosPorMesYAnio($mes, $anio)
+    {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT id, nombre, descripcion, monto, fecha_creacion
+                FROM lista_pagos
+                WHERE MONTH(fecha_creacion) = :mes
+                AND YEAR(fecha_creacion) = :anio
+                ORDER BY fecha_creacion DESC
+            ");
+
+            $stmt->bindParam(':mes', $mes, PDO::PARAM_INT);
+            $stmt->bindParam(':anio', $anio, PDO::PARAM_INT);
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+    public static function datapago($id)
+    {
+        try {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT p.id_pago, lp.nombre, j.nombres, j.apellidos,p.monto,p.estado,r.nombre_completo,r.telefono ,c.nombre_categoria FROM pagos p
+                JOIN representantes r ON r.cedula = p.representante_id
+                JOIN jugadores j ON p.representante_id= j.cedula_representante
+                JOIN categorias c ON c.id = j.categoria
+                JOIN lista_pagos lp ON lp.id=p.id_pago
+                WHERE p.id_pago =:id
+                ORDER BY 
+                    c.nombre_categoria ASC,
+                    j.apellidos ASC,
+                    p.estado ASC;
+            ");
+            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
     public static function estadisticaGeneros() {
         try {
             $stmt = Database::getDatabase()->prepare("SELECT genero, COUNT(*) as cantidad FROM jugadores GROUP BY genero;");
@@ -128,7 +107,7 @@
     }
     public static function getAllPlayers() {
         try {
-            $stmt = Database::getDatabase()->prepare("SELECT j.*, c.nombre_categoria FROM jugadores j JOIN categorias c ON j.categoria = c.id ORDER BY j.apellidos, j.nombres DESC");
+            $stmt = Database::getDatabase()->prepare("SELECT j.*, c.nombre_categoria FROM jugadores j JOIN categorias c ON j.categoria = c.id ORDER BY j.apellidos, j.nombres");
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
@@ -365,7 +344,7 @@
             return "error: " . $e->getMessage();
         }
     }
-    public static function getCategorys(): array|null {
+    public static function getCategorys() {
         try {
             $stmt = Database::getDatabase()->prepare("
                 SELECT categorias.*, entrenadores.nombre_completo AS nombre_entrenador FROM categorias JOIN entrenadores ON entrenadores.id = categorias.entrenador_id
@@ -561,8 +540,6 @@
         try {
             $db = Database::getDatabase();
             $db->beginTransaction();
-
-            // 1. Crear el cobro
             $stmt = $db->prepare("
                 INSERT INTO lista_pagos (nombre, descripcion, monto)
                 VALUES (:nombre, :descripcion, :monto)
@@ -572,11 +549,10 @@
             $stmt->bindParam(":monto", $data["monto"], PDO::PARAM_STR);
             $stmt->execute();
 
+
             $idPago = $db->lastInsertId();
 
-            // 2. Registrar categorías del cobro
             if (!empty($data["categorias"]) && is_array($data["categorias"])) {
-
                 $stmtCat = $db->prepare("
                     INSERT INTO pago_categoria (id_pago, id_categoria)
                     VALUES (:id_pago, :id_categoria)
@@ -587,43 +563,15 @@
                     $stmtCat->bindParam(":id_categoria", $idCategoria, PDO::PARAM_INT);
                     $stmtCat->execute();
                 }
-                $listaCategorias = implode(",", $data["categorias"]);
-
-                $stmtReps = $db->prepare("
-                    SELECT DISTINCT j.cedula_representante
-                    FROM jugadores j
-                    WHERE j.categoria IN ($listaCategorias)
-                    AND j.cedula_representante IS NOT NULL
-                ");
-                $stmtReps->execute();
-                $representantes = $stmtReps->fetchAll(PDO::FETCH_COLUMN);
-
-                // 4. Insertar representantes en pagos_detalle (pendientes)
-                $stmtDet = $db->prepare("
-                    INSERT INTO pagos (id_pago, representante_id, estado)
-                    VALUES (:id_pago, :representante_id, 'pendiente')
-                ");
-
-                foreach ($representantes as $cedula) {
-                    $stmtDet->bindParam(":id_pago", $idPago, PDO::PARAM_INT);
-                    $stmtDet->bindParam(":representante_id", $cedula, PDO::PARAM_STR);
-                    $stmtDet->execute();
-                }
             }
 
             $db->commit();
             return true;
-
         } catch (PDOException $e) {
-
-            if ($db->inTransaction()) {
-                $db->rollBack();
-            }
-
+            $db->rollBack();
             return "error: " . $e->getMessage();
         }
     }
-
 
     public static function getPagos() {
         try {
@@ -718,45 +666,5 @@
         }
     }
 
-    public static function getCategoriasDelPartido($partido_id) {
-        try {
-            $db = Database::getDatabase();
-            $stmt = $db->prepare("
-                SELECT 
-                    c.id,
-                    c.nombre_categoria
-                FROM partido_categorias pc
-                JOIN categorias c ON c.id = pc.id_categoria
-                WHERE pc.id_partido = :id
-            ");
-
-            $stmt->bindParam(":id", $partido_id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
-
-    public static function getJugadoresPorCategoria($categoria_id) {
-        try {
-            $db = Database::getDatabase();
-            $stmt = $db->prepare("
-                SELECT id, nombres
-                FROM jugadores
-                WHERE categoria = :id
-            ");
-
-            $stmt->bindParam(":id", $categoria_id, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-        } catch (PDOException $e) {
-            return [];
-        }
-    }
 }
 ?>

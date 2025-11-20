@@ -56,16 +56,11 @@
                         <li class="submenu-item"><a href="/FutbolClub/administrador/metodos_pago" class="menu-link">Metodos de Pago</a></li>
                     </ul>
                 </li>
-                <li class="menu-dropdown" id="menu-dropdown">
-                    <a href="#" class="menu-link">
+                <li class="menu-static">
+                    <a href="/FutbolClub/administrador/reportes" class="menu-link">
                         <img src="/FutbolClub/assets/img/reporte.png" alt="Inicio">
                         <span>Reportes</span>
-                        <img src="/FutbolClub/assets/img/arrow.png" alt="Inicio">
                     </a>
-                    <ul class="submenu">
-                        <li class="submenu-item"><a href="/FutbolClub/administrador/nuevoentrenador" class="menu-link">Registro</a></li>
-                        <li class="submenu-item"><a href="/FutbolClub/administrador/entrenadores_lista" class="menu-link">Entrenadores</a></li>
-                    </ul>
                 </li>
                 <li class="menu-static">
                     <a href="/FutbolClub/administrador/partidos" class="menu-link">

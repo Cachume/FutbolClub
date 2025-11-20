@@ -30,7 +30,7 @@
                                     <td><?php echo $metodo['fecha_creacion'] ?></td>
                                     <td><?php echo $value = ($metodo['estado']) ? ucfirst($metodo['estado']) : "Sin Pagar" ; ?></td>
                                     <?php
-                                        if(!$metodo['estado']) {
+                                        if($metodo['estado']=="pendiente") {
                                             echo '<td><a href="/FutbolClub/usuario/pago/'.$metodo['pago_id'].'">Pagar</a></td>';
                                         }
                                     ?>

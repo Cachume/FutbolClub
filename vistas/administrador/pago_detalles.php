@@ -43,8 +43,12 @@
                 echo '<td>' . htmlspecialchars($metodo['fecha_pago']) . '</td>';
                 echo '<td>' . htmlspecialchars($metodo['monto']) . '</td>';
                 echo '<td>' . htmlspecialchars($metodo['metodo_pago']) . '</td>';
-                echo '<td><a href="/FutbolClub/'.htmlspecialchars($metodo['foto']).'" data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
-                if ($metodo['estado'] != 'pendiente') {
+                if($metodo['foto']!= null && $metodo['foto']!="N/A"){
+                    echo '<td><a href="/FutbolClub/'.htmlspecialchars($metodo['foto']).'" data-foto="' . htmlspecialchars($metodo['foto']) . '" target="_blank">Ver Comprobante</a></td>';
+                }else{
+                    echo '<td></td>';
+                }
+                if ($metodo['estado'] != 'espera') {
                     echo '<td>'. htmlspecialchars(ucfirst($metodo['estado'])) . '</td>';
                 }else{
                     echo '<td>

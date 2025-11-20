@@ -78,7 +78,7 @@
 
         public static function DatosdePago($idPago, $rep) {
             $stmt = Database::getDatabase()->prepare("
-                SELECT p.id, p.monto, j.nombres, j.apellidos, c.nombre_categoria
+                SELECT p.id, p.nombre ,p.monto, j.nombres, j.apellidos, c.nombre_categoria
                 FROM lista_pagos p
                 JOIN pago_categoria pc ON p.id = pc.id_pago
                 JOIN jugadores j ON j.categoria = pc.id_categoria
@@ -94,17 +94,29 @@
         }
 
         public static function guardarPago($metodo_pago, $fecha_pago, $monto_pago, $descripcion_pago, $representante_id, $comprobante_path, $referencia, $idPago = null) {
+            // $stmt = Database::getDatabase()->prepare("
+            //     INSERT INTO pagos (metodo_pago, fecha_pago, monto, concepto, representante_id, foto, referencia, id_pago)
+            //     VALUES (:metodo_pago, :fecha_pago, :monto_pago, :descripcion_pago, :representante_id, :comprobante_path, :referencia, :id_pago)
+            // ");
             $stmt = Database::getDatabase()->prepare("
-                INSERT INTO pagos (metodo_pago, fecha_pago, monto, concepto, representante_id, foto, referencia, id_pago)
-                VALUES (:metodo_pago, :fecha_pago, :monto_pago, :descripcion_pago, :representante_id, :comprobante_path, :referencia, :id_pago)
+                UPDATE pagos SET
+                    metodo_pago = :metodo_pago,
+                    monto = :monto_pago,
+                    fecha_pago = :fecha_pago,
+                    concepto = :descripcion_pago,
+                    foto = :comprobante_path,
+                    referencia = :referencia,
+                    estado = 'espera'
+                WHERE representante_id = :representante_id AND id_pago = :id_pago
             ");
             $stmt->bindParam(":metodo_pago", $metodo_pago, PDO::PARAM_STR);
-            $stmt->bindParam(":fecha_pago", $fecha_pago, PDO::PARAM_STR);
             $stmt->bindParam(":monto_pago", $monto_pago, PDO::PARAM_STR);
+            $stmt->bindParam(":fecha_pago", $fecha_pago, PDO::PARAM_STR);
             $stmt->bindParam(":descripcion_pago", $descripcion_pago, PDO::PARAM_STR);
-            $stmt->bindParam(":representante_id", $representante_id, PDO::PARAM_STR);
             $stmt->bindParam(":comprobante_path", $comprobante_path, PDO::PARAM_STR);
             $stmt->bindParam(":referencia", $referencia, PDO::PARAM_STR);
+            //WHERE
+            $stmt->bindParam(":representante_id", $representante_id, PDO::PARAM_STR);
             $stmt->bindParam(":id_pago", $idPago, PDO::PARAM_INT);
             return $stmt->execute();
         }

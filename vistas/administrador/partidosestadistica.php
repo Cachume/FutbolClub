@@ -14,40 +14,46 @@
 <?php include('vistas/layout/session.php'); ?>
         <div class="list_categorys">
             <div class="list_categorys-titles">
-                <h2>Partidos</h2>
-                <button class="new-button-part" id="add-category-button">Nuevo Partido</button>
+                <h2>Registrar Estadísticas del Partido</h2>
+
             </div>
-            <?php
-                if(isset($_GET['success'])) {
-                    echo "<p class='success-message'>".$_GET['success']."</p>";
-                }elseif(isset($_GET['error'])) {
-                    echo "<p class='error-message'>".$_GET['error']."</p>";
-                }
-            ?>
             <div class="categorys">
-                <table class="category-table">
-                    <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Fecha del Partido</th>
-                            <th>Categorias</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($this->data as $dato ):?>
-                        <tr>
-                            <td><?=$dato['NombrePartido'];?></td>
-                            <td><?=$dato['FechaPartido'];?></td>
-                            <td><?=$dato['CategoriasAplicables'];?></td>
-                            <td>
-                                <a href="/FutbolClub/administrador/partidos/<?=$dato['id'];?>" class="edit-button" style="color: black;">Completar</a>
-                                <!-- <a class="delete-button"><img src="../../assets/img/papelera.png" alt=""></a> -->
-                            </td>
-                        </tr>
-                        <?php endforeach;?>
-                    </tbody>
-                </table>        
+            <form action="/administrador/guardarEstadisticas" method="POST">
+                    <input type="hidden" name="partido_id" value="<?= $this->data[0]['categoria']['id_partido'] ?? $this->categoria ?>">
+                    <?php foreach ($this->data as $bloque): ?>
+                        <h3 style="margin-top:20px;">
+                            Categoría: <?= $bloque["categoria"]["nombre_categoria"] ?>
+                        </h3>
+                        <table border="1" class="category-table" width="100%" style="border-collapse: collapse;">
+                            <thead>
+                                <tr>
+                                    <th>Jugador</th>
+                                    <th>Goles</th>
+                                    <th>Asistencias</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($bloque["jugadores"] as $j): ?>
+                                    <tr>
+                                        <td><?= $j["nombres"] ?></td>
+                                        <td class="modal-category-form-field">
+                                            <input type="number" 
+                                                min="0" value="0"
+                                                name="goles[<?= $bloque['categoria']['id'] ?>][<?= $j['id'] ?>]">
+                                        </td>
+                                        <td class="modal-category-form-field">
+                                            <input type="number" 
+                                                min="0" value="0"
+                                                name="asistencias[<?= $bloque['categoria']['id'] ?>][<?= $j['id'] ?>]">
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    <?php endforeach; ?>
+                    <br>
+                    <button type="submit" class="new-button-part">Guardar Estadísticas</button>
+                </form>
             </div>
         </div>
     </main>

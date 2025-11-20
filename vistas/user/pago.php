@@ -1,9 +1,10 @@
 <?php
-    require_once 'vistas/layout/user/header.php';
+    require_once 'vistas/layout/user/header.php';  
     $total = 0;
+    $nombres = array_column($this->data, 'nombre')[0];
 ?>
     <div class="payplayers-container">
-            <h2>Pagar Mensualidad Septiembre</h2>
+            <h2>Pagar <?=$nombres?>   </h2>
             <div class="pay-data">
                 <!-- <?php var_dump($this->data);
             ?> -->
@@ -35,7 +36,7 @@
             </div>
             <form class="form-pay" action="/FutbolClub/usuario/pagarPost" method="post" enctype="multipart/form-data">
                 <input type="hidden" name="monto_pago" value="<?php echo htmlspecialchars($total); ?>">
-                <input type="hidden" name="descripcion_pago" value="Mensualidad Septiembre">
+                <input type="hidden" name="descripcion_pago" value="<?=$nombres?>">
                 <input type="hidden" name="id_pago" value="<?php echo htmlspecialchars($this->pago); ?>">
                 <div class="method-payments">
                     <h2>¿Como desea Pagar?</h2>
