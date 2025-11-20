@@ -40,7 +40,7 @@
                 <div class="np-form-data">
                     <div class="np-form-group">
                         <label for="representative-dni">Cédula:</label>
-                        <input type="number" id="representative-dni" name="representative-dni" placeholder="Cédula de Identidad" required>
+                        <input type="number" id="player-dni" name="representative-dni" placeholder="Cédula de Identidad" required>
                     </div>
 
                     <div class="np-form-group">
@@ -83,6 +83,7 @@
             </form>
         </div>
     </main>
+    <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/index.js"></script>
     <script src="/FutbolClub/assets/js/players.js"></script>
 </body>

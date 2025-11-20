@@ -44,7 +44,6 @@
                 echo '<td>' . htmlspecialchars($jugador['cedula']) . '</td>';
                 echo '<td>
                         <a class="edit-button" href="informacionjugador&player=' . htmlspecialchars($jugador['cedula']) . '">Ver Ficha</a>
-                        <button class="delete-button" data-cedula="' . htmlspecialchars($jugador['cedula']) . '">Eliminar</button>
                       </td>';
                 echo '</tr>';
 

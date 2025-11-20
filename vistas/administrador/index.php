@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/FutbolClub/assets/css/index.css">
+    <link rel="stylesheet" href="/FutbolClub/assets/css/toastr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Futbol Club | Panel Administrador</title>
 </head>
@@ -81,8 +82,20 @@
     <script>
         const chartGenerosData = <?php echo json_encode($this->data['chartGeneros']); ?>;
         const chartCategoriasData = <?php echo json_encode($this->data['chartCategorias']); ?>;
-    </script>
+    </script> 
+    <script src="/FutbolClub/assets/js/jquery.js"></script>
     <script src="/FutbolClub/assets/js/index.js"></script>
+    <script src="/FutbolClub/assets/js/toastr.min.js"></script>
     <script src="/FutbolClub/assets/js/indexad.js"></script>
+            <?php if (isset($_SESSION['toast_message'])):
+            $type = $_SESSION['toast_type'];
+            $message = $_SESSION['toast_message'];
+            echo "
+            <script>
+                toastr.".htmlspecialchars($type)."('".htmlspecialchars($message)."')
+            </script>";
+            unset($_SESSION['toast_type']);
+            unset($_SESSION['toast_message']);
+         endif; ?> 
 </body>
 </html>

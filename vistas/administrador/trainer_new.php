@@ -34,14 +34,14 @@
                     <legend>Foto Carnet del Entrenador</legend>
                     <img src="/FutbolClub/assets/img/no-fotos.png" alt="Previsualización de la imagen" id="np-preview">
                     <span class="np-form-image-note">La imagen debe tener una resolución de 250px x 250px</span>
-                    <label for="trainer-image" class="np-form-image-label">Seleccionar Imagen</label>
-                    <input type="file" id="trainer-image" name="trainer-image" accept="image/*">
+                    <label for="player-image" class="np-form-image-label">Seleccionar Imagen</label>
+                    <input type="file" id="player-image" name="trainer-image" accept="image/*">
                 </div>
 
                 <div class="np-form-data">
                     <div class="np-form-group">
                         <label for="trainer-dni">Cédula:</label>
-                        <input type="number" id="trainer-dni" name="trainer-dni" placeholder="Cédula de Identidad" required>
+                        <input type="number" id="player-dni" name="trainer-dni" placeholder="Cédula de Identidad" required>
                         <span class="mensaje-error" id="cedula-error"></span>
                     </div>
 

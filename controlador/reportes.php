@@ -6,6 +6,14 @@ use Dompdf\Dompdf;
 class reportes extends vistas{
     public $categoria;
     public $data;
+
+    public function __construct(){
+        if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "admin"){
+            session_destroy();
+            header("Location:/FutbolClub/login");
+            exit();
+        }
+    }
     public function load(){
         header("Location:/FutbolClub/login");
     }

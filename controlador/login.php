@@ -2,9 +2,20 @@
 require_once "modelo/loginmodel.php";
     class login extends vistas{
 
+        public function __CONSTRUCT()
+        {
+            if(isset($_SESSION["rol"])){
+                if($_SESSION["rol"] == "user"){
+                    header("Location:/FutbolClub/usuario");
+                }else{
+                  header("Location:/FutbolClub/administrador"); 
+                }
+                exit();
+            }
+        }
+
         public function load(){
             $this->vistan('user/login');
-            // echo loginModel::createAdmin();
         }
 
         public function autenticar(){
@@ -23,14 +34,17 @@ require_once "modelo/loginmodel.php";
                         $_SESSION["email"] = $auth["email"];
                         $_SESSION["rol"] = $auth["rol"];
                         if($auth["rol"]=="admin"){
-                            echo "<script>alert('Sesion iniciada')</script>";
+                            $_SESSION['toast_type'] = 'success';
+                            $_SESSION['toast_message'] = 'Has iniciado sesión Correctamente.';
                             header("Location:/FutbolClub/administrador");
+                            return;
                         }else{
-                            session_destroy();
+                            $_SESSION['toast_type'] = 'errror';
+                            $_SESSION['toast_message'] = 'Correo o Contraseña incorrecto.';
                             $this->vistan('user/login');
                         }
                     }else{
-                        echo "<script>alert('Sesion no iniciada')</script>";
+                        header("Location:/FutbolClub/login");
                     }
                 }else{
                     $auth = loginModel::ingresoUsers($datos,"representantes");
@@ -42,21 +56,25 @@ require_once "modelo/loginmodel.php";
                             $_SESSION["rol"] = "user";
                             $_SESSION["cedula"] = $auth["cedula"];
                             $_SESSION["id"] = $auth["id"];
-                            echo "<script>alert('Sesion iniciada')</script>";
+                            $_SESSION['toast_type'] = 'success';
+                            $_SESSION['toast_message'] = 'Has iniciado sesión Correctamente.';
                             header("Location:/FutbolClub/usuario");
+                            return;
                         }else{
-                            session_destroy();
+                            $_SESSION['toast_type'] = 'errror';
+                            $_SESSION['toast_message'] = 'Correo o Contraseña incorrecto.';
                             $this->vistan('user/login');
                         }
                     }else{
+                        $_SESSION['toast_type'] = 'errror';
+                        $_SESSION['toast_message'] = 'Correo o Contraseña incorrecto.';
                         header("Location:/FutbolClub/login");
-                        session_destroy();
                     }
                 }
             }else{
             header("Location:/FutbolClub/login");
         }
-            // print_r($_POST);
+            header("Location:/FutbolClub/login");
         }
     }
 

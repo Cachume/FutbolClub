@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/FutbolClub/assets/css/index.css">
     <link rel="stylesheet" href="/FutbolClub/assets/css/login.css">
+    <link rel="stylesheet" href="/FutbolClub/assets/css/toastr.min.css">
     <title>Futbol Club | Iniciar Sesión</title>
 </head>
 <body>
@@ -31,12 +32,25 @@
                     <input type="checkbox" id="remember-me" name="remember-me">
                     <label for="remember-me">Seguir Conetado</label>
                 </div> 
-                <a href="#">¿Has olvidado tu contraseña?</a>
+                <a href="#">¿Has olvidado tu contraseñas?</a>
             </div>
             <button type="submit" name="iniciarsesion">Iniciar Sesión</button>
         </form>
     </div>
     </main>
-    <script src="../../js/login.js"></script>
+    
+    <!-- <script src="/FutbolClub/assets/js/login.js"></script> -->
+    <script src="/FutbolClub/assets/js/jquery.js"></script>
+    <script src="/FutbolClub/assets/js/toastr.min.js"></script>
+    <?php if (isset($_SESSION['toast_message'])):
+            $type = $_SESSION['toast_type'];
+            $message = $_SESSION['toast_message'];
+            echo "
+            <script>
+                toastr.".htmlspecialchars($type)."('".htmlspecialchars($message)."')
+            </script>";
+            unset($_SESSION['toast_type']);
+            unset($_SESSION['toast_message']);
+         endif; ?> 
 </body>
 </html>

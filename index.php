@@ -1,12 +1,12 @@
 <?php
 session_start();
 //Se guarda en la variable $url el valor proveniente la url de GET['u']
-$url = $_GET['url'] ?? 'login';
+$url = $_GET['url'] ?? 'home';
 $metodo = $_GET['m'] ?? 'index';
 $partes= explode('/', trim($url));
 // echo "Controlador: $url<br>";
 // var_dump($partes);
-$controlador = $partes[0] ?? 'login';
+$controlador = $partes[0] ?? 'home';
 $controlador = strtolower($controlador); //Convertimos el controlador a minusculas
 
 //Concatenamos el nombre del controlador llamado en la url para luego hacer su llamado
