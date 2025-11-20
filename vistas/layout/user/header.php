@@ -39,12 +39,12 @@
                         <li class="submenu-item"><a href="/FutbolClub/usuario/historial" class="menu-link">Historial</a></li>
                     </ul>
                 </li>
-                <li class="menu-static">
+                <!-- <li class="menu-static">
                     <a href="#" class="menu-link">
                         <img src="/FutbolClub/assets/img/config.png" alt="Inicio">
                         <span>Configuración</span>
                     </a>
-                </li>
+                </li> -->
                 <li class="menu-static">
                     <a href="/FutbolClub/administrador/salir" class="menu-link">
                         <img src="/FutbolClub/assets/img/logout.png" alt="Inicio">

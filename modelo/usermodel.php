@@ -5,7 +5,10 @@
     {  
         public static function getMysPlayers($rep_id)
         {
-            $stmt = Database::getDatabase()->prepare("SELECT * FROM jugadores WHERE cedula_representante = :rep_id");
+            $stmt = Database::getDatabase()->prepare("SELECT j.*, c.nombre_categoria, c.horario, e.nombre_completo FROM jugadores j 
+            JOIN categorias c ON c.id = j.categoria
+            JOIN entrenadores e ON e.id = c.entrenador_id
+            WHERE cedula_representante = :rep_id");
             $stmt->bindParam(":rep_id", $rep_id, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -119,6 +122,37 @@
             $stmt->bindParam(":representante_id", $representante_id, PDO::PARAM_STR);
             $stmt->bindParam(":id_pago", $idPago, PDO::PARAM_INT);
             return $stmt->execute();
+        }
+
+        public static function misjugadores($id) {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT j.nombres, j.apellidos, c.nombre_categoria,c.horario
+                FROM jugadores j JOIN categorias c ON c.id=j.categoria
+                WHERE j.cedula_representante=:id
+            ");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return !empty($result) ? $result : false;
+        }
+
+        public static function mispartidos($id) {
+            $stmt = Database::getDatabase()->prepare("
+                SELECT DISTINCT 
+                    p.id,
+                    p.nombre,
+                    p.descripcion,
+                    p.fecha_partido
+                FROM partidos p
+                JOIN estadisticas_partidos e ON e.partido_id = p.id
+                JOIN jugadores j ON j.id = e.jugador_id
+                WHERE j.cedula_representante = :id
+                ORDER BY p.fecha_partido DESC;
+            ");
+            $stmt->bindParam(":id", $id, PDO::PARAM_INT);
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return !empty($result) ? $result : false;
         }
 
     }

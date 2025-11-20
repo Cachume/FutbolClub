@@ -10,10 +10,11 @@
                     <div class="card-player">
                         <img src="/FutbolClub/<?php echo $jugador['foto']; ?>" alt="<?php echo $jugador['nombres']." ".$jugador['apellidos']; ?>">
                         <h3><?php echo $jugador['nombres']." ".$jugador['apellidos']; ?></h3>
-                        <p>Edad: <?php echo $jugador['fecha_nacimiento']; ?> años</p>
-                        <p>Posición: <?php echo $jugador['nombre_camiseta']; ?></p>
-                    <p>Equipo: Infantil A</p>
-                    <button>Ver Más</button>
+                        <p><strong>Fecha de Nacimiento:</strong> <?=$jugador['fecha_nacimiento']; ?></p>
+                        <p><strong>Genero:</strong> <?=$jugador['genero']; ?></p>
+                        <p><strong>Categoria:</strong> <?=$jugador['nombre_categoria']; ?></p>
+                        <p><strong>Horario:</strong> <?=$jugador['horario']; ?></p>
+                        <p><strong>Entrenador:</strong> <?=$jugador['nombre_completo']; ?></p>
                 </div>
                 <?php endforeach; ?>
             </div>
