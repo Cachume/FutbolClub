@@ -24,6 +24,26 @@
                 return []; 
             }
         }
+
+        public static function top(){
+            try {
+                $stmt = Database::getDatabase()->prepare("SELECT j.nombres, j.apellidos, c.nombre_categoria,
+                    SUM(e.goles) AS total_goles,
+                    SUM(e.asistencias) AS total_asistencias,
+                    (SUM(e.goles) + SUM(e.asistencias)) AS puntaje_total
+                FROM estadisticas_partidos e
+                JOIN jugadores j ON j.id = e.jugador_id
+                JOIN categorias c ON c.id = j.categoria
+                GROUP BY e.jugador_id
+                ORDER BY puntaje_total DESC
+                LIMIT 4;");
+                $stmt->execute();
+                $resultado = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $resultado;
+            } catch (PDOException $e) {
+                return []; 
+            }
+        }
         public static function createPlayer($datos) {
             $db = Database::getDatabase();
         try {
@@ -675,6 +695,7 @@
                     p.id,
                     p.nombre AS NombrePartido,
                     p.fecha_partido AS FechaPartido,
+                    p.completo,
                     GROUP_CONCAT(c.nombre_categoria ORDER BY c.nombre_categoria ASC SEPARATOR ', ') AS CategoriasAplicables
                 FROM partidos p
                 LEFT JOIN partido_categorias pc ON p.id = pc.id_partido
@@ -763,6 +784,10 @@
     {
         try {
             $db = Database::getDatabase();
+
+            $parti = $db->prepare("UPDATE partidos SET completo = 1 WHERE id=:id");
+            $parti->bindParam(":id", $partido_id, PDO::PARAM_INT);
+            $parti->execute();
 
             foreach ($goles as $categoria_id => $jugadores) {
                 foreach ($jugadores as $jugador_id => $gol) {

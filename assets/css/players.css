@@ -222,6 +222,17 @@
     cursor: pointer;
 }
 
+.new-button-part.re{
+    background: #dd9802;
+    text-decoration: none;
+}
+
+.new-button-part.vi{
+    background: #02ddd2;
+    text-decoration: none;
+}
+
+
 .modal-container{
     display: flex;
     gap: 50px;

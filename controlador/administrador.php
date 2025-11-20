@@ -13,6 +13,7 @@ class administrador extends vistas{
         public $categorys;
         public $categoria;
         public $data;
+        public $top;
 
         public function __construct(){
             if(!isset($_SESSION["rol"]) || $_SESSION["rol"] !== "admin"){
@@ -24,6 +25,7 @@ class administrador extends vistas{
 
         public function load(){
             $this->data=adminModel::estadisticaGeneros();
+            $this->top = adminModel::top();
             $generos = adminModel::estadisticaGeneros();
             $chartGeneros = [
                 'labels' => [],
@@ -117,9 +119,13 @@ class administrador extends vistas{
 
             if ($ok) {
                 echo "Estadísticas guardadas correctamente";
+                $_SESSION['toast_type'] = 'success';
+                $_SESSION['toast_message'] = 'Partido Completado Exitosamente.';
             } else {
-                echo "Error al guardar estadísticas";
+                $_SESSION['toast_type'] = 'error';
+                $_SESSION['toast_message'] = 'No se ha completado el registro.';
             }
+            header("Location:/FutbolClub/administrador/partidos");
         }
 
         public function crearpartido(){

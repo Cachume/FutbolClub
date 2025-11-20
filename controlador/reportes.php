@@ -51,7 +51,25 @@ class reportes extends vistas{
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
         $dompdf->stream("reporte_jugadores.pdf", ["Attachment" => false]);
-        
+    }
+
+    public function partidos(){
+        $url = $_GET['url'] ?? 'login';
+            $partes= explode('/', trim($url));
+            $id = (isset($partes[2]) && is_numeric($partes[2])) ? intval($partes[2]) : "null";
+            if(is_int($id)){
+                $this->data =reportesModel::estadisticapartidas($id);
+                ob_start();
+                include './vistas/administrador/reports/partidos.php';
+                $html = ob_get_clean();
+        $dompdf = new Dompdf();
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+        $dompdf->stream("reporte_partido.pdf", ["Attachment" => false]);
+            }else{
+                header("Location:/FutbolClub/administrador");
+            }
     }
 
 }

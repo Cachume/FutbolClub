@@ -41,8 +41,14 @@
                             <td><?=$dato['FechaPartido'];?></td>
                             <td><?=$dato['CategoriasAplicables'];?></td>
                             <td>
-                                <a href="/FutbolClub/administrador/partidos/<?=$dato['id'];?>" class="edit-button" style="color: black;">Completar</a>
-                                <!-- <a class="delete-button"><img src="../../assets/img/papelera.png" alt=""></a> -->
+                            <?php 
+                                if($dato['completo']==0){
+                                    echo "<a href='/FutbolClub/administrador/partidos/".$dato['id']."' class='new-button-part re'>Completar</a>";
+                                }else{
+                                    echo "<a href='/FutbolClub/reportes/partidos/".$dato['id']."' class='new-button-part vi'>Visualizar</a>";
+                                }
+                            
+                            ?>
                             </td>
                         </tr>
                         <?php endforeach;?>

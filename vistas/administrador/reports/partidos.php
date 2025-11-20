@@ -13,7 +13,7 @@ if(!empty($this->data)){
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Reporte de Cobros</title>
+<title>Reporte</title>
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -67,25 +67,23 @@ if(!empty($this->data)){
     <h2 style="margin: 0px; color:#8b51d0; font-size:30px;">FUTBOL CLUB</h2>
     <strong style="color:#188d32;">AGUA DULCE</strong>
 </div>
-<h2>Reporte de Pagos de <?=$nombres?></h2>
+<h2>Estadistica del partido <?=$nombres?></h2>
 <table>
     <thead>
         <tr>
-            <th>Nombre Representante</th>
-            <th>Telefono</th>
             <th>Jugador</th>
-            <th>Categoria</th>
-            <th>Estado del Pago</th>
+                <th>Categoría</th>
+                <th>Goles</th>
+                <th>Asistencias</th>
         </tr>
     </thead>
     <tbody>
         <?php foreach ($this->data as $jugador):?>
         <tr>
-            <td><?=$jugador['nombre_completo']?></td>
-            <td><?=$jugador['telefono']?></td>
             <td><?=$jugador['nombres']." ".$jugador['apellidos']?></td>
             <td><?=$jugador['nombre_categoria']?></td>
-            <td style="font-weight:bolder; color:<?=($jugador["estado"]=='pendiente' || $jugador["estado"]=='rechazado')?'red':'green';?>;"><?=ucfirst($jugador['estado'])?></td>
+            <td><?=$jugador['goles']?></td>
+            <td><?=$jugador['asistencias']?></td>
         </tr>
         <?php endforeach;?>
     </tbody>

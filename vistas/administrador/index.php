@@ -62,21 +62,17 @@
                         <tr>
                             <th>Nombre</th>
                             <th>Categoria</th>
-                            <th>Posicion</th>
-
+                            <th>Puntaje</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Diemar Santiago</td>
-                            <td>Sub-10</td>
-                            <td>1°</td>
-                        </tr>
-                        <tr>
-                            <td>Jose Moreno</td>
-                            <td>Sub-10</td>
-                            <td>2°</td>
-                        </tr>
+                        <?php foreach($this->top as $tops ):?>
+                            <tr>
+                                <td><?=$tops['nombres']." ".$tops['apellidos'];?></td>
+                                <td><?=$tops['nombre_categoria'];?></td>
+                                <td><?=$tops['puntaje_total'];?></td>
+                            </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
         </div>
